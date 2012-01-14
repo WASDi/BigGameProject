@@ -85,10 +85,12 @@ public class TerrainManager {
         /** 2. Create the height map */
         AbstractHeightMap heightmap = null;
         Texture heightMapImage = app.getAssetManager().loadTexture(
-                "Textures/Terrain/mountains512.png");
+                "Textures/Terrain/heightmap.png");
         heightmap = new ImageBasedHeightMap(
-                ImageToAwt.convert(heightMapImage.getImage(), false, true, 0));
+                ImageToAwt.convert(heightMapImage.getImage(), false, true, -1));
+        heightmap.erodeTerrain();
         heightmap.load();
+        heightmap.smooth(.9f);
 
         /** 3. We have prepared material and heightmap. 
          * Now we create the actual terrain:
@@ -98,13 +100,12 @@ public class TerrainManager {
          * 3.4) As LOD step scale we supply Vector3f(1,1,1).
          * 3.5) We supply the prepared heightmap itself.
          */
-        int patchSize = 65;
-        terrain = new TerrainQuad("my terrain", patchSize, 513, heightmap.getHeightMap());
+        terrain = new TerrainQuad("my terrain", 64, 1025, heightmap.getHeightMap());
 
         /** 4. We give the terrain its material, position & scale it, and attach it. */
         terrain.setMaterial(mat_terrain);
-        terrain.setLocalTranslation(0, -15, 0);
-        terrain.setLocalScale(.3f, .2f, .3f);
+        terrain.setLocalTranslation(0, -30, 0);
+//        terrain.setLocalScale(.3f, .2f, .3f);
 
         /** 5. The LOD (level of detail) depends on were the camera is: */
         TerrainLodControl control = new TerrainLodControl(terrain, app.getCamera());
@@ -131,8 +132,8 @@ public class TerrainManager {
         waterFilter.addFilter(dof);
 
 
-        water.setWaveScale(0.003f);
-        water.setMaxAmplitude(2f);
+        water.setWaveScale(0.002f);
+        water.setMaxAmplitude(3f);
         water.setFoamExistence(new Vector3f(1f, 4, 0.5f));
         water.setFoamTexture((Texture2D) app.getAssetManager().loadTexture("Common/MatDefs/Water/Textures/foam2.jpg")); //foam to foam3
         //water.setNormalScale(0.5f);
