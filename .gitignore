@@ -1,0 +1,8 @@
+hs_err*
+build
+build.xml
+liblwjgl64.so
+libopenal64.so
+MANIFEST.MF
+master-application.jnlp
+nbproject
