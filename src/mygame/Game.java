@@ -2,8 +2,6 @@ package mygame;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.renderer.RenderManager;
-import com.jme3.terrain.geomipmap.TerrainLodControl;
-import com.jme3.terrain.geomipmap.TerrainQuad;
 
 /**
  * test
@@ -19,10 +17,11 @@ public class Game extends SimpleApplication {
         state = new InGameAppState();
         stateManager.attach(state);
         
-        TerrainQuad terrain = TerrainLoader.getTerrain(assetManager);
-        rootNode.attachChild(terrain);
-        TerrainLodControl control = new TerrainLodControl(terrain, getCamera());
-        terrain.addControl(control);
+        TerrainManager tl = new TerrainManager(this);
+        rootNode.attachChild(tl.getTerrain());
+        rootNode.addLight(tl.getSun());
+        rootNode.attachChild(tl.getSky());
+        viewPort.addProcessor(tl.getWater());
         
         flyCam.setMoveSpeed(25);
     }
