@@ -86,9 +86,9 @@ public class TerrainManager {
         AbstractHeightMap heightmap = null;
         Texture heightMapImage = app.getAssetManager().loadTexture(
                 "Textures/Terrain/heightmap.png");
-        heightmap = new ImageBasedHeightMap(
-                ImageToAwt.convert(heightMapImage.getImage(), false, true, -1));
-        heightmap.erodeTerrain();
+//        heightmap = new ImageBasedHeightMap(
+//                ImageToAwt.convert(heightMapImage.getImage(), false, true, -1));
+        heightmap = new ImageBasedHeightMap(heightMapImage.getImage());
         heightmap.load();
         heightmap.smooth(.9f);
 
