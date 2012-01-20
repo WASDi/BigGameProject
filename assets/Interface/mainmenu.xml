@@ -5,16 +5,16 @@
 
     <screen id="start">
         <layer childLayout="center">
-            <panel width="25%" height="25%" align="center" valign="center" childLayout="vertical" backgroundColor="#55a5" padding="10">
-                <panel height="*" width="*" backgroundColor="#55aa" childLayout="vertical" padding="10">
-                    <control id="buttonNope" name="button" label="Nope" />
-                </panel>
-                <panel height="10px" />
-                <panel height="21px" childLayout="horizontal">
-                    <control id="buttonOk" name="button" label="OK" />
-                    <panel width="*" />
-                    <control id="buttonCancel" name="button" label="Cancel" />
-                </panel>
+            <panel width="120px" height="100%" align="left" valign="top" childLayout="vertical" backgroundColor="#55a5" padding="10">
+                <control id="xxx" name="button" label="Continue" />
+                <panel height="10px" width="*"></panel>
+                <control id="xxx" name="button" label="Load Game" />
+                <panel height="10px" width="*"></panel>
+                <control id="xxx" name="button" label="New Game" />
+                <panel height="10px" width="*"></panel>
+                <control id="xxx" name="button" label="Options" />
+                <panel height="10px" width="*"></panel>
+                <control id="xxx" name="button" label="Exit" />
             </panel>
         </layer>
     </screen>
