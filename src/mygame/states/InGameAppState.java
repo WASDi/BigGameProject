@@ -43,6 +43,7 @@ public class InGameAppState extends AbstractAppState{
         
         stateNode.attachChild(geom);
         
+//        tl.setWaterNode(stateNode);
         stateNode.attachChild(tl.getTerrain());
         stateNode.addLight(tl.getSun());
         

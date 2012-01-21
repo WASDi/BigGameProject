@@ -21,7 +21,7 @@ public class Game extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         
-        tl = new TerrainManager(this);
+        tl = new TerrainManager(assetManager, cam, rootNode);
         rootNode.attachChild(tl.getSky());
         
         flyCam.setMoveSpeed(25);

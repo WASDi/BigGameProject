@@ -1,5 +1,6 @@
 package mygame;
 
+import com.jme3.asset.AssetManager;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -8,6 +9,8 @@ import com.jme3.post.FilterPostProcessor;
 import com.jme3.post.filters.BloomFilter;
 import com.jme3.post.filters.DepthOfFieldFilter;
 import com.jme3.post.filters.LightScatteringFilter;
+import com.jme3.renderer.Camera;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.terrain.geomipmap.TerrainLodControl;
 import com.jme3.terrain.geomipmap.TerrainQuad;
@@ -31,15 +34,21 @@ public class TerrainManager {
     private TerrainQuad terrain;
     private WaterFilter water;
     private FilterPostProcessor waterFilter;
-    private Game app;
     private Vector3f lightDir = new Vector3f(-4.9236743f, -1.27054665f, 5.896916f);
+    
+    private AssetManager assetManager;
+    private Camera terrainCamera;
+    private Node waterNode;
 
     /**
      * @param app Used to get AssetManager for loading assets
+     * @param terrainCamera The Camera used for LOD calculation
+     * @param waterNode What the water should reflect
      */
-    public TerrainManager(Game app) {
-        //TODO make it take an AssetManager as parameter.
-        this.app = app;
+    public TerrainManager(AssetManager assetManager, Camera terrainCamera, Node waterNode) {
+        this.assetManager = assetManager;
+        this.terrainCamera=terrainCamera;
+        this.waterNode=waterNode;
         //TODO make some kind of Options class to manage graphical setting the user has set.
     }
 
@@ -56,34 +65,49 @@ public class TerrainManager {
         }
         return waterFilter;
     }
+    
+    public DirectionalLight getSun() {
+        DirectionalLight sun = new DirectionalLight();
+        sun.setDirection(lightDir);
+        sun.setColor(ColorRGBA.White.clone().multLocal(1.7f));
+        return sun;
+    }
+
+    public Spatial getSky() {
+        Spatial sky = SkyFactory.createSky(assetManager, "Textures/FullskiesSunset0068.dds", false);
+        sky.setLocalScale(350);
+        return sky;
+    }
 
     private void initTerrain() {
+        if(terrainCamera==null)
+            throw new NullPointerException("Must call setTerrainCamera first");
         //TODO this is an example terrain. I should make my own
 
         /** 1. Create terrain material and load four textures into it. */
-        Material mat_terrain = new Material(app.getAssetManager(),
+        Material mat_terrain = new Material(assetManager,
                 "Common/MatDefs/Terrain/Terrain.j3md");
 
         /** 1.1) Add ALPHA map (for red-blue-green coded splat textures) */
-        mat_terrain.setTexture("Alpha", app.getAssetManager().loadTexture(
+        mat_terrain.setTexture("Alpha", assetManager.loadTexture(
                 "Textures/Terrain/alphamap.png"));
 
         /** 1.2) Add GRASS texture into the red layer (Tex1). */
-        Texture grass = app.getAssetManager().loadTexture(
+        Texture grass = assetManager.loadTexture(
                 "Textures/Terrain/grass.jpg");
         grass.setWrap(WrapMode.Repeat);
         mat_terrain.setTexture("Tex1", grass);
         mat_terrain.setFloat("Tex1Scale", 64f);
 
         /** 1.3) Add DIRT texture into the green layer (Tex2) */
-        Texture dirt = app.getAssetManager().loadTexture(
+        Texture dirt = assetManager.loadTexture(
                 "Textures/Terrain/dirt.jpg");
         dirt.setWrap(WrapMode.Repeat);
         mat_terrain.setTexture("Tex2", dirt);
         mat_terrain.setFloat("Tex2Scale", 32f);
 
         /** 1.4) Add ROAD texture into the blue layer (Tex3) */
-        Texture rock = app.getAssetManager().loadTexture(
+        Texture rock = assetManager.loadTexture(
                 "Textures/Terrain/road.jpg");
         rock.setWrap(WrapMode.Repeat);
         mat_terrain.setTexture("Tex3", rock);
@@ -91,7 +115,7 @@ public class TerrainManager {
 
         /** 2. Create the height map */
         AbstractHeightMap heightmap = null;
-        Texture heightMapImage = app.getAssetManager().loadTexture(
+        Texture heightMapImage = assetManager.loadTexture(
                 "Textures/Terrain/heightmap.png");
 //        heightmap = new ImageBasedHeightMap(
 //                ImageToAwt.convert(heightMapImage.getImage(), false, true, -1));
@@ -115,15 +139,16 @@ public class TerrainManager {
         terrain.setLocalScale(.3f, .2f, .3f);
 
         /** 5. The LOD (level of detail) depends on were the camera is: */
-        TerrainLodControl control = new TerrainLodControl(terrain, app.getCamera());
+        TerrainLodControl control = new TerrainLodControl(terrain, terrainCamera);
         terrain.addControl(control);
     }
 
     private void initWater() {
-        //TODO use the stateNode from InGameAppState since that's what being reflected.
-        water = new WaterFilter(app.getRootNode(), lightDir);
+        if(waterNode==null)
+            throw new NullPointerException("Must call setWaterNode first");
+        water = new WaterFilter(waterNode, lightDir);
 
-        waterFilter = new FilterPostProcessor(app.getAssetManager());
+        waterFilter = new FilterPostProcessor(assetManager);
 
         waterFilter.addFilter(water);
         BloomFilter bloom = new BloomFilter();
@@ -143,7 +168,7 @@ public class TerrainManager {
         water.setWaveScale(0.002f);
         water.setMaxAmplitude(3f);
         water.setFoamExistence(new Vector3f(1f, 4, 0.5f));
-        water.setFoamTexture((Texture2D) app.getAssetManager().loadTexture("Common/MatDefs/Water/Textures/foam2.jpg")); //foam to foam3
+        water.setFoamTexture((Texture2D) assetManager.loadTexture("Common/MatDefs/Water/Textures/foam2.jpg")); //foam to foam3
         //water.setNormalScale(0.5f);
 
         //water.setRefractionConstant(0.25f);
@@ -151,19 +176,6 @@ public class TerrainManager {
         //water.setFoamHardness(0.6f);
 
         water.setWaterHeight(-10);
-    }
-
-    public DirectionalLight getSun() {
-        DirectionalLight sun = new DirectionalLight();
-        sun.setDirection(lightDir);
-        sun.setColor(ColorRGBA.White.clone().multLocal(1.7f));
-        return sun;
-    }
-
-    public Spatial getSky() {
-        Spatial sky = SkyFactory.createSky(app.getAssetManager(), "Textures/FullskiesSunset0068.dds", false);
-        sky.setLocalScale(350);
-        return sky;
     }
     
 }
