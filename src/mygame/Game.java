@@ -1,6 +1,5 @@
 package mygame;
 
-import mygame.gui.MainMenuGuiController;
 import com.jme3.app.SimpleApplication;
 import com.jme3.renderer.RenderManager;
 
@@ -24,22 +23,19 @@ public class Game extends SimpleApplication {
         
         menuState = new MainMenuAppState();
         stateManager.attach(menuState);
+        
+        gameState = new InGameAppState(tl);
     }
     
     public void startGame(){
         
-        if(gameState==null){
-            flyCam.setEnabled(true);
-            
-            inputManager.setCursorVisible(false);
-            
-            gameState = new InGameAppState();
+        menuState.setEnabled(false);
+        
+        if(gameState.isInitialized())
+            gameState.setEnabled(true);
+        else
             stateManager.attach(gameState);
-            
-            rootNode.attachChild(tl.getTerrain());
-            rootNode.addLight(tl.getSun());
-            viewPort.addProcessor(tl.getWater());
-        }
+        
     }
     
     @Override
