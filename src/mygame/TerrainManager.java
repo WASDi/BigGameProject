@@ -37,18 +37,18 @@ public class TerrainManager {
     private Vector3f lightDir = new Vector3f(-4.9236743f, -1.27054665f, 5.896916f);
     
     private AssetManager assetManager;
-    private Camera terrainCamera;
-    private Node waterNode;
+    private Camera terrainLodCamera;
+    private Node waterReflectionNode;
 
     /**
      * @param app Used to get AssetManager for loading assets
-     * @param terrainCamera The Camera used for LOD calculation
-     * @param waterNode What the water should reflect
+     * @param terrainLodCamera The Camera used for LOD calculation
+     * @param waterReflectionNode What the water should reflect
      */
-    public TerrainManager(AssetManager assetManager, Camera terrainCamera, Node waterNode) {
+    public TerrainManager(AssetManager assetManager, Camera terrainLodCamera, Node waterReflectionNode) {
         this.assetManager = assetManager;
-        this.terrainCamera=terrainCamera;
-        this.waterNode=waterNode;
+        this.terrainLodCamera=terrainLodCamera;
+        this.waterReflectionNode=waterReflectionNode;
         //TODO make some kind of Options class to manage graphical setting the user has set.
     }
 
@@ -80,7 +80,7 @@ public class TerrainManager {
     }
 
     private void initTerrain() {
-        if(terrainCamera==null)
+        if(terrainLodCamera==null)
             throw new NullPointerException("Must call setTerrainCamera first");
         //TODO this is an example terrain. I should make my own
 
@@ -139,14 +139,14 @@ public class TerrainManager {
         terrain.setLocalScale(.3f, .2f, .3f);
 
         /** 5. The LOD (level of detail) depends on were the camera is: */
-        TerrainLodControl control = new TerrainLodControl(terrain, terrainCamera);
+        TerrainLodControl control = new TerrainLodControl(terrain, terrainLodCamera);
         terrain.addControl(control);
     }
 
     private void initWater() {
-        if(waterNode==null)
+        if(waterReflectionNode==null)
             throw new NullPointerException("Must call setWaterNode first");
-        water = new WaterFilter(waterNode, lightDir);
+        water = new WaterFilter(waterReflectionNode, lightDir);
 
         waterFilter = new FilterPostProcessor(assetManager);
 
