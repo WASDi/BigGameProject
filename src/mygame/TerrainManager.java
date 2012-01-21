@@ -18,22 +18,29 @@ import com.jme3.texture.Texture.WrapMode;
 import com.jme3.texture.Texture2D;
 import com.jme3.util.SkyFactory;
 import com.jme3.water.WaterFilter;
-import jme3tools.converters.ImageToAwt;
 
 /**
- *
+ * A class used to manage loading of terrain, water, lighting and skybox.
+ * 
  * @author wasd
  */
 public class TerrainManager {
 
+    //Use variables to save Terrain and Water.
+    //Sun and Skybox should only be loaded once and are very lightweight so I don't bother storing them in variables.
     private TerrainQuad terrain;
     private WaterFilter water;
     private FilterPostProcessor waterFilter;
     private Game app;
     private Vector3f lightDir = new Vector3f(-4.9236743f, -1.27054665f, 5.896916f);
 
+    /**
+     * @param app Used to get AssetManager for loading assets
+     */
     public TerrainManager(Game app) {
+        //TODO make it take an AssetManager as parameter.
         this.app = app;
+        //TODO make some kind of Options class to manage graphical setting the user has set.
     }
 
     public TerrainQuad getTerrain() {
@@ -113,6 +120,7 @@ public class TerrainManager {
     }
 
     private void initWater() {
+        //TODO use the stateNode from InGameAppState since that's what being reflected.
         water = new WaterFilter(app.getRootNode(), lightDir);
 
         waterFilter = new FilterPostProcessor(app.getAssetManager());

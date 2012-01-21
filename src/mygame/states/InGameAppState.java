@@ -13,7 +13,8 @@ import mygame.Game;
 import mygame.TerrainManager;
 
 /**
- *
+ * Used when playing the game itself
+ * 
  * @author wasd
  */
 public class InGameAppState extends AbstractAppState{
@@ -32,6 +33,7 @@ public class InGameAppState extends AbstractAppState{
         super.initialize(stateManager, app);
         this.app=(Game) app;
         
+        //Example box used for testing purposes. TODO remove
         Box b = new Box(Vector3f.ZERO, 1, 1, 1);
         geom = new Geometry("Box", b);
 

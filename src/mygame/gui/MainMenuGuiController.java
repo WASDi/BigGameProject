@@ -7,15 +7,18 @@ import de.lessvoid.nifty.screen.ScreenController;
 import mygame.Game;
 
 /**
- *
+ * Manages the main menu GUI
+ * 
  * @author wasd
  */
 public class MainMenuGuiController implements ScreenController{
     
     private Game app;
-    
     private NiftyJmeDisplay niftyDisplay;
 
+    /**
+     * @param app Will have methods called from GUI interaction
+     */
     public MainMenuGuiController(Game app) {
         this.app=app;
         niftyDisplay = new NiftyJmeDisplay(app.getAssetManager(),
@@ -40,14 +43,13 @@ public class MainMenuGuiController implements ScreenController{
     }
 
     public void onStartScreen() {
-        //TODO check if there is a saved game. If not, disable continue-button
+        //TODO check if there is a saved game. If not, disable continue and loadgame buttons
     }
 
     public void onEndScreen() {}
     
     
-    //==Buttons==
-    
+    //==Methods called by buttons==
     public void continueGame(){
         System.out.println("continue");
     }
@@ -68,5 +70,6 @@ public class MainMenuGuiController implements ScreenController{
     public void exitGame(){
         System.out.println("exit");
     }
+    //==End of methods called by buttons==
     
 }

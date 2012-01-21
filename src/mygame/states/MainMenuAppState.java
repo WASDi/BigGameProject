@@ -7,6 +7,7 @@ import mygame.Game;
 import mygame.gui.MainMenuGuiController;
 
 /**
+ * The first AppState that appears when the game is started
  *
  * @author wasd
  */

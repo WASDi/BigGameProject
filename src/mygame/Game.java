@@ -15,6 +15,9 @@ public class Game extends SimpleApplication {
     private MainMenuAppState menuState;
     private TerrainManager tl;
 
+    /**
+     * Does some basic initialization to get the application started
+     */
     @Override
     public void simpleInitApp() {
         
@@ -29,6 +32,9 @@ public class Game extends SimpleApplication {
         gameState = new InGameAppState(tl);
     }
     
+    /**
+     * Called when starting a new game from the main menu
+     */
     public void startGame(){
         
         menuState.setEnabled(false);
