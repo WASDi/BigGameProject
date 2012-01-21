@@ -44,16 +44,13 @@ public class InGameAppState extends AbstractAppState{
         geom.rotate(tpf, tpf, tpf);
         
     }
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        if(isEnabled()!=enabled){
-            if(enabled)
-                app.getRootNode().attachChild(stateNode);
-            else
-                app.getRootNode().detachChild(stateNode);
-        }
-        super.setEnabled(enabled);
+    
+    public void show(){
+        app.getRootNode().attachChild(stateNode);
+    }
+    
+    public void hide(){
+        app.getRootNode().detachChild(stateNode);
     }
     
 }

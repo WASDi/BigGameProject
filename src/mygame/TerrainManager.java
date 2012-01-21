@@ -105,7 +105,7 @@ public class TerrainManager {
         /** 4. We give the terrain its material, position & scale it, and attach it. */
         terrain.setMaterial(mat_terrain);
         terrain.setLocalTranslation(0, -30, 0);
-//        terrain.setLocalScale(.3f, .2f, .3f);
+        terrain.setLocalScale(.3f, .2f, .3f);
 
         /** 5. The LOD (level of detail) depends on were the camera is: */
         TerrainLodControl control = new TerrainLodControl(terrain, app.getCamera());

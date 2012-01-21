@@ -3,18 +3,32 @@
     <useStyles filename="nifty-default-styles.xml" />
     <useControls filename="nifty-default-controls.xml" />
 
-    <screen id="start">
+    <screen id="start" controller="mygame.gui.MainMenuGuiController">
         <layer childLayout="center">
             <panel width="120px" height="100%" align="left" valign="top" childLayout="vertical" backgroundColor="#55a5" padding="10">
-                <control id="xxx" name="button" label="Continue" />
+                <control id="continueButton" name="button" label="Continue">
+                    <interact onClick="continueGame()"/>
+                </control>
+                
                 <panel height="10px" width="*"></panel>
-                <control id="xxx" name="button" label="Load Game" />
+                <control id="newButton" name="button" label="New Game">
+                    <interact onClick="newGame()"/>
+                </control>
+                
                 <panel height="10px" width="*"></panel>
-                <control id="xxx" name="button" label="New Game" />
+                <control id="loadButton" name="button" label="Load Game">
+                    <interact onClick="loadGame()"/>
+                </control>
+                
                 <panel height="10px" width="*"></panel>
-                <control id="xxx" name="button" label="Options" />
+                <control id="optionsButton" name="button" label="Options">
+                    <interact onClick="options()"/>
+                </control>
+                
                 <panel height="10px" width="*"></panel>
-                <control id="xxx" name="button" label="Exit" />
+                <control id="exitButton" name="button" label="Exit">
+                    <interact onClick="exitGame()"/>
+                </control>
             </panel>
         </layer>
     </screen>
