@@ -5,13 +5,13 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.renderer.RenderManager;
 
 /**
- * test
- * @author normenhansen
+ * 
+ * @author wasd
  */
 public class Game extends SimpleApplication {
     
-    private InGameAppState state;
-    private MainMenuGuiController gui;
+    private InGameAppState gameState;
+    private MainMenuAppState menuState;
     private TerrainManager tl;
 
     @Override
@@ -20,22 +20,21 @@ public class Game extends SimpleApplication {
         tl = new TerrainManager(this);
         rootNode.attachChild(tl.getSky());
         
-        gui = new MainMenuGuiController(this);
-        gui.show();
+        flyCam.setMoveSpeed(25);
         
-        flyCam.setEnabled(false);
-        inputManager.setCursorVisible(true);
+        menuState = new MainMenuAppState();
+        stateManager.attach(menuState);
     }
     
     public void startGame(){
         
-        if(state==null){
+        if(gameState==null){
             flyCam.setEnabled(true);
-            flyCam.setMoveSpeed(25);
+            
             inputManager.setCursorVisible(false);
             
-            state = new InGameAppState();
-            stateManager.attach(state);
+            gameState = new InGameAppState();
+            stateManager.attach(gameState);
             
             rootNode.attachChild(tl.getTerrain());
             rootNode.addLight(tl.getSun());

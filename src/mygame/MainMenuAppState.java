@@ -1,13 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package mygame;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
-import com.jme3.scene.Node;
+import mygame.gui.MainMenuGuiController;
 
 /**
  *
@@ -16,28 +12,38 @@ import com.jme3.scene.Node;
 public class MainMenuAppState extends AbstractAppState{
     
     private Game app;
-    private Node stateNode = new Node("MainMenuAppState Root Node");
+    private MainMenuGuiController gui;
 
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
         this.app=(Game) app;
-    }
-
-    @Override
-    public void update(float tpf) {
         
+        gui = new MainMenuGuiController(this.app);
+        showMenu();
     }
 
     @Override
     public void setEnabled(boolean enabled) {
         if(isEnabled()!=enabled){
             if(enabled)
-                app.getRootNode().attachChild(stateNode);
+                showMenu();
             else
-                app.getRootNode().detachChild(stateNode);
+                hideMenu();
         }
         super.setEnabled(enabled);
+    }
+
+    private void showMenu() {
+        app.getFlyByCamera().setEnabled(false);
+        app.getInputManager().setCursorVisible(true);
+        gui.show();
+    }
+    
+    private void hideMenu(){
+        app.getFlyByCamera().setEnabled(true);
+        app.getInputManager().setCursorVisible(false);
+        gui.hide();
     }
     
 }

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package mygame.gui;
 
 import com.jme3.niftygui.NiftyJmeDisplay;
@@ -19,22 +15,19 @@ public class MainMenuGuiController implements ScreenController{
     private Game app;
     
     private NiftyJmeDisplay niftyDisplay;
-    private Nifty nifty;
 
     public MainMenuGuiController(Game app) {
         this.app=app;
+        niftyDisplay = new NiftyJmeDisplay(app.getAssetManager(),
+                                                          app.getInputManager(),
+                                                          app.getAudioRenderer(),
+                                                          app.getGuiViewPort());
+
+        Nifty nifty = niftyDisplay.getNifty();
+        nifty.fromXml("Interface/mainmenu.xml", "start", this);
     }
     
     public void show(){
-        if(nifty==null){
-            niftyDisplay = new NiftyJmeDisplay(app.getAssetManager(),
-                                                              app.getInputManager(),
-                                                              app.getAudioRenderer(),
-                                                              app.getGuiViewPort());
-
-            nifty = niftyDisplay.getNifty();
-            nifty.fromXml("Interface/mainmenu.xml", "start", this);
-        }
         app.getGuiViewPort().addProcessor(niftyDisplay);
     }
     
