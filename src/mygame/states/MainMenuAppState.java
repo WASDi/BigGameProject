@@ -1,8 +1,9 @@
-package mygame;
+package mygame.states;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
+import mygame.Game;
 import mygame.gui.MainMenuGuiController;
 
 /**

@@ -1,5 +1,7 @@
 package mygame;
 
+import mygame.states.MainMenuAppState;
+import mygame.states.InGameAppState;
 import com.jme3.app.SimpleApplication;
 import com.jme3.renderer.RenderManager;
 
