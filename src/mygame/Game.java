@@ -12,28 +12,33 @@ public class Game extends SimpleApplication {
     
     private InGameAppState state;
     private MainMenuGuiController gui;
+    private TerrainManager tl;
 
     @Override
     public void simpleInitApp() {
         
+        tl = new TerrainManager(this);
+        rootNode.attachChild(tl.getSky());
+        
         gui = new MainMenuGuiController(this);
         gui.show();
         
-        flyCam.setMoveSpeed(25);
+        flyCam.setEnabled(false);
         inputManager.setCursorVisible(true);
     }
     
     public void startGame(){
         
         if(state==null){
+            flyCam.setEnabled(true);
+            flyCam.setMoveSpeed(25);
             inputManager.setCursorVisible(false);
+            
             state = new InGameAppState();
             stateManager.attach(state);
-
-            TerrainManager tl = new TerrainManager(this);
+            
             rootNode.attachChild(tl.getTerrain());
             rootNode.addLight(tl.getSun());
-            rootNode.attachChild(tl.getSky());
             viewPort.addProcessor(tl.getWater());
         }
     }
