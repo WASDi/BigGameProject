@@ -7,3 +7,5 @@ MANIFEST.MF
 master-application.jnlp
 nbproject
 catalog.xml
+OpenAL32.dll
+lwjgl.dll

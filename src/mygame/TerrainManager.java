@@ -121,7 +121,7 @@ public class TerrainManager {
 //                ImageToAwt.convert(heightMapImage.getImage(), false, true, -1));
         heightmap = new ImageBasedHeightMap(heightMapImage.getImage());
         heightmap.load();
-        heightmap.smooth(.9f);
+        heightmap.smooth(1f, 3);
 
         /** 3. We have prepared material and heightmap. 
          * Now we create the actual terrain:
@@ -135,8 +135,8 @@ public class TerrainManager {
 
         /** 4. We give the terrain its material, position & scale it, and attach it. */
         terrain.setMaterial(mat_terrain);
-        terrain.setLocalTranslation(0, -30, 0);
-        terrain.setLocalScale(.3f, .2f, .3f);
+        terrain.setLocalTranslation(0, -52, 0);
+        terrain.setLocalScale(1f, .8f, 1f);
 
         /** 5. The LOD (level of detail) depends on were the camera is: */
         TerrainLodControl control = new TerrainLodControl(terrain, terrainLodCamera);

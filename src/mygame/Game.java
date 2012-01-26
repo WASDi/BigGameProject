@@ -24,7 +24,7 @@ public class Game extends SimpleApplication {
         tl = new TerrainManager(assetManager, cam, rootNode);
         rootNode.attachChild(tl.getSky());
         
-        flyCam.setMoveSpeed(25);
+        flyCam.setMoveSpeed(100);
         
         menuState = new MainMenuAppState();
         stateManager.attach(menuState);
