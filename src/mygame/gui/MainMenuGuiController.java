@@ -13,30 +13,22 @@ import mygame.Game;
  */
 public class MainMenuGuiController implements ScreenController{
     
-    private Game app;
-    private NiftyJmeDisplay niftyDisplay;
+    private GuiAppState gui;
 
-    /**
-     * @param app Will have methods called from GUI interaction
-     */
-    public MainMenuGuiController(Game app) {
-        this.app=app;
-        niftyDisplay = new NiftyJmeDisplay(app.getAssetManager(),
-                                                          app.getInputManager(),
-                                                          app.getAudioRenderer(),
-                                                          app.getGuiViewPort());
+    public MainMenuGuiController() {
+    }
 
-        Nifty nifty = niftyDisplay.getNifty();
-        nifty.fromXml("Interface/mainmenu.xml", "start", this);
+    public void setGui(GuiAppState gui) {
+        this.gui = gui;
     }
     
-    public void show(){
-        app.getGuiViewPort().addProcessor(niftyDisplay);
-    }
-    
-    public void hide(){
-        app.getGuiViewPort().removeProcessor(niftyDisplay);
-    }
+//    public void show(){
+//        app.getGuiViewPort().addProcessor(niftyDisplay);
+//    }
+//    
+//    public void hide(){
+//        app.getGuiViewPort().removeProcessor(niftyDisplay);
+//    }
 
     public void bind(Nifty nifty, Screen screen) {
         //TODO save the variables?
@@ -56,8 +48,8 @@ public class MainMenuGuiController implements ScreenController{
     
     public void newGame(){
         System.out.println("newgame");
-        app.startGame();
-        niftyDisplay.getNifty().gotoScreen("cinematic"); //FIXME not woring when app.startGame(); is being called
+        gui.newGame();
+//        niftyDisplay.getNifty().gotoScreen("cinematic"); //FIXME not woring when app.startGame(); is being called
         //TODO implement proper usage of GUI management
     }
     

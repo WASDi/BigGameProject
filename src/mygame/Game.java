@@ -4,6 +4,7 @@ import mygame.states.MainMenuAppState;
 import mygame.states.InGameAppState;
 import com.jme3.app.SimpleApplication;
 import com.jme3.renderer.RenderManager;
+import mygame.gui.GuiAppState;
 
 /**
  * 
@@ -12,8 +13,9 @@ import com.jme3.renderer.RenderManager;
 public class Game extends SimpleApplication {
     
     private InGameAppState gameState;
-    private MainMenuAppState menuState;
+//    private MainMenuAppState menuState;
     private TerrainManager tl;
+    private GuiAppState gui;
 
     /**
      * Does some basic initialization to get the application started
@@ -26,8 +28,10 @@ public class Game extends SimpleApplication {
         
         flyCam.setMoveSpeed(100);
         
-        menuState = new MainMenuAppState();
-        stateManager.attach(menuState);
+//        menuState = new MainMenuAppState();
+//        stateManager.attach(menuState);
+        gui = new GuiAppState();
+        stateManager.attach(gui);
         
         gameState = new InGameAppState(tl);
     }
@@ -37,7 +41,7 @@ public class Game extends SimpleApplication {
      */
     public void startGame(){
         
-        menuState.setEnabled(false);
+//        menuState.setEnabled(false);
         
         if(gameState.isInitialized())
             gameState.setEnabled(true);

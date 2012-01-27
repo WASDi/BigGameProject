@@ -4,24 +4,23 @@ import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import mygame.Game;
-import mygame.gui.MainMenuGuiController;
+import mygame.gui.GuiAppState;
 
 /**
  * The first AppState that appears when the game is started
  *
  * @author wasd
  */
+@Deprecated
 public class MainMenuAppState extends AbstractAppState{
     
     private Game app;
-    private MainMenuGuiController gui;
 
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
         this.app=(Game) app;
         
-        gui = new MainMenuGuiController(this.app);
         showMenu();
     }
 
@@ -39,13 +38,13 @@ public class MainMenuAppState extends AbstractAppState{
     private void showMenu() {
         app.getFlyByCamera().setEnabled(false);
         app.getInputManager().setCursorVisible(true);
-        gui.show();
+//        gui.show();
     }
     
     private void hideMenu(){
         app.getFlyByCamera().setEnabled(true);
         app.getInputManager().setCursorVisible(false);
-        gui.hide();
+//        gui.hide();
     }
     
 }
