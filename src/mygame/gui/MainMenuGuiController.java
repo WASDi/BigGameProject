@@ -57,6 +57,8 @@ public class MainMenuGuiController implements ScreenController{
     public void newGame(){
         System.out.println("newgame");
         app.startGame();
+        niftyDisplay.getNifty().gotoScreen("cinematic"); //FIXME not woring when app.startGame(); is being called
+        //TODO implement proper usage of GUI management
     }
     
     public void loadGame(){

@@ -32,4 +32,28 @@
             </panel>
         </layer>
     </screen>
+    
+    <screen id="cinematic">
+        <layer childLayout="center">
+            <panel width="100%" height="100%" align="center" valign="top" childLayout="vertical">
+                
+                <panel height="10%" width="*" backgroundColor="#000F">
+                    <effect>
+                    <onStartScreen name="move" mode="in" direction="top" length="900" startDelay="0" inherit="true"/>
+                    <onEndScreen name="move" mode="out" direction="top" length="900" startDelay="0" inherit="true"/>
+                    </effect>
+                </panel>
+                
+                <panel height="*" width="*"></panel>
+                
+                <panel height="10%" width="*" backgroundColor="#000F">
+                    <effect>
+                    <onStartScreen name="move" mode="in" direction="bottom" length="900" startDelay="0" inherit="true"/>
+                    <onEndScreen name="move" mode="out" direction="bottom" length="900" startDelay="0" inherit="true"/>
+                    </effect>
+                </panel>
+
+            </panel>
+        </layer>
+    </screen>
 </nifty>
