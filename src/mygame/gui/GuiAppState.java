@@ -15,6 +15,7 @@ public class GuiAppState extends AbstractAppState{
     
     private Game app;
     private NiftyJmeDisplay niftyDisplay;
+    private LoadingScreenController loading;
 
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
@@ -25,9 +26,12 @@ public class GuiAppState extends AbstractAppState{
                                                           app.getAudioRenderer(),
                                                           app.getGuiViewPort());
         Nifty nifty = niftyDisplay.getNifty();
+        loading = new LoadingScreenController();
         nifty.registerScreenController(new MainMenuGuiController(this));
+        nifty.registerScreenController(loading);
         nifty.addXml("Interface/mainmenu.xml");
         nifty.addXml("Interface/cinematic.xml");
+        nifty.addXml("Interface/loadingscreen.xml");
         nifty.gotoScreen("mainmenu");
         
         setClickModeEnabled(true);
@@ -40,10 +44,18 @@ public class GuiAppState extends AbstractAppState{
     }
     
     public void newGame(){
-        setClickModeEnabled(false);
+        app.getInputManager().setCursorVisible(false);
         app.startGame();
+        niftyDisplay.getNifty().gotoScreen("loadlevel");
+    }
+    
+    public void updateLoadingStatus(float progress, String loadingText){
+        loading.updateLoadingStatus(progress, loadingText);
+    }
+    
+    public void doneLoading(){
         niftyDisplay.getNifty().gotoScreen("cinematic");
-        //TODO show loading screen
+        setClickModeEnabled(false);
     }
     
 }

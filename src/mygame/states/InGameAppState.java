@@ -87,6 +87,7 @@ public class InGameAppState extends AbstractAppState{
                 exec.shutdown();
                 exec=null;
                 show();
+                app.getGui().doneLoading();
                 needsLoading=false;
             }
             return;
@@ -135,8 +136,8 @@ public class InGameAppState extends AbstractAppState{
     private void setProgress(final float progress, final String loadingText) {
         app.enqueue(new Callable() {
             public Object call() throws Exception {
-                //TODO update loadingscreen on gui
                 System.out.println(progress+": "+loadingText);
+                app.getGui().updateLoadingStatus(progress, loadingText);
                 return null;
             }
         });
