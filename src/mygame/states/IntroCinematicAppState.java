@@ -23,7 +23,7 @@ import mygame.Game;
 public class IntroCinematicAppState extends AbstractAppState{
     
     private Game app;
-    private Node stateNode = new Node("LoadingAppState Root Node");
+    private Node stateNode = new Node("IntroCinematic Root Node");
     private InGameAppState gameState;
     private Spatial player;
 
