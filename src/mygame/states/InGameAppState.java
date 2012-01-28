@@ -136,7 +136,6 @@ public class InGameAppState extends AbstractAppState{
     private void setProgress(final float progress, final String loadingText) {
         app.enqueue(new Callable() {
             public Object call() throws Exception {
-                System.out.println(progress+": "+loadingText);
                 app.getGui().updateLoadingStatus(progress, loadingText);
                 return null;
             }
