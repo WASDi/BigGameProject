@@ -4,6 +4,7 @@ import mygame.states.InGameAppState;
 import com.jme3.app.SimpleApplication;
 import com.jme3.renderer.RenderManager;
 import mygame.gui.GuiAppState;
+import mygame.states.LoadingAppState;
 
 /**
  * 
@@ -38,8 +39,8 @@ public class Game extends SimpleApplication {
     public void startGame(){
         
         gameState = new InGameAppState(tl);
+        stateManager.attach(new LoadingAppState(tl, gameState));
         stateManager.attach(gameState);
-        
     }
 
     public GuiAppState getGui() {

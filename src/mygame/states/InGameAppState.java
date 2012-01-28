@@ -12,9 +12,6 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Box;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 import mygame.controls.PlayerControl;
 import mygame.Game;
 import mygame.TerrainManager;
@@ -32,10 +29,6 @@ public class InGameAppState extends AbstractAppState{
     private TerrainManager tl;
     private BulletAppState bulletAppState;
     private PlayerControl player;
-    
-    private ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(1);
-    private boolean needsLoading = true;
-    private Future loadFuture = null;
 
     public InGameAppState(TerrainManager tl) {
         this.tl = tl;
@@ -47,13 +40,13 @@ public class InGameAppState extends AbstractAppState{
         this.app=(Game) app;
     }
     
-    private void initPhysics(){
+    protected void initPhysics(){
         bulletAppState = new BulletAppState();
         bulletAppState.setEnabled(false);
         app.getStateManager().attach(bulletAppState);
     }
     
-    private void initPlayer(){
+    protected void initPlayer(){
         player = new PlayerControl();
         
         //Example box as placeholder for player. TODO replace with actual player model
@@ -71,27 +64,10 @@ public class InGameAppState extends AbstractAppState{
         player.setPhysicsLocation(new Vector3f(0, 250, 0));
     }
     
-    private void initTerrainPhysics(){
+    protected void initTerrainPhysics(){
         RigidBodyControl terrainPhys = new RigidBodyControl(CollisionShapeFactory.createMeshShape(tl.getTerrain()), 0);
         tl.getTerrain().addControl(terrainPhys);
         bulletAppState.getPhysicsSpace().add(terrainPhys);
-    }
-
-    @Override
-    public void update(float tpf) {
-        if(needsLoading){
-            if(loadFuture==null){
-                loadFuture = exec.submit(loadingCallable);
-            }
-            if(loadFuture.isDone()){
-                exec.shutdown();
-                exec=null;
-                show();
-                app.getGui().doneLoading();
-                needsLoading=false;
-            }
-            return;
-        }
     }
     
     public void show(){
@@ -103,43 +79,12 @@ public class InGameAppState extends AbstractAppState{
         app.getViewPort().removeProcessor(tl.getWater());
         app.getRootNode().detachChild(stateNode);
     }
-    
-    private Callable<Void> loadingCallable = new Callable<Void>(){
 
-        public Void call() throws Exception {
-            setProgress(.1f, "Loading physics");
-            initPhysics();
-
-            setProgress(.2f, "Loading player");
-            initPlayer();
-
-            setProgress(.3f, "Loading terrain");
-            tl.getTerrain();
-
-            setProgress(.7f, "Loading water");
-            tl.getWater();
-
-            setProgress(.8f, "Loading terrain physics");
-            initTerrainPhysics();
-
-            setProgress(.9f, "Almost done!");
-
-            stateNode.attachChild(geom);
-            stateNode.attachChild(tl.getTerrain());
-            stateNode.addLight(tl.getSun());
-            bulletAppState.setEnabled(true);
-            return null;
-        }
-        
-    };
-    
-    private void setProgress(final float progress, final String loadingText) {
-        app.enqueue(new Callable() {
-            public Object call() throws Exception {
-                app.getGui().updateLoadingStatus(progress, loadingText);
-                return null;
-            }
-        });
+    protected void finishedLoading() {
+        stateNode.attachChild(geom);
+        stateNode.attachChild(tl.getTerrain());
+        stateNode.addLight(tl.getSun());
+        bulletAppState.setEnabled(true);
     }
     
 }
