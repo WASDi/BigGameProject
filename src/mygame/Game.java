@@ -25,6 +25,7 @@ public class Game extends SimpleApplication {
         rootNode.attachChild(tl.getSky());
         
         flyCam.setMoveSpeed(100);
+        cam.setFrustumFar(9000);
         
         gui = new GuiAppState();
         stateManager.attach(gui);
