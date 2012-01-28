@@ -51,4 +51,15 @@ public class Game extends SimpleApplication {
 
     @Override
     public void simpleRender(RenderManager rm) {}
+
+    public void enableSpaceBox(boolean enable) {
+        if(enable){
+            rootNode.detachChild(tl.getSky());
+            rootNode.attachChild(tl.getSpace());
+        }
+        else{
+            rootNode.detachChild(tl.getSpace());
+            rootNode.attachChild(tl.getSky());
+        }
+    }
 }

@@ -11,7 +11,9 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
+import java.util.concurrent.Callable;
 import mygame.controls.PlayerControl;
 import mygame.Game;
 import mygame.TerrainManager;
@@ -25,10 +27,9 @@ public class InGameAppState extends AbstractAppState{
     
     private Game app;
     private Node stateNode = new Node("InGameAppState Root Node");
-    private Geometry geom;
+    private Spatial player;
     private TerrainManager tl;
     private BulletAppState bulletAppState;
-    private PlayerControl player;
 
     public InGameAppState(TerrainManager tl) {
         this.tl = tl;
@@ -47,21 +48,21 @@ public class InGameAppState extends AbstractAppState{
     }
     
     protected void initPlayer(){
-        player = new PlayerControl();
+        PlayerControl playerControl = new PlayerControl();
         
         //Example box as placeholder for player. TODO replace with actual player model
         Box b = new Box(Vector3f.ZERO, 1, 1, 1);
-        geom = new Geometry("Box", b);
+        player = new Geometry("Box", b);
         Material mat = new Material(this.app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", ColorRGBA.Blue);
-        geom.setMaterial(mat);
+        player.setMaterial(mat);
         
-        geom.addControl(player);
-        bulletAppState.getPhysicsSpace().add(player);
-        player.setJumpSpeed(20);
-        player.setFallSpeed(30);
-        player.setGravity(30);
-        player.setPhysicsLocation(new Vector3f(0, 250, 0));
+        player.addControl(playerControl);
+        bulletAppState.getPhysicsSpace().add(playerControl);
+        playerControl.setJumpSpeed(20);
+        playerControl.setFallSpeed(30);
+        playerControl.setGravity(30);
+        playerControl.setEnabled(false);
     }
     
     protected void initTerrainPhysics(){
@@ -70,21 +71,42 @@ public class InGameAppState extends AbstractAppState{
         bulletAppState.getPhysicsSpace().add(terrainPhys);
     }
     
-    public void show(){
+    private void show(){
         app.getViewPort().addProcessor(tl.getWater());
         app.getRootNode().attachChild(stateNode);
     }
     
-    public void hide(){
+    private void hide(){
         app.getViewPort().removeProcessor(tl.getWater());
         app.getRootNode().detachChild(stateNode);
     }
 
     protected void finishedLoading() {
-        stateNode.attachChild(geom);
+        stateNode.attachChild(player);
         stateNode.attachChild(tl.getTerrain());
         stateNode.addLight(tl.getSun());
         bulletAppState.setEnabled(true);
+        final InGameAppState gameState = this;
+        app.enqueue(new Callable<Void>() {
+            public Void call() throws Exception {
+                app.getStateManager().attach(new IntroCinematicAppState(app, gameState));
+                return null;
+            }
+        });
+    }
+    
+    protected void finishedIntroCinema(){
+        PlayerControl playerControl = player.getControl(PlayerControl.class);
+        playerControl.setEnabled(true);
+        playerControl.setPhysicsLocation(new Vector3f(0, 250, 0));
+        
+        app.enableSpaceBox(false);
+        stateNode.attachChild(player);
+        show();
+    }
+
+    public Spatial getPlayer() {
+        return player;
     }
     
 }

@@ -43,7 +43,7 @@ public class LoadingAppState extends AbstractAppState{
         if(loadFuture.isDone()){
             exec.shutdown();
             exec=null;
-            gameState.show();
+//            gameState.show();
             app.getGui().doneLoading();
             setEnabled(false);
             app.getStateManager().detach(this);
@@ -58,14 +58,17 @@ public class LoadingAppState extends AbstractAppState{
 
             setProgress(.2f, "Loading player");
             gameState.initPlayer();
+            
+            setProgress(.3f, "Loading space");
+            tl.getSpace();
 
-            setProgress(.3f, "Loading terrain");
+            setProgress(.4f, "Loading terrain");
             tl.getTerrain();
 
-            setProgress(.7f, "Loading water");
+            setProgress(.8f, "Loading water");
             tl.getWater();
 
-            setProgress(.8f, "Loading terrain physics");
+            setProgress(.9f, "Loading terrain physics");
             gameState.initTerrainPhysics();
 
             setProgress(1f, "Almost done!");
