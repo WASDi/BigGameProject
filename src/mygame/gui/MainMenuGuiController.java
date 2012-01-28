@@ -1,10 +1,8 @@
 package mygame.gui;
 
-import com.jme3.niftygui.NiftyJmeDisplay;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
-import mygame.Game;
 
 /**
  * Manages the main menu GUI
@@ -21,14 +19,6 @@ public class MainMenuGuiController implements ScreenController{
     public void setGui(GuiAppState gui) {
         this.gui = gui;
     }
-    
-//    public void show(){
-//        app.getGuiViewPort().addProcessor(niftyDisplay);
-//    }
-//    
-//    public void hide(){
-//        app.getGuiViewPort().removeProcessor(niftyDisplay);
-//    }
 
     public void bind(Nifty nifty, Screen screen) {
         //TODO save the variables?
@@ -49,8 +39,6 @@ public class MainMenuGuiController implements ScreenController{
     public void newGame(){
         System.out.println("newgame");
         gui.newGame();
-//        niftyDisplay.getNifty().gotoScreen("cinematic"); //FIXME not woring when app.startGame(); is being called
-        //TODO implement proper usage of GUI management
     }
     
     public void loadGame(){

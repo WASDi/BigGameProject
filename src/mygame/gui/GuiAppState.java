@@ -45,6 +45,7 @@ public class GuiAppState extends AbstractAppState{
         setClickModeEnabled(false);
         app.startGame();
         niftyDisplay.getNifty().gotoScreen("cinematic");
+        //TODO show loading screen
     }
     
 }
