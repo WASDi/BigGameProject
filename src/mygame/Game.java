@@ -12,7 +12,6 @@ import mygame.states.LoadingAppState;
  */
 public class Game extends SimpleApplication {
     
-    private InGameAppState gameState;
     private TerrainManager tl;
     private GuiAppState gui;
 
@@ -38,7 +37,7 @@ public class Game extends SimpleApplication {
      */
     public void startGame(){
         
-        gameState = new InGameAppState(tl);
+        InGameAppState gameState = new InGameAppState(tl);
         stateManager.attach(new LoadingAppState(tl, gameState));
         stateManager.attach(gameState);
     }

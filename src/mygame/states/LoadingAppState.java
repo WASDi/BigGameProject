@@ -17,14 +17,14 @@ public class LoadingAppState extends AbstractAppState{
     
     private Game app;
     private TerrainManager tl;
-    private InGameAppState inGame;
+    private InGameAppState gameState;
     
     private ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(1);
     private Future loadFuture = null;
 
-    public LoadingAppState(TerrainManager tl, InGameAppState inGame) {
+    public LoadingAppState(TerrainManager tl, InGameAppState gameState) {
         this.tl = tl;
-        this.inGame=inGame;
+        this.gameState=gameState;
     }
     
     @Override
@@ -43,7 +43,7 @@ public class LoadingAppState extends AbstractAppState{
         if(loadFuture.isDone()){
             exec.shutdown();
             exec=null;
-            inGame.show();
+            gameState.show();
             app.getGui().doneLoading();
             setEnabled(false);
             app.getStateManager().detach(this);
@@ -54,10 +54,10 @@ public class LoadingAppState extends AbstractAppState{
 
         public Void call() throws Exception {
             setProgress(.1f, "Loading physics");
-            inGame.initPhysics();
+            gameState.initPhysics();
 
             setProgress(.2f, "Loading player");
-            inGame.initPlayer();
+            gameState.initPlayer();
 
             setProgress(.3f, "Loading terrain");
             tl.getTerrain();
@@ -66,11 +66,11 @@ public class LoadingAppState extends AbstractAppState{
             tl.getWater();
 
             setProgress(.8f, "Loading terrain physics");
-            inGame.initTerrainPhysics();
+            gameState.initTerrainPhysics();
 
             setProgress(1f, "Almost done!");
             
-            inGame.finishedLoading();
+            gameState.finishedLoading();
             return null;
         }
         
