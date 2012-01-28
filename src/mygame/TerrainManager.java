@@ -29,8 +29,9 @@ import com.jme3.water.WaterFilter;
  */
 public class TerrainManager {
 
-    //Use variables to save Terrain and Water.
-    //Sun and Skybox should only be loaded once and are very lightweight so I don't bother storing them in variables.
+    //Use variables to save already loaded assets
+    private Spatial skyBox;
+    private Spatial spaceBox;
     private TerrainQuad terrain;
     private WaterFilter water;
     private FilterPostProcessor waterFilter;
@@ -72,11 +73,22 @@ public class TerrainManager {
         sun.setColor(ColorRGBA.White.clone().multLocal(1.7f));
         return sun;
     }
+    
+    public Spatial getSpace(){
+        if(spaceBox==null){
+            Texture space = assetManager.loadTexture("Textures/space.jpg");
+            Texture earth = assetManager.loadTexture("Textures/earth.jpg");
+            spaceBox = SkyFactory.createSky(assetManager, space, space, space, space, space, earth);
+        }
+        return spaceBox;
+    }
 
     public Spatial getSky() {
-        Spatial sky = SkyFactory.createSky(assetManager, "Textures/FullskiesSunset0068.dds", false);
-        sky.setLocalScale(350);
-        return sky;
+        if(skyBox==null){
+            skyBox = SkyFactory.createSky(assetManager, "Textures/FullskiesSunset0068.dds", false);
+//            skyBox.setLocalScale(350);
+        }
+        return skyBox;
     }
 
     private void initTerrain() {
