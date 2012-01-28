@@ -12,22 +12,22 @@ import de.lessvoid.nifty.screen.ScreenController;
 public class MainMenuGuiController implements ScreenController{
     
     private GuiAppState gui;
-
-    public MainMenuGuiController() {
+    
+    public MainMenuGuiController(GuiAppState gui) {
+        this.gui=gui;
     }
-
-    public void setGui(GuiAppState gui) {
-        this.gui = gui;
-    }
-
+    
+    @Override
     public void bind(Nifty nifty, Screen screen) {
         //TODO save the variables?
     }
-
+    
+    @Override
     public void onStartScreen() {
         //TODO check if there is a saved game. If not, disable continue and loadgame buttons
     }
 
+    @Override
     public void onEndScreen() {}
     
     

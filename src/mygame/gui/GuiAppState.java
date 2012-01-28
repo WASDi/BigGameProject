@@ -25,12 +25,10 @@ public class GuiAppState extends AbstractAppState{
                                                           app.getAudioRenderer(),
                                                           app.getGuiViewPort());
         Nifty nifty = niftyDisplay.getNifty();
+        nifty.registerScreenController(new MainMenuGuiController(this));
         nifty.addXml("Interface/mainmenu.xml");
         nifty.addXml("Interface/cinematic.xml");
         nifty.gotoScreen("mainmenu");
-        
-        MainMenuGuiController mainmenu = (MainMenuGuiController) nifty.getScreen("mainmenu").getScreenController();
-        mainmenu.setGui(this);
         
         setClickModeEnabled(true);
         app.getGuiViewPort().addProcessor(niftyDisplay);
