@@ -41,6 +41,7 @@ public class InGameAppState extends AbstractAppState{
         this.app=(Game) app;
     }
     
+    //TODO move all the loading and initiating somewhere else to make InGameAppState actually control in-game stuff
     protected void initPhysics(){
         bulletAppState = new BulletAppState();
         bulletAppState.setEnabled(false);
@@ -85,7 +86,6 @@ public class InGameAppState extends AbstractAppState{
         stateNode.attachChild(player);
         stateNode.attachChild(tl.getTerrain());
         stateNode.addLight(tl.getSun());
-        bulletAppState.setEnabled(true);
         final InGameAppState gameState = this;
         app.enqueue(new Callable<Void>() {
             public Void call() throws Exception {
@@ -102,6 +102,7 @@ public class InGameAppState extends AbstractAppState{
         
         app.enableSpaceBox(false);
         stateNode.attachChild(player);
+        bulletAppState.setEnabled(true);
         show();
     }
 
