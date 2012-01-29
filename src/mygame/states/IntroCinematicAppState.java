@@ -11,7 +11,6 @@ import com.jme3.cinematic.events.CinematicEventListener;
 import com.jme3.cinematic.events.MotionTrack;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.CameraNode;
 import com.jme3.scene.Node;
@@ -32,6 +31,7 @@ public class IntroCinematicAppState extends AbstractAppState{
     private InGameAppState gameState;
     
     private Spatial player;
+    private Spatial ship;
     private Spatial rock;
     private Node shipNode;
     private CameraNode camNode;
@@ -41,9 +41,7 @@ public class IntroCinematicAppState extends AbstractAppState{
         this.gameState = gameState;
         this.player = app.getResourceLoader().getPlayerModel();
         this.rock = app.getResourceLoader().getRockModel();
-        
-        player.setLocalScale(.5f);
-        rock.setLocalScale(2f);
+        this.ship = app.getResourceLoader().getShipModel();
     }
     
     @Override
@@ -53,9 +51,12 @@ public class IntroCinematicAppState extends AbstractAppState{
         
         this.app.enableSpaceBox(true);
         
+        rock.setLocalScale(2f);
+        ship.setLocalTranslation(-2, 0, 0);
+        
         shipNode = new Node("Ship and Player");
         shipNode.attachChild(player);
-        //TODO attach ship to shipNode
+        shipNode.attachChild(ship);
         
         stateNode.attachChild(shipNode);
         stateNode.attachChild(rock);
@@ -164,7 +165,7 @@ public class IntroCinematicAppState extends AbstractAppState{
      * Called when the cinematic has finished
      */
     private void cinematicEnded() {
-        player.setLocalScale(1f);
+//        player.setLocalScale(1f);
 //        rock.setLocalScale(1f);
         stateNode.detachAllChildren();
         gameState.finishedIntroCinema();

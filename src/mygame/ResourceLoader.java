@@ -112,8 +112,19 @@ public class ResourceLoader {
         return rock;
     }
     
+    public Spatial getShipModel(){
+        //TODO replace with real model
+        Box b = new Box(Vector3f.ZERO, 2, .5f, 1);
+        Geometry ship = new Geometry("Box", b);
+        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", ColorRGBA.Blue);
+        ship.setMaterial(mat);
+        return ship;
+    }
+    
     private void initPlayer(){
         playerModel = assetManager.loadModel("Models/Player/alien.j3o");
+        playerModel.setLocalScale(.5f);
     }
 
     private void initTerrain() {
