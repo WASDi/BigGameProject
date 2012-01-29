@@ -8,6 +8,7 @@ import de.lessvoid.nifty.Nifty;
 import mygame.Game;
 
 /**
+ * Handles the GUI. ScreenControllers speak to this class which then contacts Game.
  *
  * @author wasd
  */
@@ -38,6 +39,11 @@ public class GuiAppState extends AbstractAppState{
         app.getGuiViewPort().addProcessor(niftyDisplay);
     }
     
+    /**
+     * Enables or disables mouse visibility and flyCam
+     * Will become deprecated when Game extends Application and no longer uses flyCam
+     * @param enable true to show mouse and disable movement
+     */
     private void setClickModeEnabled(boolean enable){
         app.getFlyByCamera().setEnabled(!enable);
         app.getInputManager().setCursorVisible(enable);
@@ -53,6 +59,9 @@ public class GuiAppState extends AbstractAppState{
         loading.updateLoadingStatus(progress, loadingText);
     }
     
+    /**
+     * Called by LoadingAppState when it has finished
+     */
     public void doneLoading(){
         niftyDisplay.getNifty().gotoScreen("cinematic");
     }

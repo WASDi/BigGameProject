@@ -43,7 +43,6 @@ public class LoadingAppState extends AbstractAppState{
         if(loadFuture.isDone()){
             exec.shutdown();
             exec=null;
-//            gameState.show();
             app.getGui().doneLoading();
             setEnabled(false);
             app.getStateManager().detach(this);

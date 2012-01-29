@@ -11,8 +11,10 @@ public class Main {
     
     public static void main(String[] args) {
         
+        //only log errors
         Logger.getLogger("").setLevel(Level.SEVERE);
         
+        //start everything
         Game app = new Game();
         app.start();
     }

@@ -52,6 +52,10 @@ public class Game extends SimpleApplication {
     @Override
     public void simpleRender(RenderManager rm) {}
 
+    /**
+     * Called when switching between skyBox and spaceBox
+     * @param enable true if spaceBox. false if skyBox.
+     */
     public void enableSpaceBox(boolean enable) {
         if(enable){
             rootNode.detachChild(tl.getSky());

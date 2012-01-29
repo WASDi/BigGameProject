@@ -86,7 +86,6 @@ public class TerrainManager {
     public Spatial getSky() {
         if(skyBox==null){
             skyBox = SkyFactory.createSky(assetManager, "Textures/FullskiesSunset0068.dds", false);
-//            skyBox.setLocalScale(350);
         }
         return skyBox;
     }
@@ -94,7 +93,7 @@ public class TerrainManager {
     private void initTerrain() {
         if(terrainLodCamera==null)
             throw new NullPointerException("Must call setTerrainCamera first");
-        //TODO this is an example terrain. I should make my own
+        //TODO Fix texture for my custom heightmap.
 
         /** 1. Create terrain material and load four textures into it. */
         Material mat_terrain = new Material(assetManager,

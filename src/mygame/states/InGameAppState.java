@@ -19,7 +19,9 @@ import mygame.Game;
 import mygame.TerrainManager;
 
 /**
- * Used when playing the game itself
+ * Used when playing the game itself.
+ * 
+ * TODO move all the loading and initiating somewhere else to make InGameAppState actually control in-game stuff.
  * 
  * @author wasd
  */
@@ -41,7 +43,6 @@ public class InGameAppState extends AbstractAppState{
         this.app=(Game) app;
     }
     
-    //TODO move all the loading and initiating somewhere else to make InGameAppState actually control in-game stuff
     protected void initPhysics(){
         bulletAppState = new BulletAppState();
         bulletAppState.setEnabled(false);
@@ -82,6 +83,10 @@ public class InGameAppState extends AbstractAppState{
         app.getRootNode().detachChild(stateNode);
     }
 
+    /**
+     * Called by LoadingAppState from another thread when it has finished loading.
+     * Initiates IntroCinemaAppState.
+     */
     protected void finishedLoading() {
         stateNode.attachChild(player);
         stateNode.attachChild(tl.getTerrain());
@@ -95,6 +100,9 @@ public class InGameAppState extends AbstractAppState{
         });
     }
     
+    /**
+     * Called by IntroCinemaAppState when it is finished.
+     */
     protected void finishedIntroCinema(){
         PlayerControl playerControl = player.getControl(PlayerControl.class);
         playerControl.setEnabled(true);

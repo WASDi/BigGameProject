@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package mygame.gui;
 
 import de.lessvoid.nifty.Nifty;
@@ -12,6 +8,7 @@ import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.SizeValue;
 
 /**
+ * Controlls the size of the progressbar and the next that is shown
  *
  * @author wasd
  */
