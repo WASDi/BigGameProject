@@ -9,6 +9,9 @@ import com.jme3.cinematic.MotionPath;
 import com.jme3.cinematic.events.CinematicEvent;
 import com.jme3.cinematic.events.CinematicEventListener;
 import com.jme3.cinematic.events.MotionTrack;
+import com.jme3.light.DirectionalLight;
+import com.jme3.math.ColorRGBA;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.CameraNode;
 import com.jme3.scene.Node;
@@ -49,7 +52,7 @@ public class IntroCinematicAppState extends AbstractAppState{
         stateNode.attachChild(player);
         stateNode.attachChild(rock);
         
-        Cinematic cinematic = new Cinematic(stateNode, 15f, LoopMode.DontLoop);
+        Cinematic cinematic = new Cinematic(stateNode, 14f, LoopMode.DontLoop);
         CinematicEventListener cel = new CinematicEventListener() {
 
             public void onPlay(CinematicEvent cinematic) {}
@@ -68,6 +71,7 @@ public class IntroCinematicAppState extends AbstractAppState{
         
         this.app.getRootNode().attachChild(stateNode);
         this.app.getStateManager().attach(cinematic);
+        initLight();
         cinematic.play();
     }
     
@@ -78,13 +82,13 @@ public class IntroCinematicAppState extends AbstractAppState{
         MotionPath path = new MotionPath();
         path.addWayPoint(new Vector3f(200, 0, -30));
         path.addWayPoint(new Vector3f(10, 0, -30));
-        path.addWayPoint(new Vector3f(-10, -200, -100));
+        path.addWayPoint(new Vector3f(-10, -300, -110));
         path.setCurveTension(.1f);
         path.enableDebugShape(app.getAssetManager(), stateNode);
         
         //TODO use a node that contains player and the ship
         MotionTrack track = new MotionTrack(player, path);
-        track.setSpeed(1f);
+        track.setSpeed(.9f);
         
         return track;
     }
@@ -105,7 +109,7 @@ public class IntroCinematicAppState extends AbstractAppState{
         stateNode.attachChild(camNode);
         
         MotionTrack track = new MotionTrack(camNode, path);
-        track.setSpeed(1.5f);
+        track.setSpeed(1.4f);
         return track;
     }
     
@@ -121,10 +125,31 @@ public class IntroCinematicAppState extends AbstractAppState{
         MotionTrack track = new MotionTrack(rock, path);
         return track;
     }
+    
+    private void initLight(){
+        // sunset light
+        DirectionalLight dl = new DirectionalLight();
+        dl.setDirection(new Vector3f(-0.1f,-0.7f,1).normalizeLocal());
+        dl.setColor(new ColorRGBA(0.44f, 0.30f, 0.20f, 1.0f));
+        stateNode.addLight(dl);
+
+        // skylight
+        dl = new DirectionalLight();
+        dl.setDirection(new Vector3f(-0.6f,-1,-0.6f).normalizeLocal());
+        dl.setColor(new ColorRGBA(0.10f, 0.22f, 0.44f, 1.0f));
+        stateNode.addLight(dl);
+
+        // white ambient light
+        dl = new DirectionalLight();
+        dl.setDirection(new Vector3f(1, -0.5f,-0.1f).normalizeLocal());
+        dl.setColor(new ColorRGBA(0.80f, 0.70f, 0.80f, 1.0f));
+        stateNode.addLight(dl);
+    }
 
     @Override
     public void update(float tpf) {
         camNode.lookAt(player.getLocalTranslation(), Vector3f.UNIT_Y);
+        rock.rotate(tpf, tpf, tpf);
     }
     
     /**

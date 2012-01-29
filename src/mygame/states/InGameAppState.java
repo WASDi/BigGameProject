@@ -97,6 +97,7 @@ public class InGameAppState extends AbstractAppState{
         app.enableSpaceBox(false);
         stateNode.attachChild(player);
         bulletAppState.setEnabled(true);
+        app.getFlyByCamera().setEnabled(true);
         show();
     }
     
