@@ -6,6 +6,7 @@ import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.cinematic.Cinematic;
 import com.jme3.cinematic.MotionPath;
+import com.jme3.cinematic.MotionPathListener;
 import com.jme3.cinematic.events.AbstractCinematicEvent;
 import com.jme3.cinematic.events.CinematicEvent;
 import com.jme3.cinematic.events.CinematicEventListener;
@@ -39,6 +40,7 @@ public class IntroCinematicAppState extends AbstractAppState{
     private Spatial ship;
     private Spatial rock;
     private Node shipNode;
+    private boolean rotateShip=false;
     private CameraNode camNode;
     
     private ParticleEmitter fire;
@@ -68,7 +70,7 @@ public class IntroCinematicAppState extends AbstractAppState{
         stateNode.attachChild(shipNode);
         stateNode.attachChild(rock);
         
-        Cinematic cinematic = new Cinematic(stateNode, 14f, LoopMode.DontLoop);
+        Cinematic cinematic = new Cinematic(stateNode, 22f, LoopMode.DontLoop);
         CinematicEventListener cel = new CinematicEventListener() {
 
             public void onPlay(CinematicEvent cinematic) {}
@@ -84,21 +86,6 @@ public class IntroCinematicAppState extends AbstractAppState{
         cinematic.addCinematicEvent(0f, getShipTrack());
         cinematic.addCinematicEvent(0f, getCameraTrack());
         cinematic.addCinematicEvent(0f, getRockTrack());
-        cinematic.addCinematicEvent(7.6f, new AbstractCinematicEvent() {
-            @Override
-            protected void onPlay() {
-                shipNode.attachChild(fire);
-            }
-
-            @Override
-            protected void onUpdate(float tpf) {
-                shipNode.rotate(tpf, tpf*2, tpf);
-            }
-            @Override
-            protected void onStop() {}
-            @Override
-            public void onPause() {}
-        });
         
         this.app.getRootNode().attachChild(stateNode);
         this.app.getStateManager().attach(cinematic);
@@ -107,20 +94,42 @@ public class IntroCinematicAppState extends AbstractAppState{
         cinematic.play();
     }
     
+    private void spaceSceneDone(){
+        camNode.setLocalTranslation(290, 20, 380);
+        app.enableSpaceBox(false);
+        stateNode.detachChild(rock);
+        rock=null;
+        gameState.show();
+    }
+    
     /**
      * @return The MotionTrack of the ship with the player
      */
     private MotionTrack getShipTrack(){
         MotionPath path = new MotionPath();
-        path.addWayPoint(new Vector3f(200, 0, -30));
-        path.addWayPoint(new Vector3f(10, 0, -30));
-        path.addWayPoint(new Vector3f(-10, -300, -110));
+        path.addWayPoint(new Vector3f(530, 450, 320));
+        path.addWayPoint(new Vector3f(340, 450, 320));
+        path.addWayPoint(new Vector3f(320, 250, 240));
+        path.addWayPoint(new Vector3f(320, -1, 240));
         path.setCurveTension(.1f);
         path.enableDebugShape(app.getAssetManager(), stateNode);
         
+        path.addListener(new MotionPathListener() {
+
+            public void onWayPointReach(MotionTrack motionControl, int wayPointIndex) {
+                if(wayPointIndex==1){
+                    shipNode.attachChild(fire);
+                    rotateShip=true;
+                }
+                if(wayPointIndex==2){
+                    spaceSceneDone();
+                }
+            }
+        });
+        
         //TODO use a node that contains player and the ship
-        MotionTrack track = new MotionTrack(shipNode, path);
-        track.setSpeed(.9f);
+        MotionTrack track = new MotionTrack(shipNode, path, 18f);
+        track.setSpeed(1f);
         
         return track;
     }
@@ -131,17 +140,16 @@ public class IntroCinematicAppState extends AbstractAppState{
     private MotionTrack getCameraTrack(){
         //TODO MotionTrack for the camera and make it always lookAt player
         MotionPath path = new MotionPath();
-        path.addWayPoint(new Vector3f(190, 0, 10));
-        path.addWayPoint(new Vector3f(100, 5, 10));
-        path.addWayPoint(new Vector3f(20, 0, 10));
+        path.addWayPoint(new Vector3f(520, 450, 360));
+        path.addWayPoint(new Vector3f(430, 455, 360));
+        path.addWayPoint(new Vector3f(350, 450, 360));
         path.setCurveTension(1);
         
         camNode = new CameraNode("Motion Camera", app.getCamera());
         camNode.setControlDir(ControlDirection.SpatialToCamera);
         stateNode.attachChild(camNode);
         
-        MotionTrack track = new MotionTrack(camNode, path);
-        track.setSpeed(1.4f);
+        MotionTrack track = new MotionTrack(camNode, path, 5f);
         return track;
     }
     
@@ -150,11 +158,11 @@ public class IntroCinematicAppState extends AbstractAppState{
      */
     private MotionTrack getRockTrack(){
         MotionPath path = new MotionPath();
-        path.addWayPoint(new Vector3f(110, 100, -30));
-        path.addWayPoint(new Vector3f(-90, -100, -30));
+        path.addWayPoint(new Vector3f(420, 535, 320));
+        path.addWayPoint(new Vector3f(270, 385, 320));
         path.enableDebugShape(app.getAssetManager(), stateNode);
 
-        MotionTrack track = new MotionTrack(rock, path);
+        MotionTrack track = new MotionTrack(rock, path, 10);
         return track;
     }
     
@@ -198,22 +206,21 @@ public class IntroCinematicAppState extends AbstractAppState{
     
     @Override
     public void update(float tpf) {
-        camNode.lookAt(shipNode.getLocalTranslation(), Vector3f.UNIT_Y);
+        if(camNode!=null)
+            camNode.lookAt(shipNode.getLocalTranslation(), Vector3f.UNIT_Y);
         if(rock!=null)
             rock.rotate(tpf, tpf, tpf);
+        if(rotateShip)
+            shipNode.rotate(tpf, tpf*2, tpf);
     }
     
     /**
      * Called when the cinematic has finished
      */
     private void cinematicEnded() {
-//        player.setLocalScale(1f);
-//        rock.setLocalScale(1f);
         stateNode.detachAllChildren();
-        gameState.finishedIntroCinema();
-        app.enableSpaceBox(false);
-        gameState.show();
         app.getStateManager().detach(this);
+        gameState.finishedIntroCinema();
     }
 
 }

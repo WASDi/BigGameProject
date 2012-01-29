@@ -60,8 +60,7 @@ public class InGameAppState extends AbstractAppState{
     }
     
     public void show(){
-        if(!app.getViewPort().getProcessors().contains(loader.getWater()))
-            app.getViewPort().addProcessor(loader.getWater());
+        app.getViewPort().addProcessor(loader.getWater());
         app.getRootNode().attachChild(stateNode);
     }
     
