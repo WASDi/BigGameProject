@@ -12,6 +12,7 @@ import com.jme3.cinematic.events.MotionTrack;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import mygame.ResourceLoader;
 import mygame.Game;
 
 /**
@@ -30,7 +31,7 @@ public class IntroCinematicAppState extends AbstractAppState{
     public IntroCinematicAppState(Game app, InGameAppState gameState) {
         this.app = app;
         this.gameState = gameState;
-        this.player = gameState.getPlayer();
+        this.player = app.getResourceLoader().getPlayerModel();
     }
     
     @Override

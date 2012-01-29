@@ -12,7 +12,7 @@ import mygame.states.LoadingAppState;
  */
 public class Game extends SimpleApplication {
     
-    private TerrainLoader tl;
+    private ResourceLoader loader;
     private GuiAppState gui;
 
     /**
@@ -21,8 +21,8 @@ public class Game extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         
-        tl = new TerrainLoader(assetManager, cam, rootNode);
-        rootNode.attachChild(tl.getSky());
+        loader = new ResourceLoader(assetManager, cam, rootNode);
+        rootNode.attachChild(loader.getSky());
         
         flyCam.setMoveSpeed(100);
         cam.setFrustumFar(9000);
@@ -37,8 +37,8 @@ public class Game extends SimpleApplication {
      */
     public void startGame(){
         
-        InGameAppState gameState = new InGameAppState(tl);
-        stateManager.attach(new LoadingAppState(tl, gameState));
+        InGameAppState gameState = new InGameAppState();
+        stateManager.attach(new LoadingAppState(gameState));
         stateManager.attach(gameState);
     }
 
@@ -58,12 +58,16 @@ public class Game extends SimpleApplication {
      */
     public void enableSpaceBox(boolean enable) {
         if(enable){
-            rootNode.detachChild(tl.getSky());
-            rootNode.attachChild(tl.getSpace());
+            rootNode.detachChild(loader.getSky());
+            rootNode.attachChild(loader.getSpace());
         }
         else{
-            rootNode.detachChild(tl.getSpace());
-            rootNode.attachChild(tl.getSky());
+            rootNode.detachChild(loader.getSpace());
+            rootNode.attachChild(loader.getSky());
         }
+    }
+
+    public ResourceLoader getResourceLoader() {
+        return loader;
     }
 }

@@ -7,7 +7,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import mygame.Game;
-import mygame.TerrainLoader;
+import mygame.ResourceLoader;
 
 /**
  *
@@ -16,21 +16,21 @@ import mygame.TerrainLoader;
 public class LoadingAppState extends AbstractAppState{
     
     private Game app;
-    private TerrainLoader tl;
+    private ResourceLoader loader;
     private InGameAppState gameState;
     
     private ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(1);
     private Future loadFuture = null;
 
-    public LoadingAppState(TerrainLoader tl, InGameAppState gameState) {
-        this.tl = tl;
+    public LoadingAppState(InGameAppState gameState) {
         this.gameState=gameState;
     }
     
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
-        this.app=(Game) app;
+        this.app = (Game) app;
+        this.loader = this.app.getResourceLoader();
     }
 
     @Override
@@ -52,27 +52,22 @@ public class LoadingAppState extends AbstractAppState{
     private Callable<Void> loadingCallable = new Callable<Void>(){
 
         public Void call() throws Exception {
-            setProgress(.1f, "Loading physics");
-            gameState.initPhysics();
 
-            setProgress(.2f, "Loading player");
-            gameState.initPlayer();
+            setProgress(.1f, "Loading player");
+            loader.getPlayerModel();
             
-            setProgress(.3f, "Loading space");
-            tl.getSpace();
+            setProgress(.2f, "Loading space");
+            loader.getSpace();
 
-            setProgress(.4f, "Loading terrain");
-            tl.getTerrain();
+            setProgress(.3f, "Loading terrain");
+            loader.getTerrain();
 
             setProgress(.8f, "Loading water");
-            tl.getWater();
+            loader.getWater();
 
-            setProgress(.9f, "Loading terrain physics");
-            gameState.initTerrainPhysics();
-
-            setProgress(1f, "Almost done!");
-            
+            setProgress(.9f, "Almost done!");
             gameState.finishedLoading();
+            
             return null;
         }
         

@@ -10,8 +10,10 @@ import com.jme3.post.filters.BloomFilter;
 import com.jme3.post.filters.DepthOfFieldFilter;
 import com.jme3.post.filters.LightScatteringFilter;
 import com.jme3.renderer.Camera;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Box;
 import com.jme3.terrain.geomipmap.TerrainLodControl;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.terrain.heightmap.AbstractHeightMap;
@@ -23,13 +25,13 @@ import com.jme3.util.SkyFactory;
 import com.jme3.water.WaterFilter;
 
 /**
- * A class used to manage loading of terrain, water, lighting and skybox.
+ * A class used to manage loading of all assets such as terrain, water and models.
  * 
  * TODO make some kind of Options class to manage graphical setting the user has set.
  * 
  * @author wasd
  */
-public class TerrainLoader {
+public class ResourceLoader {
 
     //Use variables to save already loaded assets
     private Spatial skyBox;
@@ -42,13 +44,15 @@ public class TerrainLoader {
     private AssetManager assetManager;
     private Camera terrainLodCamera;
     private Node waterReflectionNode;
+    
+    private Spatial playerModel;
 
     /**
      * @param app Used to get AssetManager for loading assets
      * @param terrainLodCamera The Camera used for LOD calculation
      * @param waterReflectionNode What the water should reflect
      */
-    public TerrainLoader(AssetManager assetManager, Camera terrainLodCamera, Node waterReflectionNode) {
+    public ResourceLoader(AssetManager assetManager, Camera terrainLodCamera, Node waterReflectionNode) {
         this.assetManager = assetManager;
         this.terrainLodCamera=terrainLodCamera;
         this.waterReflectionNode=waterReflectionNode;
@@ -89,6 +93,22 @@ public class TerrainLoader {
             skyBox = SkyFactory.createSky(assetManager, "Textures/FullskiesSunset0068.dds", false);
         }
         return skyBox;
+    }
+    
+    public Spatial getPlayerModel(){
+        if(playerModel==null){
+            initPlayer();
+        }
+        return playerModel;
+    }
+    
+    private void initPlayer(){
+        //Example box as placeholder for player. TODO replace with actual player model
+        Box b = new Box(Vector3f.ZERO, 1, 1, 1);
+        playerModel = new Geometry("Box", b);
+        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", ColorRGBA.Blue);
+        playerModel.setMaterial(mat);
     }
 
     private void initTerrain() {
