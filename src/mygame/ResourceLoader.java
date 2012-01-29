@@ -102,6 +102,16 @@ public class ResourceLoader {
         return playerModel;
     }
     
+    public Spatial getRockModel(){
+        //TODO load the actual rock model
+        Box b = new Box(Vector3f.ZERO, 1, 1, 1);
+        Geometry rock = new Geometry("Box", b);
+        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", ColorRGBA.Red);
+        rock.setMaterial(mat);
+        return rock;
+    }
+    
     private void initPlayer(){
         //Example box as placeholder for player. TODO replace with actual player model
         Box b = new Box(Vector3f.ZERO, 1, 1, 1);
