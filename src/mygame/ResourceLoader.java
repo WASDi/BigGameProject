@@ -104,22 +104,16 @@ public class ResourceLoader {
     
     public Spatial getRockModel(){
         Spatial rock = assetManager.loadModel("Models/Rock/roca.j3o");
-        Material mat = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");
-        mat.setTexture("DiffuseMap", assetManager.loadTexture("Models/Rock/roca.png"));
-        mat.setTexture("NormalMap", assetManager.loadTexture("Models/Rock/roca.reflejo.jpg"));
-        mat.setFloat("Shininess", 55f);
-        rock.setMaterial(mat);
-        rock.setLocalScale(2f);
+//        Material mat = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");
+//        mat.setTexture("DiffuseMap", assetManager.loadTexture("Models/Rock/roca.png"));
+//        mat.setTexture("NormalMap", assetManager.loadTexture("Models/Rock/roca.reflejo.jpg"));
+//        mat.setFloat("Shininess", 55f);
+//        rock.setMaterial(mat);
         return rock;
     }
     
     private void initPlayer(){
-        //Example box as placeholder for player. TODO replace with actual player model
-        Box b = new Box(Vector3f.ZERO, 1, 1, 1);
-        playerModel = new Geometry("Box", b);
-        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", ColorRGBA.Blue);
-        playerModel.setMaterial(mat);
+        playerModel = assetManager.loadModel("Models/Player/alien.j3o");
     }
 
     private void initTerrain() {

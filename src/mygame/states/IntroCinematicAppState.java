@@ -33,6 +33,7 @@ public class IntroCinematicAppState extends AbstractAppState{
     
     private Spatial player;
     private Spatial rock;
+    private Node shipNode;
     private CameraNode camNode;
 
     public IntroCinematicAppState(Game app, InGameAppState gameState) {
@@ -40,6 +41,9 @@ public class IntroCinematicAppState extends AbstractAppState{
         this.gameState = gameState;
         this.player = app.getResourceLoader().getPlayerModel();
         this.rock = app.getResourceLoader().getRockModel();
+        
+        player.setLocalScale(.5f);
+        rock.setLocalScale(2f);
     }
     
     @Override
@@ -49,7 +53,11 @@ public class IntroCinematicAppState extends AbstractAppState{
         
         this.app.enableSpaceBox(true);
         
-        stateNode.attachChild(player);
+        shipNode = new Node("Ship and Player");
+        shipNode.attachChild(player);
+        //TODO attach ship to shipNode
+        
+        stateNode.attachChild(shipNode);
         stateNode.attachChild(rock);
         
         Cinematic cinematic = new Cinematic(stateNode, 14f, LoopMode.DontLoop);
@@ -87,7 +95,7 @@ public class IntroCinematicAppState extends AbstractAppState{
         path.enableDebugShape(app.getAssetManager(), stateNode);
         
         //TODO use a node that contains player and the ship
-        MotionTrack track = new MotionTrack(player, path);
+        MotionTrack track = new MotionTrack(shipNode, path);
         track.setSpeed(.9f);
         
         return track;
@@ -148,7 +156,7 @@ public class IntroCinematicAppState extends AbstractAppState{
 
     @Override
     public void update(float tpf) {
-        camNode.lookAt(player.getLocalTranslation(), Vector3f.UNIT_Y);
+        camNode.lookAt(shipNode.getLocalTranslation(), Vector3f.UNIT_Y);
         rock.rotate(tpf, tpf, tpf);
     }
     
@@ -156,6 +164,8 @@ public class IntroCinematicAppState extends AbstractAppState{
      * Called when the cinematic has finished
      */
     private void cinematicEnded() {
+        player.setLocalScale(1f);
+//        rock.setLocalScale(1f);
         stateNode.detachAllChildren();
         gameState.finishedIntroCinema();
         app.getStateManager().detach(this);
