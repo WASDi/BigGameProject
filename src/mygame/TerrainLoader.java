@@ -25,9 +25,11 @@ import com.jme3.water.WaterFilter;
 /**
  * A class used to manage loading of terrain, water, lighting and skybox.
  * 
+ * TODO make some kind of Options class to manage graphical setting the user has set.
+ * 
  * @author wasd
  */
-public class TerrainManager {
+public class TerrainLoader {
 
     //Use variables to save already loaded assets
     private Spatial skyBox;
@@ -46,11 +48,10 @@ public class TerrainManager {
      * @param terrainLodCamera The Camera used for LOD calculation
      * @param waterReflectionNode What the water should reflect
      */
-    public TerrainManager(AssetManager assetManager, Camera terrainLodCamera, Node waterReflectionNode) {
+    public TerrainLoader(AssetManager assetManager, Camera terrainLodCamera, Node waterReflectionNode) {
         this.assetManager = assetManager;
         this.terrainLodCamera=terrainLodCamera;
         this.waterReflectionNode=waterReflectionNode;
-        //TODO make some kind of Options class to manage graphical setting the user has set.
     }
 
     public TerrainQuad getTerrain() {
@@ -161,6 +162,7 @@ public class TerrainManager {
 
         waterFilter = new FilterPostProcessor(assetManager);
 
+        //TODO separate loading of filters into another method
         waterFilter.addFilter(water);
         BloomFilter bloom = new BloomFilter();
         //bloom.getE

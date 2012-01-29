@@ -12,7 +12,7 @@ import mygame.states.LoadingAppState;
  */
 public class Game extends SimpleApplication {
     
-    private TerrainManager tl;
+    private TerrainLoader tl;
     private GuiAppState gui;
 
     /**
@@ -21,7 +21,7 @@ public class Game extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         
-        tl = new TerrainManager(assetManager, cam, rootNode);
+        tl = new TerrainLoader(assetManager, cam, rootNode);
         rootNode.attachChild(tl.getSky());
         
         flyCam.setMoveSpeed(100);

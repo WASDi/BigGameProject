@@ -16,7 +16,7 @@ import com.jme3.scene.shape.Box;
 import java.util.concurrent.Callable;
 import mygame.controls.PlayerControl;
 import mygame.Game;
-import mygame.TerrainManager;
+import mygame.TerrainLoader;
 
 /**
  * Used when playing the game itself.
@@ -30,10 +30,10 @@ public class InGameAppState extends AbstractAppState{
     private Game app;
     private Node stateNode = new Node("InGameAppState Root Node");
     private Spatial player;
-    private TerrainManager tl;
+    private TerrainLoader tl;
     private BulletAppState bulletAppState;
 
-    public InGameAppState(TerrainManager tl) {
+    public InGameAppState(TerrainLoader tl) {
         this.tl = tl;
     }
 

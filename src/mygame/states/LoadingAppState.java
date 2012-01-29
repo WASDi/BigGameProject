@@ -7,7 +7,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import mygame.Game;
-import mygame.TerrainManager;
+import mygame.TerrainLoader;
 
 /**
  *
@@ -16,13 +16,13 @@ import mygame.TerrainManager;
 public class LoadingAppState extends AbstractAppState{
     
     private Game app;
-    private TerrainManager tl;
+    private TerrainLoader tl;
     private InGameAppState gameState;
     
     private ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(1);
     private Future loadFuture = null;
 
-    public LoadingAppState(TerrainManager tl, InGameAppState gameState) {
+    public LoadingAppState(TerrainLoader tl, InGameAppState gameState) {
         this.tl = tl;
         this.gameState=gameState;
     }
