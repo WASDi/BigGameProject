@@ -9,7 +9,10 @@ import com.jme3.cinematic.MotionPath;
 import com.jme3.cinematic.events.CinematicEvent;
 import com.jme3.cinematic.events.CinematicEventListener;
 import com.jme3.cinematic.events.MotionTrack;
+import com.jme3.effect.ParticleEmitter;
+import com.jme3.effect.ParticleMesh;
 import com.jme3.light.DirectionalLight;
+import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.CameraNode;
@@ -35,6 +38,8 @@ public class IntroCinematicAppState extends AbstractAppState{
     private Spatial rock;
     private Node shipNode;
     private CameraNode camNode;
+    
+    private ParticleEmitter fire;
 
     public IntroCinematicAppState(Game app, InGameAppState gameState) {
         this.app = app;
@@ -81,6 +86,7 @@ public class IntroCinematicAppState extends AbstractAppState{
         this.app.getRootNode().attachChild(stateNode);
         this.app.getStateManager().attach(cinematic);
         initLight();
+        initFire();
         cinematic.play();
     }
     
@@ -154,11 +160,42 @@ public class IntroCinematicAppState extends AbstractAppState{
         dl.setColor(new ColorRGBA(0.80f, 0.70f, 0.80f, 1.0f));
         stateNode.addLight(dl);
     }
+    
+    private void initFire(){
+        fire = new ParticleEmitter("Fire emitter", ParticleMesh.Type.Triangle, 50);
+        Material mat_red = new Material(app.getAssetManager(), "Common/MatDefs/Misc/Particle.j3md");
+        mat_red.setTexture("Texture", app.getAssetManager().loadTexture("Textures/flame.png"));
+        fire.setMaterial(mat_red);
+        fire.setImagesX(2); 
+        fire.setImagesY(2);
+        fire.setEndColor(  new ColorRGBA(1f, 0f, 0f, 1f));   // red
+        fire.setStartColor(new ColorRGBA(1f, 1f, 0f, 0.5f)); // yellow
+        fire.getParticleInfluencer().setInitialVelocity(new Vector3f(0, 2, 0));
+        fire.setStartSize(3.5f);
+        fire.setEndSize(0.5f);
+        fire.setGravity(0, 10, 0);
+        fire.setLowLife(1f);
+        fire.setHighLife(3f);
+        fire.getParticleInfluencer().setVelocityVariation(1f);
+    }
+    
+    private float time=0f;
+    private boolean crashed=false;
 
     @Override
     public void update(float tpf) {
         camNode.lookAt(shipNode.getLocalTranslation(), Vector3f.UNIT_Y);
         rock.rotate(tpf, tpf, tpf);
+        time+=tpf;
+        if(time>4.6f){
+            //rock collides with ship at this time, 4.4
+            shipNode.rotate(tpf, tpf*2, tpf);
+            if(!crashed){
+                //first crash, attach fire
+                shipNode.attachChild(fire);
+                crashed=true;
+            }
+        }
     }
     
     /**
