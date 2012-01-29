@@ -6,11 +6,13 @@ import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.cinematic.Cinematic;
 import com.jme3.cinematic.MotionPath;
+import com.jme3.cinematic.events.AbstractCinematicEvent;
 import com.jme3.cinematic.events.CinematicEvent;
 import com.jme3.cinematic.events.CinematicEventListener;
 import com.jme3.cinematic.events.MotionTrack;
 import com.jme3.effect.ParticleEmitter;
 import com.jme3.effect.ParticleMesh;
+import com.jme3.effect.shapes.EmitterSphereShape;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -82,6 +84,21 @@ public class IntroCinematicAppState extends AbstractAppState{
         cinematic.addCinematicEvent(0f, getShipTrack());
         cinematic.addCinematicEvent(0f, getCameraTrack());
         cinematic.addCinematicEvent(0f, getRockTrack());
+        cinematic.addCinematicEvent(7.6f, new AbstractCinematicEvent() {
+            @Override
+            protected void onPlay() {
+                shipNode.attachChild(fire);
+            }
+
+            @Override
+            protected void onUpdate(float tpf) {
+                shipNode.rotate(tpf, tpf*2, tpf);
+            }
+            @Override
+            protected void onStop() {}
+            @Override
+            public void onPause() {}
+        });
         
         this.app.getRootNode().attachChild(stateNode);
         this.app.getStateManager().attach(cinematic);
@@ -173,29 +190,17 @@ public class IntroCinematicAppState extends AbstractAppState{
         fire.getParticleInfluencer().setInitialVelocity(new Vector3f(0, 2, 0));
         fire.setStartSize(3.5f);
         fire.setEndSize(0.5f);
-        fire.setGravity(0, 10, 0);
         fire.setLowLife(1f);
         fire.setHighLife(3f);
         fire.getParticleInfluencer().setVelocityVariation(1f);
+        fire.setShape(new EmitterSphereShape(Vector3f.ZERO, 2.5f));
     }
     
-    private float time=0f;
-    private boolean crashed=false;
-
     @Override
     public void update(float tpf) {
         camNode.lookAt(shipNode.getLocalTranslation(), Vector3f.UNIT_Y);
-        rock.rotate(tpf, tpf, tpf);
-        time+=tpf;
-        if(time>4.6f){
-            //rock collides with ship at this time, 4.4
-            shipNode.rotate(tpf, tpf*2, tpf);
-            if(!crashed){
-                //first crash, attach fire
-                shipNode.attachChild(fire);
-                crashed=true;
-            }
-        }
+        if(rock!=null)
+            rock.rotate(tpf, tpf, tpf);
     }
     
     /**
@@ -206,6 +211,8 @@ public class IntroCinematicAppState extends AbstractAppState{
 //        rock.setLocalScale(1f);
         stateNode.detachAllChildren();
         gameState.finishedIntroCinema();
+        app.enableSpaceBox(false);
+        gameState.show();
         app.getStateManager().detach(this);
     }
 

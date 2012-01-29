@@ -39,11 +39,10 @@ public class InGameAppState extends AbstractAppState{
     
     private void initPhysics(){
         bulletAppState = new BulletAppState();
-        bulletAppState.setEnabled(false);
         app.getStateManager().attach(bulletAppState);
     }
     
-    private void initPlayer(){
+    private void initPlayerControl(){
         PlayerControl playerControl = new PlayerControl();
         player = loader.getPlayerModel();
         player.addControl(playerControl);
@@ -60,12 +59,13 @@ public class InGameAppState extends AbstractAppState{
         bulletAppState.getPhysicsSpace().add(terrainPhys);
     }
     
-    private void show(){
-        app.getViewPort().addProcessor(loader.getWater());
+    public void show(){
+        if(!app.getViewPort().getProcessors().contains(loader.getWater()))
+            app.getViewPort().addProcessor(loader.getWater());
         app.getRootNode().attachChild(stateNode);
     }
     
-    private void hide(){
+    public void hide(){
         app.getViewPort().removeProcessor(loader.getWater());
         app.getRootNode().detachChild(stateNode);
     }
@@ -77,6 +77,8 @@ public class InGameAppState extends AbstractAppState{
     protected void finishedLoading() {
         stateNode.attachChild(loader.getTerrain());
         stateNode.addLight(loader.getSun());
+        initPhysics();
+        bulletAppState.setEnabled(false);
         final InGameAppState gameState = this;
         app.enqueue(new Callable<Void>() {
             public Void call() throws Exception {
@@ -90,15 +92,13 @@ public class InGameAppState extends AbstractAppState{
      * Called by IntroCinemaAppState when it is finished.
      */
     protected void finishedIntroCinema(){
-        initPhysics();
-        initPlayer();
+        
+        initPlayerControl();
         initTerrainPhysics();
         
-        app.enableSpaceBox(false);
         stateNode.attachChild(player);
         bulletAppState.setEnabled(true);
         app.getFlyByCamera().setEnabled(true);
-        show();
     }
     
 }
