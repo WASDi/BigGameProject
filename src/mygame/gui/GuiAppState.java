@@ -55,7 +55,6 @@ public class GuiAppState extends AbstractAppState{
     
     public void doneLoading(){
         niftyDisplay.getNifty().gotoScreen("cinematic");
-        setClickModeEnabled(false);
     }
     
 }

@@ -59,7 +59,6 @@ public class IntroCinematicAppState extends AbstractAppState{
         
         app.getRootNode().attachChild(stateNode);
         app.getStateManager().attach(cinematic);
-//        app.getFlyByCamera().setEnabled(false);
         cinematic.play();
     }
     
