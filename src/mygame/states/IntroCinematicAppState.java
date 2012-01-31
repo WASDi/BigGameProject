@@ -96,6 +96,7 @@ public class IntroCinematicAppState extends AbstractAppState{
     
     private void spaceSceneDone(){
         camNode.setLocalTranslation(290, 20, 380);
+        camNode.lookAt(shipNode.getLocalTranslation(), Vector3f.UNIT_Y);
         app.enableSpaceBox(false);
         stateNode.detachChild(rock);
         rock=null;
