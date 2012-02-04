@@ -56,7 +56,7 @@ public class LoadingAppState extends AbstractAppState{
             setProgress(.1f, "Loading player");
             loader.getPlayerModel();
             
-            setProgress(.2f, "Loading space");
+            setProgress(.2f, "Loading skybox");
             loader.getSpace();
 
             setProgress(.3f, "Loading terrain");
@@ -66,7 +66,21 @@ public class LoadingAppState extends AbstractAppState{
             loader.getWater();
 
             setProgress(.9f, "Almost done!");
-            gameState.finishedLoading();
+            gameState.finishLoading();
+            
+            try {
+                //Wait for gameState to load its things
+                Thread.sleep(1337);
+            } catch (InterruptedException e) {
+            }
+            
+            //Start the IntroCinematic
+            app.enqueue(new Callable<Void>() {
+                public Void call() throws Exception {
+                    app.getStateManager().attach(new IntroCinematicAppState(app, gameState));
+                    return null;
+                }
+            });
             
             return null;
         }

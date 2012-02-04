@@ -44,6 +44,7 @@ public class IntroCinematicAppState extends AbstractAppState{
     private CameraNode camNode;
     
     private ParticleEmitter fire;
+    private Cinematic cinematic;
 
     public IntroCinematicAppState(Game app, InGameAppState gameState) {
         this.app = app;
@@ -70,7 +71,7 @@ public class IntroCinematicAppState extends AbstractAppState{
         stateNode.attachChild(shipNode);
         stateNode.attachChild(rock);
         
-        Cinematic cinematic = new Cinematic(stateNode, 22f, LoopMode.DontLoop);
+        cinematic = new Cinematic(stateNode, 24f, LoopMode.DontLoop);
         CinematicEventListener cel = new CinematicEventListener() {
 
             public void onPlay(CinematicEvent cinematic) {}

@@ -112,6 +112,27 @@ public class ResourceLoader {
         return rock;
     }
     
+    public FilterPostProcessor getFilter(){
+        //TODO save a variable for filter like the other get-methods.
+        FilterPostProcessor filter = new FilterPostProcessor(assetManager);
+
+        BloomFilter bloom = new BloomFilter();
+        bloom.setExposurePower(55);
+        bloom.setBloomIntensity(1.0f);
+        filter.addFilter(bloom);
+        
+        LightScatteringFilter lsf = new LightScatteringFilter(lightDir.mult(-300));
+        lsf.setLightDensity(1.0f);
+        filter.addFilter(lsf);
+        
+        DepthOfFieldFilter dof = new DepthOfFieldFilter();
+        dof.setFocusDistance(0);
+        dof.setFocusRange(100);
+        filter.addFilter(dof);
+        
+        return filter;
+    }
+    
     public Spatial getShipModel(){
         //TODO replace with real model
         Box b = new Box(Vector3f.ZERO, 2, .5f, 1);
@@ -200,18 +221,18 @@ public class ResourceLoader {
 
         //TODO separate loading of filters into another method
         waterFilter.addFilter(water);
-        BloomFilter bloom = new BloomFilter();
-        //bloom.getE
-        bloom.setExposurePower(55);
-        bloom.setBloomIntensity(1.0f);
-        waterFilter.addFilter(bloom);
-        LightScatteringFilter lsf = new LightScatteringFilter(lightDir.mult(-300));
-        lsf.setLightDensity(1.0f);
-        waterFilter.addFilter(lsf);
-        DepthOfFieldFilter dof = new DepthOfFieldFilter();
-        dof.setFocusDistance(0);
-        dof.setFocusRange(100);
-        waterFilter.addFilter(dof);
+//        BloomFilter bloom = new BloomFilter();
+//        //bloom.getE
+//        bloom.setExposurePower(55);
+//        bloom.setBloomIntensity(1.0f);
+//        waterFilter.addFilter(bloom);
+//        LightScatteringFilter lsf = new LightScatteringFilter(lightDir.mult(-300));
+//        lsf.setLightDensity(1.0f);
+//        waterFilter.addFilter(lsf);
+//        DepthOfFieldFilter dof = new DepthOfFieldFilter();
+//        dof.setFocusDistance(0);
+//        dof.setFocusRange(100);
+//        waterFilter.addFilter(dof);
 
 
         water.setWaveScale(0.002f);

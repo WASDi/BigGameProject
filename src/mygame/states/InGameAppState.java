@@ -22,12 +22,14 @@ import mygame.ResourceLoader;
 public class InGameAppState extends AbstractAppState{
     
     private Game app;
-    private Node stateNode = new Node("InGameAppState Root Node");
+    private Node stateNode;
     private Spatial player;
     private ResourceLoader loader;
     private BulletAppState bulletAppState;
 
     public InGameAppState() {
+        stateNode = new Node("InGameAppState Root Node");
+        stateNode.setCullHint(Spatial.CullHint.Always);
     }
 
     @Override
@@ -61,27 +63,28 @@ public class InGameAppState extends AbstractAppState{
     
     public void show(){
         app.getViewPort().addProcessor(loader.getWater());
-        app.getRootNode().attachChild(stateNode);
+//        app.getRootNode().attachChild(stateNode);
+        stateNode.setCullHint(Spatial.CullHint.Dynamic);
     }
     
     public void hide(){
         app.getViewPort().removeProcessor(loader.getWater());
-        app.getRootNode().detachChild(stateNode);
+//        app.getRootNode().detachChild(stateNode);
+        stateNode.setCullHint(Spatial.CullHint.Always);
     }
 
     /**
-     * Called by LoadingAppState from another thread when it has finished loading.
+     * Called by LoadingAppState from another thread when it has (almost) finished loading.
      * Initiates IntroCinemaAppState.
      */
-    protected void finishedLoading() {
-        stateNode.attachChild(loader.getTerrain());
-        stateNode.addLight(loader.getSun());
-        initPhysics();
-        bulletAppState.setEnabled(false);
-        final InGameAppState gameState = this;
+    protected void finishLoading() {
         app.enqueue(new Callable<Void>() {
             public Void call() throws Exception {
-                app.getStateManager().attach(new IntroCinematicAppState(app, gameState));
+                stateNode.attachChild(loader.getTerrain());
+                stateNode.addLight(loader.getSun());
+                initPhysics();
+                bulletAppState.setEnabled(false);
+                app.getRootNode().attachChild(stateNode);
                 return null;
             }
         });
