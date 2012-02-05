@@ -85,8 +85,9 @@ public class IntroCinematicAppState extends AbstractAppState{
         cinematic.addListener(cel);
         
         cinematic.addCinematicEvent(0f, getShipTrack());
-        cinematic.addCinematicEvent(0f, getCameraTrack());
         cinematic.addCinematicEvent(0f, getRockTrack());
+        cinematic.addCinematicEvent(0f, getCameraTrack());
+        cinematic.addCinematicEvent(20f, getSecondCameraTrack());
         
         this.app.getRootNode().attachChild(stateNode);
         this.app.getStateManager().attach(cinematic);
@@ -140,7 +141,6 @@ public class IntroCinematicAppState extends AbstractAppState{
      * @return The MotionTrack of the camera
      */
     private MotionTrack getCameraTrack(){
-        //TODO MotionTrack for the camera and make it always lookAt player
         MotionPath path = new MotionPath();
         path.addWayPoint(new Vector3f(520, 450, 360));
         path.addWayPoint(new Vector3f(430, 455, 360));
@@ -152,6 +152,16 @@ public class IntroCinematicAppState extends AbstractAppState{
         stateNode.attachChild(camNode);
         
         MotionTrack track = new MotionTrack(camNode, path, 5f);
+        return track;
+    }
+    
+    private MotionTrack getSecondCameraTrack(){
+        MotionPath path = new MotionPath();
+        path.addWayPoint(new Vector3f(290, 20, 380));
+        path.addWayPoint(new Vector3f(346, 13.8f, 240));
+        path.setCurveTension(1);
+        
+        MotionTrack track = new MotionTrack(camNode, path, 3f);
         return track;
     }
     
