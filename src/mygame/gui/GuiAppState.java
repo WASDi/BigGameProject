@@ -33,6 +33,7 @@ public class GuiAppState extends AbstractAppState{
         nifty.addXml("Interface/mainmenu.xml");
         nifty.addXml("Interface/cinematic.xml");
         nifty.addXml("Interface/loadingscreen.xml");
+        nifty.addXml("Interface/ingame.xml");
         nifty.gotoScreen("mainmenu");
         
         setClickModeEnabled(true);
@@ -62,8 +63,15 @@ public class GuiAppState extends AbstractAppState{
     /**
      * Called by LoadingAppState when it has finished
      */
-    public void doneLoading(){
+    public void showCinematicHud(){
         niftyDisplay.getNifty().gotoScreen("cinematic");
+    }
+    
+    /**
+     * Called by InGameAppState when the intro is done
+     */
+    public void showIngameHud(){
+        niftyDisplay.getNifty().gotoScreen("ingame");
     }
     
 }

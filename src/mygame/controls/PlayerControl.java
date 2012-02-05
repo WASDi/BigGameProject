@@ -36,7 +36,7 @@ public class PlayerControl extends CharacterControl implements ActionListener{
         inputManager.addMapping("d", new KeyTrigger(KeyInput.KEY_D));
         inputManager.addMapping("jump", new KeyTrigger(KeyInput.KEY_SPACE));
         
-        inputManager.addListener(this, new String[]{"w", "a", "s", "d", "jump"});
+        inputManager.addListener(this, "w", "a", "s", "d", "jump");
     }
 
     public void onAction(String name, boolean isPressed, float tpf) {

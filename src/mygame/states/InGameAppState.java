@@ -6,13 +6,10 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
-import com.jme3.input.ChaseCamera;
-import com.jme3.input.ChaseCamera;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.CameraNode;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.CameraControl.ControlDirection;
 import java.util.concurrent.Callable;
 import mygame.controls.PlayerControl;
 import mygame.Game;
@@ -57,7 +54,7 @@ public class InGameAppState extends AbstractAppState{
         playerControl.setJumpSpeed(20);
         playerControl.setFallSpeed(30);
         playerControl.setGravity(30);
-        playerControl.setPhysicsLocation(new Vector3f(320, 0, 240));
+        playerControl.setPhysicsLocation(new Vector3f(320, -.5f, 240));
     }
     
     private void initTerrainPhysics(){
@@ -104,6 +101,7 @@ public class InGameAppState extends AbstractAppState{
         
         stateNode.attachChild(player);
         bulletAppState.setEnabled(true);
+        app.getGui().showIngameHud();
     }
     
 }
