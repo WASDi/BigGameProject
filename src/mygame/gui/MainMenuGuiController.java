@@ -34,11 +34,12 @@ public class MainMenuGuiController implements ScreenController{
     //==Methods called by buttons==
     public void continueGame(){
         System.out.println("continue");
+        gui.newGame(false);
     }
     
     public void newGame(){
         System.out.println("newgame");
-        gui.newGame();
+        gui.newGame(true);
     }
     
     public void loadGame(){

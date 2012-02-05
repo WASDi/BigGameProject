@@ -232,7 +232,7 @@ public class IntroCinematicAppState extends AbstractAppState{
     private void cinematicEnded() {
         stateNode.detachAllChildren();
         app.getStateManager().detach(this);
-        gameState.finishedIntroCinema();
+        gameState.finishedIntroCinematic();
     }
 
 }

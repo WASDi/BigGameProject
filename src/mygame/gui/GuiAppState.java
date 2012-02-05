@@ -50,9 +50,9 @@ public class GuiAppState extends AbstractAppState{
         app.getInputManager().setCursorVisible(enable);
     }
     
-    public void newGame(){
+    public void newGame(boolean newGame){
         app.getInputManager().setCursorVisible(false);
-        app.startGame();
+        app.startGame(newGame);
         niftyDisplay.getNifty().gotoScreen("loadlevel");
     }
     

@@ -43,6 +43,7 @@ public class InGameAppState extends AbstractAppState{
     
     private void initPhysics(){
         bulletAppState = new BulletAppState();
+        bulletAppState.setEnabled(false);
         app.getStateManager().attach(bulletAppState);
     }
     
@@ -85,7 +86,6 @@ public class InGameAppState extends AbstractAppState{
                 stateNode.attachChild(loader.getTerrain());
                 stateNode.addLight(loader.getSun());
                 initPhysics();
-                bulletAppState.setEnabled(false);
                 app.getRootNode().attachChild(stateNode);
                 return null;
             }
@@ -95,13 +95,14 @@ public class InGameAppState extends AbstractAppState{
     /**
      * Called by IntroCinemaAppState when it is finished.
      */
-    protected void finishedIntroCinema(){
+    protected void finishedIntroCinematic(){
         initPlayerControl();
         initTerrainPhysics();
         
         stateNode.attachChild(player);
         bulletAppState.setEnabled(true);
         app.getGui().showIngameHud();
+        bulletAppState.getPhysicsSpace().enableDebug(app.getAssetManager());
     }
     
 }

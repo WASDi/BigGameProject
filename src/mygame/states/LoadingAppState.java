@@ -21,9 +21,12 @@ public class LoadingAppState extends AbstractAppState{
     
     private ScheduledThreadPoolExecutor exec = new ScheduledThreadPoolExecutor(1);
     private Future loadFuture = null;
+    
+    private final boolean newGame;
 
-    public LoadingAppState(InGameAppState gameState) {
+    public LoadingAppState(InGameAppState gameState, boolean newGame) {
         this.gameState=gameState;
+        this.newGame=newGame;
     }
     
     @Override
@@ -43,7 +46,8 @@ public class LoadingAppState extends AbstractAppState{
         if(loadFuture.isDone()){
             exec.shutdown();
             exec=null;
-            app.getGui().showCinematicHud();
+            if(newGame)
+                app.getGui().showCinematicHud();
             setEnabled(false);
             app.getStateManager().detach(this);
         }
@@ -74,10 +78,16 @@ public class LoadingAppState extends AbstractAppState{
             } catch (InterruptedException e) {
             }
             
-            //Start the IntroCinematic
+            //Start the game
             app.enqueue(new Callable<Void>() {
                 public Void call() throws Exception {
-                    app.getStateManager().attach(new IntroCinematicAppState(app, gameState));
+                    if(newGame)
+                        app.getStateManager().attach(new IntroCinematicAppState(app, gameState));
+                    else{
+                        gameState.finishedIntroCinematic();
+                        app.enableSpaceBox(false);
+                        gameState.show();
+                    }
                     return null;
                 }
             });

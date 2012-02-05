@@ -35,10 +35,10 @@ public class Game extends SimpleApplication {
     /**
      * Called when starting a new game from the main menu
      */
-    public void startGame(){
+    public void startGame(boolean newGame){
         
         InGameAppState gameState = new InGameAppState();
-        stateManager.attach(new LoadingAppState(gameState));
+        stateManager.attach(new LoadingAppState(gameState, newGame));
         stateManager.attach(gameState);
     }
 
