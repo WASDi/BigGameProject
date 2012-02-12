@@ -7,7 +7,6 @@ import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.CameraNode;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.concurrent.Callable;
@@ -27,7 +26,6 @@ public class InGameAppState extends AbstractAppState{
     private Spatial player;
     private ResourceLoader loader;
     private BulletAppState bulletAppState;
-    private CameraNode camNode;
 
     public InGameAppState() {
         stateNode = new Node("InGameAppState Root Node");
@@ -45,6 +43,7 @@ public class InGameAppState extends AbstractAppState{
         bulletAppState = new BulletAppState();
         bulletAppState.setEnabled(false);
         app.getStateManager().attach(bulletAppState);
+        initTerrainPhysics();
     }
     
     private void initPlayerControl(){
@@ -66,13 +65,11 @@ public class InGameAppState extends AbstractAppState{
     
     public void show(){
         app.getViewPort().addProcessor(loader.getWater());
-//        app.getRootNode().attachChild(stateNode);
         stateNode.setCullHint(Spatial.CullHint.Dynamic);
     }
     
     public void hide(){
         app.getViewPort().removeProcessor(loader.getWater());
-//        app.getRootNode().detachChild(stateNode);
         stateNode.setCullHint(Spatial.CullHint.Always);
     }
 
@@ -97,7 +94,6 @@ public class InGameAppState extends AbstractAppState{
      */
     protected void finishedIntroCinematic(){
         initPlayerControl();
-        initTerrainPhysics();
         
         stateNode.attachChild(player);
         bulletAppState.setEnabled(true);
