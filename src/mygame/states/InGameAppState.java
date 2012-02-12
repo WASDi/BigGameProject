@@ -6,6 +6,8 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
+import com.jme3.math.FastMath;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -23,7 +25,7 @@ public class InGameAppState extends AbstractAppState{
     
     private Game app;
     private Node stateNode;
-    private Spatial player;
+    private Node playerNode = new Node("Player Node");
     private ResourceLoader loader;
     private BulletAppState bulletAppState;
 
@@ -47,9 +49,12 @@ public class InGameAppState extends AbstractAppState{
     }
     
     private void initPlayerControl(){
-        PlayerControl playerControl = new PlayerControl(app);
-        player = loader.getPlayerModel();
-        player.addControl(playerControl);
+        PlayerControl playerControl = new PlayerControl(app, playerNode);
+        Spatial player = loader.getPlayerModel();
+        player.setLocalRotation(new Quaternion().fromAngles(0, FastMath.PI/2, 0)); //fix the rotation
+        player.setLocalTranslation(0, -1.95f, -1.6f); //centers the player model
+        playerNode.attachChild(player);
+        playerNode.addControl(playerControl);
         bulletAppState.getPhysicsSpace().add(playerControl);
         playerControl.setJumpSpeed(20);
         playerControl.setFallSpeed(30);
@@ -95,10 +100,10 @@ public class InGameAppState extends AbstractAppState{
     protected void finishedIntroCinematic(){
         initPlayerControl();
         
-        stateNode.attachChild(player);
+        stateNode.attachChild(playerNode);
         bulletAppState.setEnabled(true);
         app.getGui().showIngameHud();
-        bulletAppState.getPhysicsSpace().enableDebug(app.getAssetManager());
+//        bulletAppState.getPhysicsSpace().enableDebug(app.getAssetManager());
     }
     
 }

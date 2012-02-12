@@ -19,6 +19,7 @@ public class CombatCamera extends ChaseCamera{
         setUpVector(Vector3f.UNIT_Y);
         setDragToRotate(false);
         setMaxVerticalRotation(FastMath.PI/2.5f);
+        setMinVerticalRotation(.1f);
     }
     
 }

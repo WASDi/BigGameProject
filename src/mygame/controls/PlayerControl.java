@@ -7,6 +7,7 @@ import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Node;
 import mygame.Game;
 import mygame.camera.CombatCamera;
 
@@ -21,11 +22,11 @@ public class PlayerControl extends CharacterControl implements ActionListener{
     private Vector3f walkDir = new Vector3f();
     private CombatCamera combatCam;
 
-    public PlayerControl(Game app) {
+    public PlayerControl(Game app, Node playerNode) {
         super(new CapsuleCollisionShape(1, 2), .1f);
         this.app=app;
         initKeys();
-        combatCam = new CombatCamera(app.getCamera(), app.getResourceLoader().getPlayerModel(), app.getInputManager());
+        combatCam = new CombatCamera(app.getCamera(), playerNode, app.getInputManager());
     }
     
     private void initKeys(){
