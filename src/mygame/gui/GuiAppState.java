@@ -46,7 +46,6 @@ public class GuiAppState extends AbstractAppState{
      * @param enable true to show mouse and disable movement
      */
     private void setClickModeEnabled(boolean enable){
-        app.getFlyByCamera().setEnabled(!enable);
         app.getInputManager().setCursorVisible(enable);
     }
     

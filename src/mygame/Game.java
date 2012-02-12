@@ -1,7 +1,6 @@
 package mygame;
 
 import mygame.states.InGameAppState;
-import com.jme3.app.SimpleApplication;
 import com.jme3.renderer.RenderManager;
 import mygame.gui.GuiAppState;
 import mygame.states.LoadingAppState;
@@ -10,7 +9,7 @@ import mygame.states.LoadingAppState;
  * 
  * @author wasd
  */
-public class Game extends SimpleApplication {
+public class Game extends CustomApplication {
     
     private ResourceLoader loader;
     private GuiAppState gui;
@@ -24,7 +23,6 @@ public class Game extends SimpleApplication {
         loader = new ResourceLoader(assetManager, cam, rootNode);
         rootNode.attachChild(loader.getSky());
         
-        flyCam.setMoveSpeed(100);
         cam.setFrustumFar(9000);
         
         gui = new GuiAppState();
@@ -45,12 +43,6 @@ public class Game extends SimpleApplication {
     public GuiAppState getGui() {
         return gui;
     }
-    
-    @Override
-    public void simpleUpdate(float tpf) {}
-
-    @Override
-    public void simpleRender(RenderManager rm) {}
 
     /**
      * Called when switching between skyBox and spaceBox
