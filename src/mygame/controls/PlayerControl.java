@@ -35,9 +35,10 @@ public class PlayerControl extends CharacterControl implements ActionListener{
         inputManager.addMapping("a", new KeyTrigger(KeyInput.KEY_A));
         inputManager.addMapping("s", new KeyTrigger(KeyInput.KEY_S));
         inputManager.addMapping("d", new KeyTrigger(KeyInput.KEY_D));
+        inputManager.addMapping("tab", new KeyTrigger(KeyInput.KEY_TAB));
         inputManager.addMapping("jump", new KeyTrigger(KeyInput.KEY_SPACE));
         
-        inputManager.addListener(this, "w", "a", "s", "d", "jump");
+        inputManager.addListener(this, "w", "a", "s", "d", "jump", "tab");
     }
 
     public void onAction(String name, boolean isPressed, float tpf) {
@@ -47,8 +48,14 @@ public class PlayerControl extends CharacterControl implements ActionListener{
             handleWasd(key, isPressed);
             return;
         }
-        if(isPressed && name.equals("jump"))
+        if(isPressed && name.equals("jump")){
             jump();
+            return;
+        }
+        if(isPressed && name.equals("tab")){
+            combatCam.setCombatMode(!combatCam.isCombatMode());
+            return;
+        }
     }
 
     private void handleWasd(char key, boolean pressed) {
