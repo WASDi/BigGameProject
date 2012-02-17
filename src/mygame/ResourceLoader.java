@@ -217,7 +217,7 @@ public class ResourceLoader {
         // TERRAIN TEXTURE material
         Material matTerrain = new Material(assetManager, "Common/MatDefs/Terrain/TerrainLighting.j3md");
         matTerrain.setBoolean("useTriPlanarMapping", false);
-        matTerrain.setFloat("Shininess", 50.0f);
+        matTerrain.setFloat("Shininess", .9f);
 
         // ALPHA map (for splat textures)
         matTerrain.setTexture("AlphaMap", assetManager.loadTexture("Textures/Terrain/alpha1.png"));
@@ -242,9 +242,9 @@ public class ResourceLoader {
         matTerrain.setFloat("DiffuseMap_2_scale", 128);
 
         // BRICK texture
-        Texture brick = assetManager.loadTexture("Textures/Terrain/BrickWall/BrickWall.jpg");
-        brick.setWrap(WrapMode.Repeat);
-        matTerrain.setTexture("DiffuseMap_3", brick);
+        Texture snow = assetManager.loadTexture("Textures/Terrain/road.jpg");
+        snow.setWrap(WrapMode.Repeat);
+        matTerrain.setTexture("DiffuseMap_3", snow);
         matTerrain.setFloat("DiffuseMap_3_scale", 128);
 
         // RIVER ROCK texture
@@ -260,17 +260,17 @@ public class ResourceLoader {
         normalMap1.setWrap(WrapMode.Repeat);
         Texture normalMap2 = assetManager.loadTexture("Textures/Terrain/splat/road_normal.png");
         normalMap2.setWrap(WrapMode.Repeat);
-        matTerrain.setTexture("NormalMap", normalMap0);
-        matTerrain.setTexture("NormalMap_1", normalMap2);
-        matTerrain.setTexture("NormalMap_2", normalMap2);
-        matTerrain.setTexture("NormalMap_4", normalMap2);
+//        matTerrain.setTexture("NormalMap", normalMap0);
+//        matTerrain.setTexture("NormalMap_1", normalMap2);
+//        matTerrain.setTexture("NormalMap_2", normalMap2);
+//        matTerrain.setTexture("NormalMap_4", normalMap2);
 
         // CREATE HEIGHTMAP
         AbstractHeightMap heightmap = null;
         Texture heightMapImage = assetManager.loadTexture("Textures/Terrain/heightmap.png");
         heightmap = new ImageBasedHeightMap(heightMapImage.getImage());
         heightmap.load();
-        heightmap.smooth(1f, 3);
+        heightmap.smooth(1f, 4);
 
         terrain = new TerrainQuad("my terrain", 65, 1025, heightmap.getHeightMap());
         //, new LodPerspectiveCalculatorFactory(getCamera(), 4)); // add this in to see it use entropy for LOD calculations
