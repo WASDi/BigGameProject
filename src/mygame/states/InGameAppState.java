@@ -56,7 +56,7 @@ public class InGameAppState extends AbstractAppState{
         playerNode.attachChild(player);
         playerNode.addControl(playerControl);
         bulletAppState.getPhysicsSpace().add(playerControl);
-        playerControl.setJumpSpeed(20);
+        playerControl.setJumpSpeed(100); //TODO make it lower
         playerControl.setFallSpeed(30);
         playerControl.setGravity(30);
         playerControl.setPhysicsLocation(new Vector3f(320, -.5f, 240));

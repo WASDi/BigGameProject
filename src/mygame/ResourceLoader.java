@@ -1,6 +1,7 @@
 package mygame;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.bounding.BoundingBox;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -16,6 +17,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
 import com.jme3.terrain.geomipmap.TerrainLodControl;
 import com.jme3.terrain.geomipmap.TerrainQuad;
+import com.jme3.terrain.geomipmap.lodcalc.DistanceLodCalculator;
 import com.jme3.terrain.heightmap.AbstractHeightMap;
 import com.jme3.terrain.heightmap.ImageBasedHeightMap;
 import com.jme3.texture.Texture;
@@ -60,7 +62,7 @@ public class ResourceLoader {
 
     public TerrainQuad getTerrain() {
         if (terrain == null) {
-            initTerrain();
+            initTerrain2();
         }
         return terrain;
     }
@@ -184,10 +186,7 @@ public class ResourceLoader {
 
         /** 2. Create the height map */
         AbstractHeightMap heightmap = null;
-        Texture heightMapImage = assetManager.loadTexture(
-                "Textures/Terrain/heightmap.png");
-//        heightmap = new ImageBasedHeightMap(
-//                ImageToAwt.convert(heightMapImage.getImage(), false, true, -1));
+        Texture heightMapImage = assetManager.loadTexture("Textures/Terrain/heightmap.png");
         heightmap = new ImageBasedHeightMap(heightMapImage.getImage());
         heightmap.load();
         heightmap.smooth(1f, 3);
@@ -200,7 +199,7 @@ public class ResourceLoader {
          * 3.4) As LOD step scale we supply Vector3f(1,1,1).
          * 3.5) We supply the prepared heightmap itself.
          */
-        terrain = new TerrainQuad("my terrain", 64, 1025, heightmap.getHeightMap());
+        terrain = new TerrainQuad("my terrain", 65, 1025, heightmap.getHeightMap());
 
         /** 4. We give the terrain its material, position & scale it, and attach it. */
         terrain.setMaterial(mat_terrain);
@@ -210,6 +209,77 @@ public class ResourceLoader {
         /** 5. The LOD (level of detail) depends on were the camera is: */
         TerrainLodControl control = new TerrainLodControl(terrain, terrainLodCamera);
         terrain.addControl(control);
+    }
+    
+    private void initTerrain2(){
+        if(terrainLodCamera==null)
+            throw new NullPointerException("Must call setTerrainCamera first");
+        // TERRAIN TEXTURE material
+        Material matTerrain = new Material(assetManager, "Common/MatDefs/Terrain/TerrainLighting.j3md");
+        matTerrain.setBoolean("useTriPlanarMapping", false);
+        matTerrain.setFloat("Shininess", 50.0f);
+
+        // ALPHA map (for splat textures)
+        matTerrain.setTexture("AlphaMap", assetManager.loadTexture("Textures/Terrain/alpha1.png"));
+        matTerrain.setTexture("AlphaMap_1", assetManager.loadTexture("Textures/Terrain/alpha2.png"));
+
+        // GRASS texture
+        Texture grass = assetManager.loadTexture("Textures/Terrain/grass.jpg");
+        grass.setWrap(WrapMode.Repeat);
+        matTerrain.setTexture("DiffuseMap_1", grass);
+        matTerrain.setFloat("DiffuseMap_1_scale", 64);
+
+        // DIRT texture
+        Texture dirt = assetManager.loadTexture("Textures/Terrain/dirt.jpg");
+        dirt.setWrap(WrapMode.Repeat);
+        matTerrain.setTexture("DiffuseMap", dirt);
+        matTerrain.setFloat("DiffuseMap_0_scale", 128);
+
+        // ROCK texture
+        Texture rock = assetManager.loadTexture("Textures/Terrain/road.jpg");
+        rock.setWrap(WrapMode.Repeat);
+        matTerrain.setTexture("DiffuseMap_2", rock);
+        matTerrain.setFloat("DiffuseMap_2_scale", 128);
+
+        // BRICK texture
+        Texture brick = assetManager.loadTexture("Textures/Terrain/BrickWall/BrickWall.jpg");
+        brick.setWrap(WrapMode.Repeat);
+        matTerrain.setTexture("DiffuseMap_3", brick);
+        matTerrain.setFloat("DiffuseMap_3_scale", 128);
+
+        // RIVER ROCK texture
+        Texture riverRock = assetManager.loadTexture("Textures/Terrain/Pond/Pond.jpg");
+        riverRock.setWrap(WrapMode.Repeat);
+        matTerrain.setTexture("DiffuseMap_4", riverRock);
+        matTerrain.setFloat("DiffuseMap_4_scale", 128);
+
+
+        Texture normalMap0 = assetManager.loadTexture("Textures/Terrain/splat/grass_normal.jpg");
+        normalMap0.setWrap(WrapMode.Repeat);
+        Texture normalMap1 = assetManager.loadTexture("Textures/Terrain/splat/dirt_normal.png");
+        normalMap1.setWrap(WrapMode.Repeat);
+        Texture normalMap2 = assetManager.loadTexture("Textures/Terrain/splat/road_normal.png");
+        normalMap2.setWrap(WrapMode.Repeat);
+        matTerrain.setTexture("NormalMap", normalMap0);
+        matTerrain.setTexture("NormalMap_1", normalMap2);
+        matTerrain.setTexture("NormalMap_2", normalMap2);
+        matTerrain.setTexture("NormalMap_4", normalMap2);
+
+        // CREATE HEIGHTMAP
+        AbstractHeightMap heightmap = null;
+        Texture heightMapImage = assetManager.loadTexture("Textures/Terrain/heightmap.png");
+        heightmap = new ImageBasedHeightMap(heightMapImage.getImage());
+        heightmap.load();
+        heightmap.smooth(1f, 3);
+
+        terrain = new TerrainQuad("my terrain", 65, 1025, heightmap.getHeightMap());
+        //, new LodPerspectiveCalculatorFactory(getCamera(), 4)); // add this in to see it use entropy for LOD calculations
+        TerrainLodControl control = new TerrainLodControl(terrain, terrainLodCamera);
+        control.setLodCalculator( new DistanceLodCalculator(65, 2.7f) ); // patch size, and a multiplier
+        terrain.addControl(control);
+        terrain.setMaterial(matTerrain);
+        terrain.setLocalTranslation(0, -52, 0);
+        terrain.setLocalScale(1f, .8f, 1f);
     }
 
     private void initWater() {
