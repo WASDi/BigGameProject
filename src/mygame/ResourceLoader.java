@@ -62,7 +62,7 @@ public class ResourceLoader {
 
     public TerrainQuad getTerrain() {
         if (terrain == null) {
-            initTerrain2();
+            initTerrain();
         }
         return terrain;
     }
@@ -149,123 +149,51 @@ public class ResourceLoader {
         playerModel = assetManager.loadModel("Models/Player/alien.j3o");
         playerModel.setLocalScale(.5f);
     }
-
-    private void initTerrain() {
-        if(terrainLodCamera==null)
-            throw new NullPointerException("Must call setTerrainCamera first");
-        //TODO Fix texture for my custom heightmap.
-
-        /** 1. Create terrain material and load four textures into it. */
-        Material mat_terrain = new Material(assetManager,
-                "Common/MatDefs/Terrain/Terrain.j3md");
-
-        /** 1.1) Add ALPHA map (for red-blue-green coded splat textures) */
-        mat_terrain.setTexture("Alpha", assetManager.loadTexture(
-                "Textures/Terrain/alphamap.png"));
-
-        /** 1.2) Add GRASS texture into the red layer (Tex1). */
-        Texture grass = assetManager.loadTexture(
-                "Textures/Terrain/grass.jpg");
-        grass.setWrap(WrapMode.Repeat);
-        mat_terrain.setTexture("Tex1", grass);
-        mat_terrain.setFloat("Tex1Scale", 64f);
-
-        /** 1.3) Add DIRT texture into the green layer (Tex2) */
-        Texture dirt = assetManager.loadTexture(
-                "Textures/Terrain/dirt.jpg");
-        dirt.setWrap(WrapMode.Repeat);
-        mat_terrain.setTexture("Tex2", dirt);
-        mat_terrain.setFloat("Tex2Scale", 32f);
-
-        /** 1.4) Add ROAD texture into the blue layer (Tex3) */
-        Texture rock = assetManager.loadTexture(
-                "Textures/Terrain/road.jpg");
-        rock.setWrap(WrapMode.Repeat);
-        mat_terrain.setTexture("Tex3", rock);
-        mat_terrain.setFloat("Tex3Scale", 128f);
-
-        /** 2. Create the height map */
-        AbstractHeightMap heightmap = null;
-        Texture heightMapImage = assetManager.loadTexture("Textures/Terrain/heightmap.png");
-        heightmap = new ImageBasedHeightMap(heightMapImage.getImage());
-        heightmap.load();
-        heightmap.smooth(1f, 3);
-
-        /** 3. We have prepared material and heightmap. 
-         * Now we create the actual terrain:
-         * 3.1) Create a TerrainQuad and name it "my terrain".
-         * 3.2) A good value for terrain tiles is 64x64 -- so we supply 64+1=65.
-         * 3.3) We prepared a heightmap of size 512x512 -- so we supply 512+1=513.
-         * 3.4) As LOD step scale we supply Vector3f(1,1,1).
-         * 3.5) We supply the prepared heightmap itself.
-         */
-        terrain = new TerrainQuad("my terrain", 65, 1025, heightmap.getHeightMap());
-
-        /** 4. We give the terrain its material, position & scale it, and attach it. */
-        terrain.setMaterial(mat_terrain);
-        terrain.setLocalTranslation(0, -52, 0);
-        terrain.setLocalScale(1f, .8f, 1f);
-
-        /** 5. The LOD (level of detail) depends on were the camera is: */
-        TerrainLodControl control = new TerrainLodControl(terrain, terrainLodCamera);
-        terrain.addControl(control);
-    }
     
-    private void initTerrain2(){
+    private void initTerrain(){
         if(terrainLodCamera==null)
             throw new NullPointerException("Must call setTerrainCamera first");
-        // TERRAIN TEXTURE material
+        // Terrain material
         Material matTerrain = new Material(assetManager, "Common/MatDefs/Terrain/TerrainLighting.j3md");
         matTerrain.setBoolean("useTriPlanarMapping", false);
-        matTerrain.setFloat("Shininess", .9f);
+        matTerrain.setFloat("Shininess", .5f);
 
-        // ALPHA map (for splat textures)
-        matTerrain.setTexture("AlphaMap", assetManager.loadTexture("Textures/Terrain/alpha1.png"));
-        matTerrain.setTexture("AlphaMap_1", assetManager.loadTexture("Textures/Terrain/alpha2.png"));
+        // Alpha map
+        matTerrain.setTexture("AlphaMap", assetManager.loadTexture("Textures/Terrain/alpha.png"));
 
-        // GRASS texture
+        // Textures
         Texture grass = assetManager.loadTexture("Textures/Terrain/grass.jpg");
         grass.setWrap(WrapMode.Repeat);
         matTerrain.setTexture("DiffuseMap_1", grass);
         matTerrain.setFloat("DiffuseMap_1_scale", 64);
 
-        // DIRT texture
-        Texture dirt = assetManager.loadTexture("Textures/Terrain/dirt.jpg");
-        dirt.setWrap(WrapMode.Repeat);
-        matTerrain.setTexture("DiffuseMap", dirt);
+        Texture road = assetManager.loadTexture("Textures/Terrain/road.jpg");
+        road.setWrap(WrapMode.Repeat);
+        matTerrain.setTexture("DiffuseMap", road);
         matTerrain.setFloat("DiffuseMap_0_scale", 128);
 
-        // ROCK texture
-        Texture rock = assetManager.loadTexture("Textures/Terrain/road.jpg");
-        rock.setWrap(WrapMode.Repeat);
-        matTerrain.setTexture("DiffuseMap_2", rock);
+        Texture snow = assetManager.loadTexture("Textures/Terrain/snow.png");
+        snow.setWrap(WrapMode.Repeat);
+        matTerrain.setTexture("DiffuseMap_2", snow);
         matTerrain.setFloat("DiffuseMap_2_scale", 128);
 
-        // BRICK texture
-        Texture snow = assetManager.loadTexture("Textures/Terrain/road.jpg");
-        snow.setWrap(WrapMode.Repeat);
-        matTerrain.setTexture("DiffuseMap_3", snow);
+        Texture sand = assetManager.loadTexture("Textures/Terrain/sand.png");
+        sand.setWrap(WrapMode.Repeat);
+        matTerrain.setTexture("DiffuseMap_3", sand);
         matTerrain.setFloat("DiffuseMap_3_scale", 128);
 
-        // RIVER ROCK texture
-        Texture riverRock = assetManager.loadTexture("Textures/Terrain/Pond/Pond.jpg");
-        riverRock.setWrap(WrapMode.Repeat);
-        matTerrain.setTexture("DiffuseMap_4", riverRock);
-        matTerrain.setFloat("DiffuseMap_4_scale", 128);
-
-
-        Texture normalMap0 = assetManager.loadTexture("Textures/Terrain/splat/grass_normal.jpg");
-        normalMap0.setWrap(WrapMode.Repeat);
-        Texture normalMap1 = assetManager.loadTexture("Textures/Terrain/splat/dirt_normal.png");
-        normalMap1.setWrap(WrapMode.Repeat);
-        Texture normalMap2 = assetManager.loadTexture("Textures/Terrain/splat/road_normal.png");
-        normalMap2.setWrap(WrapMode.Repeat);
+//        Texture normalMap0 = assetManager.loadTexture("Textures/Terrain/splat/grass_normal.jpg");
+//        normalMap0.setWrap(WrapMode.Repeat);
+//        Texture normalMap1 = assetManager.loadTexture("Textures/Terrain/splat/dirt_normal.png");
+//        normalMap1.setWrap(WrapMode.Repeat);
+//        Texture normalMap2 = assetManager.loadTexture("Textures/Terrain/splat/road_normal.png");
+//        normalMap2.setWrap(WrapMode.Repeat);
 //        matTerrain.setTexture("NormalMap", normalMap0);
 //        matTerrain.setTexture("NormalMap_1", normalMap2);
 //        matTerrain.setTexture("NormalMap_2", normalMap2);
-//        matTerrain.setTexture("NormalMap_4", normalMap2);
+//        matTerrain.setTexture("NormalMap_3", normalMap2);
 
-        // CREATE HEIGHTMAP
+        // Heightmap
         AbstractHeightMap heightmap = null;
         Texture heightMapImage = assetManager.loadTexture("Textures/Terrain/heightmap.png");
         heightmap = new ImageBasedHeightMap(heightMapImage.getImage());
