@@ -1,7 +1,6 @@
 package mygame;
 
 import com.jme3.asset.AssetManager;
-import com.jme3.bounding.BoundingBox;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -41,7 +40,7 @@ public class ResourceLoader {
     private TerrainQuad terrain;
     private WaterFilter water;
     private FilterPostProcessor waterFilter;
-    private Vector3f lightDir = new Vector3f(-4.9236743f, -1.27054665f, 5.896916f);
+    private final Vector3f lightDir = new Vector3f(-4.9236743f, -1.27054665f, 5.896916f);
     
     private AssetManager assetManager;
     private Camera terrainLodCamera;
@@ -157,6 +156,9 @@ public class ResourceLoader {
         Material matTerrain = new Material(assetManager, "Common/MatDefs/Terrain/TerrainLighting.j3md");
         matTerrain.setBoolean("useTriPlanarMapping", false);
         matTerrain.setFloat("Shininess", .5f);
+//        matTerrain.setColor("Specular", ColorRGBA.Gray);
+//        matTerrain.setColor("Diffuse", ColorRGBA.Gray);
+//        matTerrain.setColor("Ambient", ColorRGBA.Gray);
 
         // Alpha map
         matTerrain.setTexture("AlphaMap", assetManager.loadTexture("Textures/Terrain/alpha.png"));
@@ -180,7 +182,7 @@ public class ResourceLoader {
         Texture sand = assetManager.loadTexture("Textures/Terrain/sand.png");
         sand.setWrap(WrapMode.Repeat);
         matTerrain.setTexture("DiffuseMap_3", sand);
-        matTerrain.setFloat("DiffuseMap_3_scale", 128);
+        matTerrain.setFloat("DiffuseMap_3_scale", 64);
 
 //        Texture normalMap0 = assetManager.loadTexture("Textures/Terrain/splat/grass_normal.jpg");
 //        normalMap0.setWrap(WrapMode.Repeat);
