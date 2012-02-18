@@ -1,4 +1,4 @@
-package mygame.gui;
+package mygame.states;
 
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
@@ -6,6 +6,8 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import de.lessvoid.nifty.Nifty;
 import mygame.Game;
+import mygame.gui.LoadingScreenController;
+import mygame.gui.MainMenuGuiController;
 
 /**
  * Handles the GUI. ScreenControllers speak to this class which then contacts Game.

@@ -1,5 +1,6 @@
 package mygame.gui;
 
+import mygame.states.GuiAppState;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
