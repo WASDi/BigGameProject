@@ -6,6 +6,7 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.BulletAppState;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
+import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
@@ -89,11 +90,9 @@ public class InGameAppState extends AbstractAppState{
             public Void call() throws Exception {
                 stateNode.attachChild(loader.getTerrain());
                 
-                //FIXME this is a bad way to make the terrain brighter
-                DirectionalLight sun2 = new DirectionalLight();
-                sun2.setDirection(new Vector3f(4.9236743f, -1.27054665f, -5.896916f)); //(-x, y, -z) of ResourceLoader.lightDir
-                sun2.setColor(ColorRGBA.White.clone().multLocal(.7f));
-                stateNode.addLight(sun2);
+                AmbientLight light = new AmbientLight();
+                light.setColor(ColorRGBA.White);
+                stateNode.addLight(light);
                 
                 stateNode.addLight(loader.getSun());
                 initPhysics();

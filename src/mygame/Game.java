@@ -1,7 +1,6 @@
 package mygame;
 
 import mygame.states.InGameAppState;
-import com.jme3.renderer.RenderManager;
 import mygame.states.GuiAppState;
 import mygame.states.LoadingAppState;
 

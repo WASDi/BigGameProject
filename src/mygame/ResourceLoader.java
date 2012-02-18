@@ -156,9 +156,6 @@ public class ResourceLoader {
         Material matTerrain = new Material(assetManager, "Common/MatDefs/Terrain/TerrainLighting.j3md");
         matTerrain.setBoolean("useTriPlanarMapping", false);
         matTerrain.setFloat("Shininess", .5f);
-//        matTerrain.setColor("Specular", ColorRGBA.Gray);
-//        matTerrain.setColor("Diffuse", ColorRGBA.Gray);
-//        matTerrain.setColor("Ambient", ColorRGBA.Gray);
 
         // Alpha map
         matTerrain.setTexture("AlphaMap", assetManager.loadTexture("Textures/Terrain/alpha.png"));
