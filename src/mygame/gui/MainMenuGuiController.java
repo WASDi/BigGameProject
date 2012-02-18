@@ -52,6 +52,7 @@ public class MainMenuGuiController implements ScreenController{
     }
     
     public void exitGame(){
+        gui.exit();
         System.out.println("exit");
     }
     //==End of methods called by buttons==

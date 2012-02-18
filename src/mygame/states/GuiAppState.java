@@ -3,6 +3,10 @@ package mygame.states;
 import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.input.InputManager;
+import com.jme3.input.KeyInput;
+import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.KeyTrigger;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import de.lessvoid.nifty.Nifty;
 import mygame.Game;
@@ -14,7 +18,7 @@ import mygame.gui.MainMenuGuiController;
  *
  * @author wasd
  */
-public class GuiAppState extends AbstractAppState{
+public class GuiAppState extends AbstractAppState implements ActionListener{
     
     private Game app;
     private NiftyJmeDisplay niftyDisplay;
@@ -36,10 +40,12 @@ public class GuiAppState extends AbstractAppState{
         nifty.addXml("Interface/cinematic.xml");
         nifty.addXml("Interface/loadingscreen.xml");
         nifty.addXml("Interface/ingame.xml");
-        nifty.gotoScreen("mainmenu");
-        
-        setClickModeEnabled(true);
         app.getGuiViewPort().addProcessor(niftyDisplay);
+        
+        niftyDisplay.getNifty().gotoScreen("mainmenu");
+        setClickModeEnabled(true);
+        
+        initKeys();
     }
     
     /**
@@ -73,6 +79,28 @@ public class GuiAppState extends AbstractAppState{
      */
     public void showIngameHud(){
         niftyDisplay.getNifty().gotoScreen("ingame");
+    }
+    
+    private void initKeys(){
+        InputManager inputManager = app.getInputManager();
+        inputManager.addMapping("esc", new KeyTrigger(KeyInput.KEY_ESCAPE));
+        
+        inputManager.addListener(this, "esc");
+    }
+
+    public void onAction(String name, boolean isPressed, float tpf) {
+        if(isPressed && name.equals("esc")){
+            String screen = niftyDisplay.getNifty().getCurrentScreen().getScreenId();
+            if(screen.equals("mainmenu")){
+                //stop game on escape presss from mainmenu
+                app.stop();
+            }
+            
+        }
+    }
+
+    public void exit() {
+        app.stop();
     }
     
 }

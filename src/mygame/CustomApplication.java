@@ -107,7 +107,7 @@ public abstract class CustomApplication extends Application {
             }
 
             inputManager.addMapping(INPUT_MAPPING_CAMERA_POS, new KeyTrigger(KeyInput.KEY_C));
-            inputManager.addListener(actionListener, INPUT_MAPPING_EXIT, INPUT_MAPPING_CAMERA_POS);
+//            inputManager.addListener(actionListener, INPUT_MAPPING_EXIT, INPUT_MAPPING_CAMERA_POS);
             
         }
 
