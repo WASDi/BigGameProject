@@ -4,6 +4,7 @@ import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.BulletAppState;
+import com.jme3.bullet.control.CharacterControl;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.light.AmbientLight;
@@ -13,10 +14,15 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeListener;
 import java.util.concurrent.Callable;
+import javax.swing.Action;
 import mygame.controls.PlayerControl;
 import mygame.Game;
+import mygame.NpcFactory;
 import mygame.ResourceLoader;
+import mygame.controls.NpcControl;
 
 /**
  * Used when playing the game itself.
@@ -30,6 +36,7 @@ public class InGameAppState extends AbstractAppState{
     private Node playerNode = new Node("Player Node");
     private ResourceLoader loader;
     private BulletAppState bulletAppState;
+    private NpcFactory npcFactory;
 
     public InGameAppState() {
         stateNode = new Node("InGameAppState Root Node");
@@ -41,6 +48,7 @@ public class InGameAppState extends AbstractAppState{
         super.initialize(stateManager, app);
         this.app = (Game) app;
         this.loader = this.app.getResourceLoader();
+        npcFactory = new NpcFactory(app.getAssetManager(), loader);
     }
     
     private void initPhysics(){
@@ -107,10 +115,18 @@ public class InGameAppState extends AbstractAppState{
     protected void finishedIntroCinematic(){
         initPlayerControl();
         
+        addSandGuy(315, 5f, 240);
+        
         stateNode.attachChild(playerNode);
         bulletAppState.setEnabled(true);
         app.getGui().showIngameHud();
 //        bulletAppState.getPhysicsSpace().enableDebug(app.getAssetManager());
+    }
+    
+    private void addSandGuy(float x, float y, float z){
+        Node n = npcFactory.getSandGuy(x, y, z);
+        stateNode.attachChild(n);
+        bulletAppState.getPhysicsSpace().add(n.getControl(CharacterControl.class));
     }
     
 }

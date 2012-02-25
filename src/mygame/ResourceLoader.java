@@ -109,7 +109,7 @@ public class ResourceLoader {
             sandFolkModel = assetManager.loadModel("Models/Sandfolk/Sandfolk.j3o");
             sandFolkModel.setLocalScale(.04f); //It's a big model
         }
-        return sandFolkModel;
+        return sandFolkModel.clone();
     }
     
     public Spatial getRockModel(){
