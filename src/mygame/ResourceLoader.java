@@ -4,7 +4,6 @@ import com.jme3.asset.AssetManager;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.post.FilterPostProcessor;
 import com.jme3.post.filters.BloomFilter;
@@ -48,6 +47,7 @@ public class ResourceLoader {
     private Node waterReflectionNode;
     
     private Spatial playerModel;
+    private Spatial sandFolkModel;
 
     /**
      * @param app Used to get AssetManager for loading assets
@@ -102,6 +102,14 @@ public class ResourceLoader {
             initPlayer();
         }
         return playerModel;
+    }
+    
+    public Spatial getSandFolkModel(){
+        if(sandFolkModel==null){
+            sandFolkModel = assetManager.loadModel("Models/Sandfolk/Sandfolk.j3o");
+            sandFolkModel.setLocalScale(.04f); //It's a big model
+        }
+        return sandFolkModel;
     }
     
     public Spatial getRockModel(){

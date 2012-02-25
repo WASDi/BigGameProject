@@ -95,6 +95,10 @@ public class GuiAppState extends AbstractAppState implements ActionListener{
                 //stop game on escape presss from mainmenu
                 app.stop();
             }
+            else if(screen.equals("options") || screen.equals("loadmenu")){
+                //when pressing escape from any of these menus, go back to the main menu.
+                niftyDisplay.getNifty().gotoScreen("mainmenu");
+            }
             
         }
     }
