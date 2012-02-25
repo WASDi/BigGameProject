@@ -29,7 +29,7 @@ public class NpcFactory {
     
     public Node getSandGuy(float x, float y, float z){
         NpcControl control = new NpcControl(1, 2);
-        Spatial model = loader.getSandFolkModel();
+        Spatial model = loader.getSandGuyModel();
         model.setLocalRotation(new Quaternion().fromAngles(0, FastMath.PI/2, 0)); //fix the rotation
         model.setLocalTranslation(0, -1.95f, -1.6f); //centers the model
         Node node = new Node("SandGuyNode");

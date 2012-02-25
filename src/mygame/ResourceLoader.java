@@ -47,7 +47,7 @@ public class ResourceLoader {
     private Node waterReflectionNode;
     
     private Spatial playerModel;
-    private Spatial sandFolkModel;
+    private Spatial sandGuyModel;
 
     /**
      * @param app Used to get AssetManager for loading assets
@@ -101,15 +101,15 @@ public class ResourceLoader {
         if(playerModel==null){
             initPlayer();
         }
-        return playerModel;
+        return playerModel; //there should only be one player. No need to clone it
     }
     
-    public Spatial getSandFolkModel(){
-        if(sandFolkModel==null){
-            sandFolkModel = assetManager.loadModel("Models/Sandfolk/Sandfolk.j3o");
-            sandFolkModel.setLocalScale(.04f); //It's a big model
+    public Spatial getSandGuyModel(){
+        if(sandGuyModel==null){
+            sandGuyModel = assetManager.loadModel("Models/Characters/Sandguy.j3o");
+            sandGuyModel.setLocalScale(.04f); //It's a big model
         }
-        return sandFolkModel.clone();
+        return sandGuyModel.clone(); //use clone since there will be many sand people.
     }
     
     public Spatial getRockModel(){
@@ -154,7 +154,7 @@ public class ResourceLoader {
     }
     
     private void initPlayer(){
-        playerModel = assetManager.loadModel("Models/Player/alien.j3o");
+        playerModel = assetManager.loadModel("Models/Characters/Player.j3o");
         playerModel.setLocalScale(.5f);
     }
     

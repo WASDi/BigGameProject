@@ -14,15 +14,11 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeListener;
 import java.util.concurrent.Callable;
-import javax.swing.Action;
 import mygame.controls.PlayerControl;
 import mygame.Game;
 import mygame.NpcFactory;
 import mygame.ResourceLoader;
-import mygame.controls.NpcControl;
 
 /**
  * Used when playing the game itself.
