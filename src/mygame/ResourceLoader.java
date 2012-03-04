@@ -104,6 +104,11 @@ public class ResourceLoader {
         return playerModel; //there should only be one player. No need to clone it
     }
     
+    public void resetPlayerTranslations(){
+        playerModel.setLocalTranslation(0, -1.95f, -1.6f); //centers the player model
+        playerModel.setLocalScale(.5f); //fixes the scale
+    }
+    
     public Spatial getSandGuyModel(){
         if(sandGuyModel==null){
             sandGuyModel = assetManager.loadModel("Models/Characters/Sandguy.j3o");
@@ -155,7 +160,7 @@ public class ResourceLoader {
     
     private void initPlayer(){
         playerModel = assetManager.loadModel("Models/Characters/Player.j3o");
-        playerModel.setLocalScale(.5f);
+        resetPlayerTranslations();
     }
     
     private void initTerrain(){
