@@ -1,4 +1,4 @@
-package mygame;
+package mygame.npc;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.math.FastMath;
@@ -6,7 +6,9 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import mygame.controls.NpcControl;
+import java.util.ArrayList;
+import java.util.List;
+import mygame.ResourceLoader;
 
 /**
  * This class should have methods to return NPCs.
@@ -21,14 +23,16 @@ public class NpcFactory {
     
     private AssetManager assetManager;
     private ResourceLoader loader;
+    private List<Npc> npcList = new ArrayList<Npc>();
 
     public NpcFactory(AssetManager assetManager, ResourceLoader loader) {
         this.assetManager = assetManager;
         this.loader = loader;
     }
     
-    public Node getSandGuy(float x, float y, float z){
-        NpcControl control = new NpcControl(1, 2);
+    public Node createSandGuy(float x, float y, float z){
+        NpcPhysics control = new NpcPhysics(1, 2);
+        npcList.add(control);
         Spatial model = loader.getSandGuyModel();
         model.setLocalRotation(new Quaternion().fromAngles(0, FastMath.PI/2, 0)); //fix the rotation
         model.setLocalTranslation(0, -1.95f, -1.6f); //centers the model

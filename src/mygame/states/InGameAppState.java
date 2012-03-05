@@ -17,7 +17,7 @@ import com.jme3.scene.Spatial;
 import java.util.concurrent.Callable;
 import mygame.controls.PlayerControl;
 import mygame.Game;
-import mygame.NpcFactory;
+import mygame.npc.NpcFactory;
 import mygame.ResourceLoader;
 
 /**
@@ -120,7 +120,7 @@ public class InGameAppState extends AbstractAppState{
     }
     
     private void addSandGuy(float x, float y, float z){
-        Node n = npcFactory.getSandGuy(x, y, z);
+        Node n = npcFactory.createSandGuy(x, y, z);
         stateNode.attachChild(n);
         bulletAppState.getPhysicsSpace().add(n.getControl(CharacterControl.class));
     }
