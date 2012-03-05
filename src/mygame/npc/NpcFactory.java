@@ -42,5 +42,9 @@ public class NpcFactory {
         control.setPhysicsLocation(new Vector3f(x, y, z));
         return node;
     }
+
+    public List<Npc> getNpcList() {
+        return npcList;
+    }
     
 }

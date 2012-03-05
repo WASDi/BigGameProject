@@ -2,6 +2,7 @@ package mygame.npc;
 
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.control.CharacterControl;
+import com.jme3.math.Vector3f;
 
 /**
  *
@@ -15,6 +16,10 @@ public class NpcPhysics extends CharacterControl implements Npc{
 
     public String talk() {
         return "I am physics NPC";
+    }
+
+    public Vector3f getPosition() {
+        return getPhysicsLocation();
     }
     
 }

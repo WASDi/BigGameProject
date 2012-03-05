@@ -1,5 +1,6 @@
 package mygame.npc;
 
+import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Spatial;
@@ -30,6 +31,10 @@ public class NpcRegular extends AbstractControl implements Npc{
 
     public Control cloneForSpatial(Spatial spatial) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public Vector3f getPosition() {
+        return spatial.getLocalTranslation();
     }
     
 }

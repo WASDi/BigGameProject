@@ -19,6 +19,7 @@ import mygame.controls.PlayerControl;
 import mygame.Game;
 import mygame.npc.NpcFactory;
 import mygame.ResourceLoader;
+import mygame.npc.Npc;
 
 /**
  * Used when playing the game itself.
@@ -123,6 +124,27 @@ public class InGameAppState extends AbstractAppState{
         Node n = npcFactory.createSandGuy(x, y, z);
         stateNode.attachChild(n);
         bulletAppState.getPhysicsSpace().add(n.getControl(CharacterControl.class));
+    }
+    
+    public Npc getCloseNpc(){
+        Npc closest = null;
+        float bestDistance = -1f;
+        for(Npc npc : npcFactory.getNpcList()){
+            
+            float distance = npc.getPosition().distance(playerNode.getLocalTranslation());
+            if(distance==-1f){
+                closest = npc;
+                bestDistance = distance;
+                continue;
+            }
+            if(distance<bestDistance){
+                closest=npc;
+                bestDistance=distance;
+            }
+        }
+        
+        //TODO return null if the closest npc still is far away
+        return closest;
     }
     
 }
