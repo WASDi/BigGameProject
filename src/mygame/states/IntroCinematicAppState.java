@@ -16,6 +16,8 @@ import com.jme3.effect.shapes.EmitterSphereShape;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.FastMath;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.CameraNode;
 import com.jme3.scene.Node;
@@ -61,10 +63,11 @@ public class IntroCinematicAppState extends AbstractAppState{
         this.app.enableSpaceBox(true);
         
         rock.setLocalScale(2f);
-        ship.setLocalTranslation(-2, 0, 0);
+        ship.setLocalTranslation(2, -2, 0);
+        player.setLocalTranslation(0, 3, 0);
+        player.setLocalRotation(new Quaternion().fromAngles(0, 0, FastMath.HALF_PI));
         
         shipNode = new Node("Ship and Player");
-        shipNode.attachChild(player);
         shipNode.attachChild(ship);
         
         stateNode.attachChild(shipNode);
@@ -98,6 +101,7 @@ public class IntroCinematicAppState extends AbstractAppState{
     private void spaceSceneDone(){
         camNode.setLocalTranslation(290, 20, 380);
         camNode.lookAt(shipNode.getLocalTranslation(), Vector3f.UNIT_Y);
+        shipNode.attachChild(player);
         app.enableSpaceBox(false);
         stateNode.detachChild(rock);
         rock=null;
@@ -169,8 +173,8 @@ public class IntroCinematicAppState extends AbstractAppState{
      */
     private MotionTrack getRockTrack(){
         MotionPath path = new MotionPath();
-        path.addWayPoint(new Vector3f(420, 535, 320));
-        path.addWayPoint(new Vector3f(270, 385, 320));
+        path.addWayPoint(new Vector3f(420, 530, 320));
+        path.addWayPoint(new Vector3f(270, 380, 320));
         path.enableDebugShape(app.getAssetManager(), stateNode);
 
         MotionTrack track = new MotionTrack(rock, path, 10);

@@ -32,7 +32,7 @@ public class NpcManager {
     
     public Node createSandGuy(float x, float y, float z){
         Spatial model = loader.getSandGuyModel();
-        model.setLocalRotation(new Quaternion().fromAngles(0, FastMath.PI/2, 0)); //fix the rotation
+        model.setLocalRotation(new Quaternion().fromAngles(0, FastMath.HALF_PI, 0)); //fix the rotation
         model.setLocalTranslation(0, -2.8f, 0); //centers the model
         Node node = new Node("SandGuyNode");
         node.attachChild(model);

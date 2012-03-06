@@ -4,6 +4,8 @@ import com.jme3.asset.AssetManager;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.FastMath;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.post.FilterPostProcessor;
 import com.jme3.post.filters.BloomFilter;
@@ -48,6 +50,7 @@ public class ResourceLoader {
     
     private Spatial playerModel;
     private Spatial sandGuyModel;
+    private Spatial shipModel;
 
     /**
      * @param app Used to get AssetManager for loading assets
@@ -117,6 +120,13 @@ public class ResourceLoader {
         return sandGuyModel.clone(); //use clone since there will be many sand people.
     }
     
+    public Spatial getShipModel(){
+        if(shipModel==null){
+            initShipModel();
+        }
+        return shipModel;
+    }
+    
     public Spatial getRockModel(){
         Spatial rock = assetManager.loadModel("Models/Rock/roca.j3o");
 //        Material mat = new Material(assetManager, "Common/MatDefs/Light/Lighting.j3md");
@@ -148,14 +158,9 @@ public class ResourceLoader {
         return filter;
     }
     
-    public Spatial getShipModel(){
-        //TODO replace with real model
-        Box b = new Box(Vector3f.ZERO, 2, .5f, 1);
-        Geometry ship = new Geometry("Box", b);
-        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", ColorRGBA.Blue);
-        ship.setMaterial(mat);
-        return ship;
+    public void initShipModel(){
+        shipModel = assetManager.loadModel("Models/Skepp/Skepp.j3o");
+        shipModel.setLocalRotation(new Quaternion().fromAngles(0, 0, FastMath.HALF_PI));
     }
     
     private void initPlayer(){

@@ -57,7 +57,7 @@ public class InGameAppState extends AbstractAppState{
     private void initPlayerControl(){
         PlayerControl playerControl = new PlayerControl(app, playerNode, npcManager);
         Spatial player = loader.getPlayerModel();
-        player.setLocalRotation(new Quaternion().fromAngles(0, FastMath.PI/2, 0)); //fix the rotation
+        player.setLocalRotation(new Quaternion().fromAngles(0, FastMath.HALF_PI, 0)); //fix the rotation
         player.setLocalTranslation(0, -1.95f, -1.6f); //centers the player model
         playerNode.attachChild(player);
         playerNode.addControl(playerControl);
@@ -114,10 +114,15 @@ public class InGameAppState extends AbstractAppState{
         addSandGuy(315, 5f, 240);
         addSandGuy(315, 5f, 230);
         
+        Spatial ship = app.getResourceLoader().getShipModel();
+        ship.setLocalTranslation(325, -4.5f, 240);
+        ship.setLocalRotation(new Quaternion().fromAngles(13.37f, 0.9001f, 0));
+        stateNode.attachChild(ship);
+        
         stateNode.attachChild(playerNode);
         bulletAppState.setEnabled(true);
         app.getGui().showIngameHud();
-        bulletAppState.getPhysicsSpace().enableDebug(app.getAssetManager());
+//        bulletAppState.getPhysicsSpace().enableDebug(app.getAssetManager());
     }
     
     private void addSandGuy(float x, float y, float z){
