@@ -12,6 +12,7 @@ import com.jme3.scene.Spatial;
 import mygame.Game;
 import mygame.camera.CombatCamera;
 import mygame.npc.Npc;
+import mygame.npc.NpcManager;
 
 /**
  *
@@ -25,11 +26,13 @@ public class PlayerControl extends CharacterControl implements ActionListener{
     private CombatCamera combatCam;
     private boolean keysEnabled = true;
     private Npc target;
+    private NpcManager npcManager;
     private long lastNpcCheck = 0;
 
-    public PlayerControl(Game app, Node playerNode) {
+    public PlayerControl(Game app, Node playerNode, NpcManager npcManager) {
         super(new CapsuleCollisionShape(1, 2), .1f);
         this.app=app;
+        this.npcManager=npcManager;
         initKeys();
         combatCam = new CombatCamera(app.getCamera(), playerNode, app.getInputManager());
     }
@@ -107,11 +110,12 @@ public class PlayerControl extends CharacterControl implements ActionListener{
         }
         
         if(combatCam.isCombatMode() && System.currentTimeMillis()>lastNpcCheck+500){
-            //target the closest npc every 500 millis
+            //target the closest npc every 500 millis if in combatmode
             lastNpcCheck = System.currentTimeMillis();
-            Npc newTarget = null;
-            if(newTarget!=null){
+            Npc newTarget = npcManager.getCloseNpc(getPhysicsLocation());
+            if(newTarget!=target){
                 target = newTarget;
+                //TODO put pointer on target
             }
         }
         
