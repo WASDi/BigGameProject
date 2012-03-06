@@ -11,6 +11,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import mygame.Game;
 import mygame.camera.CombatCamera;
+import mygame.npc.Npc;
 
 /**
  *
@@ -23,6 +24,8 @@ public class PlayerControl extends CharacterControl implements ActionListener{
     private Vector3f walkDir = new Vector3f();
     private CombatCamera combatCam;
     private boolean keysEnabled = true;
+    private Npc target;
+    private long lastNpcCheck = 0;
 
     public PlayerControl(Game app, Node playerNode) {
         super(new CapsuleCollisionShape(1, 2), .1f);
@@ -101,6 +104,15 @@ public class PlayerControl extends CharacterControl implements ActionListener{
                 setPhysicsLocation(new Vector3f(320, -.5f, 240));
             }
             return;
+        }
+        
+        if(combatCam.isCombatMode() && System.currentTimeMillis()>lastNpcCheck+500){
+            //target the closest npc every 500 millis
+            lastNpcCheck = System.currentTimeMillis();
+            Npc newTarget = null;
+            if(newTarget!=null){
+                target = newTarget;
+            }
         }
         
         

@@ -19,13 +19,13 @@ import mygame.ResourceLoader;
  * 
  * @author wasd
  */
-public class NpcFactory {
+public class NpcManager {
     
     private AssetManager assetManager;
     private ResourceLoader loader;
     private List<Npc> npcList = new ArrayList<Npc>();
 
-    public NpcFactory(AssetManager assetManager, ResourceLoader loader) {
+    public NpcManager(AssetManager assetManager, ResourceLoader loader) {
         this.assetManager = assetManager;
         this.loader = loader;
     }
@@ -42,9 +42,29 @@ public class NpcFactory {
         control.setPhysicsLocation(new Vector3f(x, y, z));
         return node;
     }
-
-    public List<Npc> getNpcList() {
-        return npcList;
+    
+    /**
+     * Gets an NPC close to position
+     * @param position The position
+     * @return The closest Npc
+     */
+    public Npc getCloseNpc(Vector3f position){
+        Npc closest = null;
+        float bestDistance = -1f;
+        for(Npc npc : npcList){
+            
+            float distance = npc.getPosition().distance(position);
+            if(distance==-1f){
+                closest = npc;
+                bestDistance = distance;
+                continue;
+            }
+            if(distance<bestDistance){
+                closest=npc;
+                bestDistance=distance;
+            }
+        }
+        return closest;
     }
     
 }

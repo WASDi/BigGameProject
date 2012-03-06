@@ -17,9 +17,8 @@ import com.jme3.scene.Spatial;
 import java.util.concurrent.Callable;
 import mygame.controls.PlayerControl;
 import mygame.Game;
-import mygame.npc.NpcFactory;
+import mygame.npc.NpcManager;
 import mygame.ResourceLoader;
-import mygame.npc.Npc;
 
 /**
  * Used when playing the game itself.
@@ -33,7 +32,7 @@ public class InGameAppState extends AbstractAppState{
     private Node playerNode = new Node("Player Node");
     private ResourceLoader loader;
     private BulletAppState bulletAppState;
-    private NpcFactory npcFactory;
+    private NpcManager npcManager;
 
     public InGameAppState() {
         stateNode = new Node("InGameAppState Root Node");
@@ -45,7 +44,7 @@ public class InGameAppState extends AbstractAppState{
         super.initialize(stateManager, app);
         this.app = (Game) app;
         this.loader = this.app.getResourceLoader();
-        npcFactory = new NpcFactory(app.getAssetManager(), loader);
+        npcManager = new NpcManager(app.getAssetManager(), loader);
     }
     
     private void initPhysics(){
@@ -121,30 +120,9 @@ public class InGameAppState extends AbstractAppState{
     }
     
     private void addSandGuy(float x, float y, float z){
-        Node n = npcFactory.createSandGuy(x, y, z);
+        Node n = npcManager.createSandGuy(x, y, z);
         stateNode.attachChild(n);
         bulletAppState.getPhysicsSpace().add(n.getControl(CharacterControl.class));
-    }
-    
-    public Npc getCloseNpc(){
-        Npc closest = null;
-        float bestDistance = -1f;
-        for(Npc npc : npcFactory.getNpcList()){
-            
-            float distance = npc.getPosition().distance(playerNode.getLocalTranslation());
-            if(distance==-1f){
-                closest = npc;
-                bestDistance = distance;
-                continue;
-            }
-            if(distance<bestDistance){
-                closest=npc;
-                bestDistance=distance;
-            }
-        }
-        
-        //TODO return null if the closest npc still is far away
-        return closest;
     }
     
 }
