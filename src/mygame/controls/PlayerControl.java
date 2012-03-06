@@ -6,9 +6,13 @@ import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.material.Material;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Box;
 import mygame.Game;
 import mygame.camera.CombatCamera;
 import mygame.npc.Npc;
@@ -28,6 +32,7 @@ public class PlayerControl extends CharacterControl implements ActionListener{
     private Npc target;
     private NpcManager npcManager;
     private long lastNpcCheck = 0;
+    private Spatial targetArrow;
 
     public PlayerControl(Game app, Node playerNode, NpcManager npcManager) {
         super(new CapsuleCollisionShape(1, 2), .1f);
@@ -35,6 +40,14 @@ public class PlayerControl extends CharacterControl implements ActionListener{
         this.npcManager=npcManager;
         initKeys();
         combatCam = new CombatCamera(app.getCamera(), playerNode, app.getInputManager());
+        
+        //init targetArrow
+        Box b = new Box(.2f, .4f, .2f);
+        targetArrow = new Geometry("Target Arrow", b);  // create cube geometry from the shape
+        Material mat = new Material(app.getAssetManager(),
+          "Common/MatDefs/Misc/Unshaded.j3md");  // create a simple material
+        mat.setColor("Color", ColorRGBA.Blue);   // set color of material to blue
+        targetArrow.setMaterial(mat);                   // set the cube's material
     }
     
     private void initKeys(){
@@ -43,11 +56,12 @@ public class PlayerControl extends CharacterControl implements ActionListener{
         inputManager.addMapping("a", new KeyTrigger(KeyInput.KEY_A));
         inputManager.addMapping("s", new KeyTrigger(KeyInput.KEY_S));
         inputManager.addMapping("d", new KeyTrigger(KeyInput.KEY_D));
+        inputManager.addMapping("EE", new KeyTrigger(KeyInput.KEY_E));
         inputManager.addMapping("tab", new KeyTrigger(KeyInput.KEY_TAB));
         inputManager.addMapping("jump", new KeyTrigger(KeyInput.KEY_SPACE));
         inputManager.addMapping("debug", new KeyTrigger(KeyInput.KEY_T));
         
-        inputManager.addListener(this, "w", "a", "s", "d", "jump", "tab","debug");
+        inputManager.addListener(this, "w", "a", "s", "d", "jump", "tab", "EE", "debug");
     }
 
     public void onAction(String name, boolean isPressed, float tpf) {
@@ -67,6 +81,15 @@ public class PlayerControl extends CharacterControl implements ActionListener{
         }
         if(isPressed && name.equals("debug")){
             System.out.println(getPhysicsLocation().y);
+            return;
+        }
+        if(isPressed && name.equals("EE")){
+            //TODO implement GUI stuff instead of printing what they say
+            if(target!=null)
+                System.out.println(target.talk());
+            else
+                System.out.println("*No target*");
+            return;
         }
     }
 
@@ -109,16 +132,15 @@ public class PlayerControl extends CharacterControl implements ActionListener{
             return;
         }
         
-        if(combatCam.isCombatMode() && System.currentTimeMillis()>lastNpcCheck+500){
-            //target the closest npc every 500 millis if in combatmode
+        if(combatCam.isCombatMode() && System.currentTimeMillis()>lastNpcCheck+250){
+            //target the closest npc every 250 millis if in combatmode
             lastNpcCheck = System.currentTimeMillis();
             Npc newTarget = npcManager.getCloseNpc(getPhysicsLocation());
             if(newTarget!=target){
                 target = newTarget;
-                //TODO put pointer on target
+                target.onTargeted(targetArrow);
             }
         }
-        
         
         Vector3f camDir = app.getCamera().getDirection().clone();
         Vector3f camLeft = app.getCamera().getLeft().clone();

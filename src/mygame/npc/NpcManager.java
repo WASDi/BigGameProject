@@ -11,10 +11,10 @@ import java.util.List;
 import mygame.ResourceLoader;
 
 /**
- * This class should have methods to return NPCs.
+ * This class creates Npc's and returns them.
  * They will then be loaded from InGameAppState and get added to the world.
  * 
- * The methods will return spatials with CharacterControls attached.
+ * The methods will return Node with CharacterControls attached.
  * Use spatial.getControl(CharacterControl.class) to get the control and add it to the physics.
  * 
  * @author wasd
@@ -31,13 +31,14 @@ public class NpcManager {
     }
     
     public Node createSandGuy(float x, float y, float z){
-        NpcPhysics control = new NpcPhysics(1, 2);
-        npcList.add(control);
         Spatial model = loader.getSandGuyModel();
         model.setLocalRotation(new Quaternion().fromAngles(0, FastMath.PI/2, 0)); //fix the rotation
-        model.setLocalTranslation(0, -1.95f, -1.6f); //centers the model
+        model.setLocalTranslation(0, -2.8f, 0); //centers the model
         Node node = new Node("SandGuyNode");
         node.attachChild(model);
+        
+        NpcPhysics control = new NpcPhysics(1.3f, 2.9f, node);
+        npcList.add(control);
         node.addControl(control);
         control.setPhysicsLocation(new Vector3f(x, y, z));
         return node;

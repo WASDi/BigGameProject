@@ -112,11 +112,12 @@ public class InGameAppState extends AbstractAppState{
         initPlayerControl();
         
         addSandGuy(315, 5f, 240);
+        addSandGuy(315, 5f, 230);
         
         stateNode.attachChild(playerNode);
         bulletAppState.setEnabled(true);
         app.getGui().showIngameHud();
-//        bulletAppState.getPhysicsSpace().enableDebug(app.getAssetManager());
+        bulletAppState.getPhysicsSpace().enableDebug(app.getAssetManager());
     }
     
     private void addSandGuy(float x, float y, float z){
