@@ -7,6 +7,9 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 import com.jme3.scene.control.Control;
+import java.util.ArrayList;
+import java.util.List;
+import quest.Quest;
 
 /**
  *
@@ -16,6 +19,9 @@ public class StaticNpc extends AbstractControl implements Npc{
     
     private Node node;
     private String name;
+    
+    //TODO somehow indicate in the game if the Npc has a quest avalible
+    private List<Quest> quests;
 
     public StaticNpc(Node node, String name) {
         this.node=node;
@@ -23,6 +29,15 @@ public class StaticNpc extends AbstractControl implements Npc{
     }
 
     public String talk() {
+        if(quests!=null){
+            for(Quest q : quests){
+                if (q.isActive()){
+                    String reply = q.onTalk(this);
+                    if(reply!=null)
+                        return reply;
+                }
+            }
+        }
         return "My name is "+name;
     }
 
@@ -59,6 +74,16 @@ public class StaticNpc extends AbstractControl implements Npc{
 
     public Node getNode() {
         return node;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void addQuest(Quest quest) {
+        if(quests==null)
+            quests = new ArrayList<Quest>();
+        quests.add(quest);
     }
     
 }

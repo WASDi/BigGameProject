@@ -1,9 +1,9 @@
 package mygame.npc;
 
-import com.jme3.bullet.control.PhysicsControl;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import quest.Quest;
 
 /**
  *
@@ -38,5 +38,16 @@ public interface Npc {
      * @return The Node that this Npc is
      */
     public Node getNode();
+    
+    /**
+     * @return The name of the Npc
+     */
+    public String getName();
+    
+    /**
+     * Adds a Quest to this Npc
+     * @param quest The Quest
+     */
+    public void addQuest(Quest quest);
     
 }
