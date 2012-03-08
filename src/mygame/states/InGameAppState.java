@@ -111,8 +111,9 @@ public class InGameAppState extends AbstractAppState{
     protected void finishedIntroCinematic(){
         initPlayerControl();
         
-        addSandGuy(315, 5f, 240);
-        addSandGuy(315, 5f, 230);
+        addSandGuy(245.6f, -0.4f, 388.2f, -0.00041f, -0.00194f);
+        addSandGuy(232.7f, 0.5f, 381.6f, 0.00014f, -0.00029f);
+        addSandGuy(226.8f, 0.6f, 368.0f, 0.00174f, -0.00096f);
         
         Spatial ship = app.getResourceLoader().getShipModel();
         ship.setLocalTranslation(325, -4.5f, 240);
@@ -125,10 +126,9 @@ public class InGameAppState extends AbstractAppState{
 //        bulletAppState.getPhysicsSpace().enableDebug(app.getAssetManager());
     }
     
-    private void addSandGuy(float x, float y, float z){
-        Node n = npcManager.createSandGuy(x, y, z);
+    private void addSandGuy(float x, float y, float z, float xlook, float zlook){
+        Node n = npcManager.createSandGuy(x, y, z, xlook, zlook);
         stateNode.attachChild(n);
-        bulletAppState.getPhysicsSpace().add(n.getControl(CharacterControl.class));
     }
     
 }

@@ -12,10 +12,8 @@ import com.jme3.post.filters.BloomFilter;
 import com.jme3.post.filters.DepthOfFieldFilter;
 import com.jme3.post.filters.LightScatteringFilter;
 import com.jme3.renderer.Camera;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Box;
 import com.jme3.terrain.geomipmap.TerrainLodControl;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.terrain.geomipmap.lodcalc.DistanceLodCalculator;
@@ -108,7 +106,7 @@ public class ResourceLoader {
     }
     
     public void resetPlayerTranslations(){
-        playerModel.setLocalTranslation(0, -1.95f, -1.6f); //centers the player model
+        playerModel.setLocalTranslation(0, -2f, -1.6f); //centers the player model
         playerModel.setLocalScale(.5f); //fixes the scale
     }
     

@@ -12,11 +12,11 @@ import com.jme3.scene.control.Control;
  *
  * @author wasd
  */
-public class NpcRegular extends AbstractControl implements Npc{
+public class StaticNpc extends AbstractControl implements Npc{
     
     private Node node;
 
-    public NpcRegular(Node node) {
+    public StaticNpc(Node node) {
         this.node=node;
     }
 
@@ -38,12 +38,21 @@ public class NpcRegular extends AbstractControl implements Npc{
     }
 
     public Vector3f getPosition() {
-        return spatial.getLocalTranslation();
+        return node.getLocalTranslation();
     }
 
     public void onTargeted(Spatial arrow) {
-        //TODO set translation of arrow.
+        //TODO set translation of arrow based on npc size.
+        arrow.setLocalTranslation(0, 4, 0);
         node.attachChild(arrow);
+    }
+
+    public void setPosition(float x, float y, float z) {
+        node.setLocalTranslation(x, y, z);
+    }
+
+    public void lookAt(float xlook, float zlook) {
+        node.lookAt(getPosition().add(xlook, 0, zlook), Vector3f.UNIT_Y);
     }
     
 }

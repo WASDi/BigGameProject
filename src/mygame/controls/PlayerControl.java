@@ -80,7 +80,10 @@ public class PlayerControl extends CharacterControl implements ActionListener{
             return;
         }
         if(isPressed && name.equals("debug")){
-            System.out.println(getPhysicsLocation().y);
+            System.out.printf("addSandGuy(%.1ff, %.1ff, %.1ff, %.5ff, %.5ff);\n",
+                    getPhysicsLocation().x, getPhysicsLocation().y, getPhysicsLocation().z,
+                    getViewDirection().x, getViewDirection().z);
+//            System.out.println(getViewDirection());
             return;
         }
         if(isPressed && name.equals("EE")){

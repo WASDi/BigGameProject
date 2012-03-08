@@ -1,8 +1,6 @@
 package mygame.npc;
 
 import com.jme3.asset.AssetManager;
-import com.jme3.math.FastMath;
-import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -30,17 +28,18 @@ public class NpcManager {
         this.loader = loader;
     }
     
-    public Node createSandGuy(float x, float y, float z){
+    public Node createSandGuy(float x, float y, float z, float xlook, float zlook){
         Spatial model = loader.getSandGuyModel();
-        model.setLocalRotation(new Quaternion().fromAngles(0, FastMath.HALF_PI, 0)); //fix the rotation
-        model.setLocalTranslation(0, -2.8f, 0); //centers the model
+//        model.setLocalRotation(new Quaternion().fromAngles(0, FastMath.HALF_PI, 0)); //fix the rotation
+        model.setLocalTranslation(0, -2.1f, 0); //centers the model
         Node node = new Node("SandGuyNode");
         node.attachChild(model);
         
-        NpcPhysics control = new NpcPhysics(1.3f, 2.9f, node);
+        StaticNpc control = new StaticNpc(node);
         npcList.add(control);
         node.addControl(control);
-        control.setPhysicsLocation(new Vector3f(x, y, z));
+        control.setPosition(x,y,z);
+        control.lookAt(xlook, zlook);
         return node;
     }
     

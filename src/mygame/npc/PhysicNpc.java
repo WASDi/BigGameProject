@@ -10,12 +10,12 @@ import com.jme3.scene.Spatial;
  *
  * @author wasd
  */
-public class NpcPhysics extends CharacterControl implements Npc{
+public class PhysicNpc extends CharacterControl implements Npc{
     
     private Node node;
     private Vector3f arrowTranslation;
 
-    public NpcPhysics(float sizex, float sizey, Node node) {
+    public PhysicNpc(float sizex, float sizey, Node node) {
         super(new CapsuleCollisionShape(sizex, sizey), .1f);
         this.node = node;
         arrowTranslation = new Vector3f(0, sizey+1f, 0);
@@ -32,6 +32,14 @@ public class NpcPhysics extends CharacterControl implements Npc{
     public void onTargeted(Spatial arrow) {
         arrow.setLocalTranslation(arrowTranslation);
         node.attachChild(arrow);
+    }
+
+    public void setPosition(float x, float y, float z) {
+        setPhysicsLocation(new Vector3f(x, y, z));
+    }
+
+    public void lookAt(float xlook, float zlook) {
+        setViewDirection(getPosition().add(xlook, 0, zlook));
     }
     
 }
