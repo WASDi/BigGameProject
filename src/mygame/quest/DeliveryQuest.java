@@ -1,4 +1,4 @@
-package quest;
+package mygame.quest;
 
 import mygame.npc.Npc;
 

@@ -7,7 +7,7 @@ import com.jme3.scene.Spatial;
 import java.util.ArrayList;
 import java.util.List;
 import mygame.ResourceLoader;
-import quest.DeliveryQuest;
+import mygame.quest.DeliveryQuest;
 
 /**
  * This class creates Npc's and returns them.

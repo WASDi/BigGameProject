@@ -9,7 +9,7 @@ import com.jme3.scene.control.AbstractControl;
 import com.jme3.scene.control.Control;
 import java.util.ArrayList;
 import java.util.List;
-import quest.Quest;
+import mygame.quest.Quest;
 
 /**
  *
