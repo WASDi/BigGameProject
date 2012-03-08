@@ -41,5 +41,9 @@ public class PhysicNpc extends CharacterControl implements Npc{
     public void lookAt(float xlook, float zlook) {
         setViewDirection(getPosition().add(xlook, 0, zlook));
     }
+
+    public Node getNode() {
+        return node;
+    }
     
 }

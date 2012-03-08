@@ -28,19 +28,18 @@ public class NpcManager {
         this.loader = loader;
     }
     
-    public Node createSandGuy(float x, float y, float z, float xlook, float zlook){
+    private Npc createSandGuy(float x, float y, float z, float xlook, float zlook, String name){
         Spatial model = loader.getSandGuyModel();
-//        model.setLocalRotation(new Quaternion().fromAngles(0, FastMath.HALF_PI, 0)); //fix the rotation
         model.setLocalTranslation(0, -2.1f, 0); //centers the model
         Node node = new Node("SandGuyNode");
         node.attachChild(model);
         
-        StaticNpc control = new StaticNpc(node);
+        StaticNpc control = new StaticNpc(node, name);
         npcList.add(control);
         node.addControl(control);
         control.setPosition(x,y,z);
         control.lookAt(xlook, zlook);
-        return node;
+        return control;
     }
     
     /**
@@ -65,6 +64,17 @@ public class NpcManager {
             }
         }
         return closest;
+    }
+    
+    /**
+     * Initializes every Npc in the game and links quest between them if they have any.
+     * @return List of Npc to be added to the game
+     */
+    public List<Npc> loadNpcs(){
+        Npc sandberg = createSandGuy(245.6f, -0.4f, 388.2f, -0.00041f, -0.00194f, "Sandberg");
+        Npc sandy = createSandGuy(232.7f, 0.5f, 381.6f, 0.00014f, -0.00029f, "Sandy");
+        Npc mcSand = createSandGuy(226.8f, 0.6f, 368.0f, 0.00174f, -0.00096f, "McSand");
+        return npcList;
     }
     
 }

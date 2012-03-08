@@ -15,13 +15,15 @@ import com.jme3.scene.control.Control;
 public class StaticNpc extends AbstractControl implements Npc{
     
     private Node node;
+    private String name;
 
-    public StaticNpc(Node node) {
+    public StaticNpc(Node node, String name) {
         this.node=node;
+        this.name=name;
     }
 
     public String talk() {
-        return "I am regular NPC";
+        return "My name is "+name;
     }
 
     @Override
@@ -53,6 +55,10 @@ public class StaticNpc extends AbstractControl implements Npc{
 
     public void lookAt(float xlook, float zlook) {
         node.lookAt(getPosition().add(xlook, 0, zlook), Vector3f.UNIT_Y);
+    }
+
+    public Node getNode() {
+        return node;
     }
     
 }
