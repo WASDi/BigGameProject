@@ -1,6 +1,5 @@
 package mygame.npc;
 
-import com.jme3.asset.AssetManager;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -17,12 +16,10 @@ import mygame.quest.DeliveryQuest;
  */
 public class NpcManager {
     
-    private AssetManager assetManager;
     private ResourceLoader loader;
     private List<Npc> npcList = new ArrayList<Npc>();
 
-    public NpcManager(AssetManager assetManager, ResourceLoader loader) {
-        this.assetManager = assetManager;
+    public NpcManager(ResourceLoader loader) {
         this.loader = loader;
     }
     

@@ -4,7 +4,6 @@ import com.jme3.app.Application;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.bullet.BulletAppState;
-import com.jme3.bullet.control.CharacterControl;
 import com.jme3.bullet.control.RigidBodyControl;
 import com.jme3.bullet.util.CollisionShapeFactory;
 import com.jme3.light.AmbientLight;
@@ -46,7 +45,7 @@ public class InGameAppState extends AbstractAppState{
         super.initialize(stateManager, app);
         this.app = (Game) app;
         this.loader = this.app.getResourceLoader();
-        npcManager = new NpcManager(app.getAssetManager(), loader);
+        npcManager = new NpcManager(loader);
     }
     
     private void initPhysics(){
