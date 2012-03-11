@@ -20,12 +20,17 @@ public class DeliveryQuest extends Quest{
         
         from.addQuest(this);
         to.addQuest(this);
+        
+        if(stage==1)
+            from.questMarkerUpdate(true);
     }
 
     public String onTalk(Npc npc) {
         if(stage==1){
             if(npc==from){
                 stage=2;
+                from.questMarkerUpdate(false);
+                to.questMarkerUpdate(true);
                 return String.format("Please deliver this %s to %s.", itemName, to.getName());
             }
             else if(npc==to){
@@ -36,9 +41,9 @@ public class DeliveryQuest extends Quest{
             if(npc==from){
                 return String.format("Have you delivered my %s to %s yet?", itemName, to.getName());
             }
-            if(npc==to){
-                stage=100;
+            else if(npc==to){
                 onFinish();
+                to.questMarkerUpdate(false);
                 return String.format("Thank you! I will have great use for this %s.", itemName);
             }
         }

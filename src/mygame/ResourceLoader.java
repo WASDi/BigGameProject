@@ -12,8 +12,12 @@ import com.jme3.post.filters.BloomFilter;
 import com.jme3.post.filters.DepthOfFieldFilter;
 import com.jme3.post.filters.LightScatteringFilter;
 import com.jme3.renderer.Camera;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Box;
+import com.jme3.scene.shape.Sphere;
+import com.jme3.scene.shape.Torus;
 import com.jme3.terrain.geomipmap.TerrainLodControl;
 import com.jme3.terrain.geomipmap.TerrainQuad;
 import com.jme3.terrain.geomipmap.lodcalc.DistanceLodCalculator;
@@ -133,6 +137,18 @@ public class ResourceLoader {
 //        mat.setFloat("Shininess", 55f);
 //        rock.setMaterial(mat);
         return rock;
+    }
+    
+    public Spatial getQuestMarker(){
+        Sphere b = new Sphere(8, 8, .3f);
+        Spatial questMarker = new Geometry("QuestMarker", b);
+        Material mat = new Material(assetManager,
+          "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", ColorRGBA.Yellow);
+        questMarker.setMaterial(mat);
+        questMarker.setCullHint(Spatial.CullHint.Always);
+        questMarker.setLocalRotation(new Quaternion().fromAngles(FastMath.HALF_PI, 0, 0));
+        return questMarker;
     }
     
     public FilterPostProcessor getFilter(){

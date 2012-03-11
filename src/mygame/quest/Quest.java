@@ -1,6 +1,7 @@
 package mygame.quest;
 
 import mygame.npc.Npc;
+import mygame.npc.StaticNpc;
 
 /**
  * Each Npc involved in a quest has the instance of that quest as a variable.
@@ -49,6 +50,7 @@ public abstract class Quest {
      * Called when a quest is finished the make the followup avalible.
      */
     protected void onFinish(){
+        stage=100;
         if(followup!=null)
             followup.stage=1;
     }

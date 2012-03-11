@@ -55,5 +55,10 @@ public class PhysicNpc extends CharacterControl implements Npc{
         //TODO
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    public void questMarkerUpdate(boolean add) {
+        //TODO
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
 }

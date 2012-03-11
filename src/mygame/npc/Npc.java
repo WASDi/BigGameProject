@@ -50,4 +50,10 @@ public interface Npc {
      */
     public void addQuest(Quest quest);
     
+    /**
+     * Used by Quest to increase or decrease numQuests of the Npc.
+     * @param add true to add to the questNumber. false to subtract
+     */
+    public void questMarkerUpdate(boolean add);
+    
 }

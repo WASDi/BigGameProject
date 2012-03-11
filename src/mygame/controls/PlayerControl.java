@@ -43,11 +43,11 @@ public class PlayerControl extends CharacterControl implements ActionListener{
         
         //init targetArrow
         Box b = new Box(.2f, .4f, .2f);
-        targetArrow = new Geometry("Target Arrow", b);  // create cube geometry from the shape
+        targetArrow = new Geometry("Target Arrow", b);
         Material mat = new Material(app.getAssetManager(),
-          "Common/MatDefs/Misc/Unshaded.j3md");  // create a simple material
-        mat.setColor("Color", ColorRGBA.Blue);   // set color of material to blue
-        targetArrow.setMaterial(mat);                   // set the cube's material
+          "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", ColorRGBA.Blue);
+        targetArrow.setMaterial(mat);
     }
     
     private void initKeys(){
@@ -160,7 +160,7 @@ public class PlayerControl extends CharacterControl implements ActionListener{
             walkDir.addLocal(camDir.negateLocal());
         if(d)
             walkDir.addLocal(camLeft.negateLocal());
-        walkDir.multLocal(.2f); //TODO set to .2f for normal speed
+        walkDir.multLocal(.5f); //TODO set to .2f for normal speed
         setWalkDirection(walkDir);
         if(walkDir.length()!=0)
             setViewDirection(walkDir);

@@ -19,13 +19,25 @@ public class StaticNpc extends AbstractControl implements Npc{
     
     private Node node;
     private String name;
+    private Spatial questMarker;
+    /**
+     * Used to decide if questMarker should be displayed.
+     * If it's more than 0, it will be displayed.
+     * This is so that a quest wont remove the marker if another quest is active,
+     * instead it will reduce the number from 2 to 1.
+     */
+    private int numQuests=0;
     
     //TODO somehow indicate in the game if the Npc has a quest avalible
     private List<Quest> quests;
 
-    public StaticNpc(Node node, String name) {
+    public StaticNpc(Node node, String name, Spatial questMarker) {
         this.node=node;
         this.name=name;
+        this.questMarker=questMarker;
+        
+        questMarker.setLocalTranslation(0, 5, 0); //TODO set based on size of Npc
+        node.attachChild(questMarker);
     }
 
     public String talk() {
@@ -84,6 +96,26 @@ public class StaticNpc extends AbstractControl implements Npc{
         if(quests==null)
             quests = new ArrayList<Quest>();
         quests.add(quest);
+    }
+
+    public void questMarkerUpdate(boolean add) {
+        int prev = numQuests;
+        if(add)
+            numQuests++;
+        else
+            numQuests--;
+        
+        if(numQuests<0)
+            throw new Error("numQuest bellow zero.");
+        
+        if(prev==0 && numQuests>0){
+            //display questMarker
+            questMarker.setCullHint(Spatial.CullHint.Dynamic);
+        }
+        else if (numQuests==0 && prev>0){
+            //hide questMarker
+            questMarker.setCullHint(Spatial.CullHint.Always);
+        }
     }
     
 }

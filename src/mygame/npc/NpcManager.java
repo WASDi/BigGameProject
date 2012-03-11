@@ -10,11 +10,8 @@ import mygame.ResourceLoader;
 import mygame.quest.DeliveryQuest;
 
 /**
- * This class creates Npc's and returns them.
- * They will then be loaded from InGameAppState and get added to the world.
- * 
- * The methods will return Node with CharacterControls attached.
- * Use spatial.getControl(CharacterControl.class) to get the control and add it to the physics.
+ * This class creates a list with every Npc that will
+ * be added to the game by InGameAppState.
  * 
  * @author wasd
  */
@@ -35,7 +32,7 @@ public class NpcManager {
         Node node = new Node("SandGuyNode");
         node.attachChild(model);
         
-        StaticNpc control = new StaticNpc(node, name);
+        StaticNpc control = new StaticNpc(node, name, loader.getQuestMarker());
         npcList.add(control);
         node.addControl(control);
         control.setPosition(x,y,z);
