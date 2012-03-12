@@ -243,7 +243,6 @@ public class ResourceLoader {
         heightmap.smooth(1f, 4);
 
         terrain = new TerrainQuad("my terrain", 65, 1025, heightmap.getHeightMap());
-        //, new LodPerspectiveCalculatorFactory(getCamera(), 4)); // add this in to see it use entropy for LOD calculations
         TerrainLodControl control = new TerrainLodControl(terrain, terrainLodCamera);
         control.setLodCalculator( new DistanceLodCalculator(65, 2.7f) ); // patch size, and a multiplier
         terrain.addControl(control);
@@ -278,7 +277,7 @@ public class ResourceLoader {
         water.setWaveScale(0.002f);
         water.setMaxAmplitude(3f);
         water.setFoamExistence(new Vector3f(1f, 4, 0.5f));
-        water.setFoamTexture((Texture2D) assetManager.loadTexture("Common/MatDefs/Water/Textures/foam2.jpg")); //foam to foam3
+        water.setFoamTexture((Texture2D) assetManager.loadTexture("Common/MatDefs/Water/Textures/foam2.jpg"));
         //water.setNormalScale(0.5f);
 
         //water.setRefractionConstant(0.25f);

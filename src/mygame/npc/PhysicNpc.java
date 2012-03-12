@@ -81,7 +81,8 @@ public class PhysicNpc extends CharacterControl implements Npc{
         
         if(walkTo!=null){
             //walk towards walkTo
-            walkDir.set(walkTo.x-getPhysicsLocation().x, 0, walkTo.y-getPhysicsLocation().z).normalizeLocal().multLocal(.1f);
+            walkDir.set(walkTo.x-getPhysicsLocation().x, 0,
+                    walkTo.y-getPhysicsLocation().z).normalizeLocal().multLocal(.1f);
             setWalkDirection(walkDir);
             setViewDirection(walkDir);
             
@@ -106,7 +107,8 @@ public class PhysicNpc extends CharacterControl implements Npc{
     }
     
     /**
-     * Gets a point that is within 'maxWalkDistance' from spawn but at least 'maxWalkDistance/2' from where the player currently is
+     * Gets a point that is within 'maxWalkDistance' from spawn but
+     * at least 'maxWalkDistance/2' from where the player currently is
      * @return A Vector2f with the x,z coordinates
      */
     private Vector2f getWalkPoint(){

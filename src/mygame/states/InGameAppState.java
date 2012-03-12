@@ -70,7 +70,8 @@ public class InGameAppState extends AbstractAppState{
     }
     
     private void initTerrainPhysics(){
-        RigidBodyControl terrainPhys = new RigidBodyControl(CollisionShapeFactory.createMeshShape(loader.getTerrain()), 0);
+        RigidBodyControl terrainPhys = new RigidBodyControl(
+                CollisionShapeFactory.createMeshShape(loader.getTerrain()), 0);
         loader.getTerrain().addControl(terrainPhys);
         bulletAppState.getPhysicsSpace().add(terrainPhys);
     }
