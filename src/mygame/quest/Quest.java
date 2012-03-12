@@ -18,15 +18,10 @@ public abstract class Quest {
      */
     protected int stage;
     
-    protected Quest prequest;
     protected Quest followup;
 
-    protected Quest(Quest prequest, Quest followup) {
-        this.prequest = prequest;
+    protected Quest(Quest followup) {
         this.followup = followup;
-        
-        if(prequest==null)
-            stage=1; //no prequest, make quest startable
     }
     
     /**
@@ -51,7 +46,9 @@ public abstract class Quest {
     protected void onFinish(){
         stage=100;
         if(followup!=null)
-            followup.stage=1;
+            followup.onStart();
     }
+    
+    public abstract void onStart();
     
 }

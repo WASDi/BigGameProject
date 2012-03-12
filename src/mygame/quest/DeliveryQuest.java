@@ -12,8 +12,8 @@ public class DeliveryQuest extends Quest{
     private Npc to;
     private String itemName;
 
-    public DeliveryQuest(Npc from, Npc to, String itemName, Quest prequest, Quest followup) {
-        super(prequest, followup);
+    public DeliveryQuest(Npc from, Npc to, String itemName, Quest followup) {
+        super(followup);
         this.from = from;
         this.to = to;
         this.itemName = itemName;
@@ -48,6 +48,14 @@ public class DeliveryQuest extends Quest{
             }
         }
         return null;
+    }
+
+    @Override
+    public void onStart() {
+        if(stage!=0)
+            throw new Error("Quest already started");
+        stage=1;
+        from.questMarkerUpdate(true);
     }
     
 }

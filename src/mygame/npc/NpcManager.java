@@ -71,7 +71,9 @@ public class NpcManager {
         Npc mcSand = createSandGuy(226.8f, 0.6f, 368.0f, 0.00174f, -0.00096f, "McSand");
         
         //TODO Some class like QuestFactory or a more organized way to initialize quests
-        DeliveryQuest dq = new DeliveryQuest(sandberg, mcSand, "Staff", null, null);
+        DeliveryQuest dq2 = new DeliveryQuest(sandy, sandberg, "Void Salts", null);
+        DeliveryQuest dq1 = new DeliveryQuest(sandberg, mcSand, "Staff", dq2);
+        dq1.onStart();
         
         return npcList;
     }
