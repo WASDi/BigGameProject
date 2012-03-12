@@ -81,7 +81,11 @@ public class NpcManager {
         Npc sandy = createSandGuy(232.7f, 0.5f, 381.6f, 0.00014f, -0.00029f, "Sandy");
         Npc mcSand = createSandGuy(226.8f, 0.6f, 368.0f, 0.00174f, -0.00096f, "McSand");
         
-        Npc enemy1 = createEnemy(270.7f, -0.7f, 276.7f);
+        for(int z=0;z<3;z++){
+            for (int x=0; x<2; x++) {
+                createEnemy(255f+x*10, 0f, 260f+z*10);
+            }
+        }
         
         //TODO Some class like QuestFactory or a more organized way to initialize quests
         DeliveryQuest dq2 = new DeliveryQuest(sandy, sandberg, "Void Salts", null);
