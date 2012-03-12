@@ -26,7 +26,7 @@ public class NpcManager {
     private Npc createSandGuy(float x, float y, float z, float xlook, float zlook, String name){
         Spatial model = loader.getSandGuyModel();
         model.setLocalTranslation(0, -2.1f, 0); //centers the model
-        Node node = new Node("SandGuyNode");
+        Node node = new Node("SandGuy_"+name);
         node.attachChild(model);
         
         StaticNpc control = new StaticNpc(node, name, loader.getQuestMarker());
@@ -34,6 +34,17 @@ public class NpcManager {
         node.addControl(control);
         control.setPosition(x,y,z);
         control.lookAt(xlook, zlook);
+        return control;
+    }
+    private Npc createEnemy(float x, float y, float z){
+        Spatial model = loader.getEnemyModel();
+        Node node = new Node("Enemy");
+        node.attachChild(model);
+        
+        PhysicNpc control = new PhysicNpc(1, 2, node);
+        npcList.add(control);
+        node.addControl(control);
+        control.setPosition(x,y,z);
         return control;
     }
     
@@ -69,6 +80,8 @@ public class NpcManager {
         Npc sandberg = createSandGuy(245.6f, -0.4f, 388.2f, -0.00041f, -0.00194f, "Sandberg");
         Npc sandy = createSandGuy(232.7f, 0.5f, 381.6f, 0.00014f, -0.00029f, "Sandy");
         Npc mcSand = createSandGuy(226.8f, 0.6f, 368.0f, 0.00174f, -0.00096f, "McSand");
+        
+        Npc enemy1 = createEnemy(270.7f, -0.7f, 276.7f);
         
         //TODO Some class like QuestFactory or a more organized way to initialize quests
         DeliveryQuest dq2 = new DeliveryQuest(sandy, sandberg, "Void Salts", null);

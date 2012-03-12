@@ -15,6 +15,7 @@ import com.jme3.renderer.Camera;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Box;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.terrain.geomipmap.TerrainLodControl;
 import com.jme3.terrain.geomipmap.TerrainQuad;
@@ -118,6 +119,17 @@ public class ResourceLoader {
             sandGuyModel.setLocalScale(.04f); //It's a big model
         }
         return sandGuyModel.clone(); //use clone since there will be many sand people.
+    }
+    
+    public Spatial getEnemyModel(){
+        //TODO REMOVE. This is a placeholder
+        Box b = new Box(1, 2, 1);
+        Spatial enemy = new Geometry("Enemy", b);
+        Material mat = new Material(assetManager,
+          "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", ColorRGBA.Red);
+        enemy.setMaterial(mat);
+        return enemy;
     }
     
     public Spatial getShipModel(){

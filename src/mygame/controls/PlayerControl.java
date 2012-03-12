@@ -33,6 +33,7 @@ public class PlayerControl extends CharacterControl implements ActionListener{
     private NpcManager npcManager;
     private long lastNpcCheck = 0;
     private Spatial targetArrow;
+    private boolean drowning = false;
 
     public PlayerControl(Game app, Node playerNode, NpcManager npcManager) {
         super(new CapsuleCollisionShape(1, 2), .1f);
@@ -119,15 +120,17 @@ public class PlayerControl extends CharacterControl implements ActionListener{
     @Override
     public void update(float tpf) {
         
-        if(getPhysicsLocation().y<-11){
-            //drown
+        if(drowning || getPhysicsLocation().y<-11){
+            drowning=true;
             if(keysEnabled){
                 setKeysEnabled(false);
             }
+            setWalkDirection(Vector3f.ZERO);
             Spatial playerModel = app.getResourceLoader().getPlayerModel();
             playerModel.setLocalTranslation(playerModel.getLocalTranslation().add(0, -tpf*3, 0));
             if(playerModel.getLocalTranslation().y<-10){
                 //respawn
+                drowning=false;
                 app.getResourceLoader().resetPlayerTranslations();
                 setKeysEnabled(true);
                 setPhysicsLocation(new Vector3f(320, -.5f, 240));
@@ -169,12 +172,10 @@ public class PlayerControl extends CharacterControl implements ActionListener{
     
     private void setKeysEnabled(boolean enable){
         keysEnabled=enable;
-        if(!enable){
-            w=false;
-            a=false;
-            s=false;
-            d=false;
-        }
+        w=false;
+        a=false;
+        s=false;
+        d=false;
     }
     
 }

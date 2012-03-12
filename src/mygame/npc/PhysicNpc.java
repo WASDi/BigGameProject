@@ -23,7 +23,7 @@ public class PhysicNpc extends CharacterControl implements Npc{
     }
 
     public String talk() {
-        return "I am physics NPC";
+        return "I am "+node.getName();
     }
 
     public Vector3f getPosition() {
