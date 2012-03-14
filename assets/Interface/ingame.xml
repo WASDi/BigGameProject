@@ -4,13 +4,45 @@
         <layer childLayout="center">
             <panel width="100%" height="100%" align="center" valign="top" childLayout="vertical">
                 
-                <panel height="10%" width="*" backgroundColor="#A330">
+                <panel height="*" width="*" backgroundColor="#0000"></panel>
+                
+                <panel height="120px" width="*" backgroundColor="#0000" childLayout="horizontal">
                     
-                </panel>
-                
-                <panel height="*" width="*"></panel>
-                
-                <panel height="140px" width="*" backgroundColor="#333F">
+                    <panel height="*" width="120px" backgroundColor="#770F" childLayout="vertical">
+                        <!-- START info about target !-->
+                        <panel height="22px" width="*" backgroundColor="#AA0F" childLayout="vertical">
+                            <control name="label" text="Target info" />
+                        </panel>
+                        
+                        <panel height="30px" width="*" backgroundColor="#0000" childLayout="horizontal">
+                        
+                            <panel height="*" width="50%" backgroundColor="#0000" childLayout="vertical">
+                                <control name="label" text="Name:" />
+                            </panel>
+
+                            <panel height="*" width="50%" backgroundColor="#0000" childLayout="vertical">
+                                <control name="label" text="Meep" />
+                            </panel>
+
+                        </panel>
+                        <!-- END info about target !-->
+                    </panel>
+                    
+                    
+                    
+                    <panel height="*" width="*" backgroundColor="#333F" childLayout="vertical">
+                        
+                        <!-- chatarea !-->
+                    
+                    </panel>
+                    
+                    
+                    
+                    <panel height="*" width="120px" backgroundColor="#770F" childLayout="vertical">
+                        
+                        <!-- select attacks !-->
+                    
+                    </panel>
                     
                 </panel>
 
