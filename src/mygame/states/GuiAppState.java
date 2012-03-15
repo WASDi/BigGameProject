@@ -49,7 +49,7 @@ public class GuiAppState extends AbstractAppState implements ActionListener{
         nifty.addXml("Interface/ingame.xml");
         app.getGuiViewPort().addProcessor(niftyDisplay);
         
-        niftyDisplay.getNifty().gotoScreen("mainmenu");
+        nifty.gotoScreen("mainmenu");
         setClickModeEnabled(true);
         
         initKeys();
@@ -116,6 +116,10 @@ public class GuiAppState extends AbstractAppState implements ActionListener{
 
     public void onTargetChange(Npc target) {
         ingame.onTargetChange(target);
+    }
+    
+    public void onChat(String message){
+        ingame.onChat(message);
     }
     
 }

@@ -88,11 +88,12 @@ public class PlayerControl extends CharacterControl implements ActionListener{
             return;
         }
         if(isPressed && name.equals("EE")){
-            //TODO implement GUI stuff instead of printing what they say
-            if(target!=null)
-                System.out.println(target.talk());
-            else
-                System.out.println("*No target*");
+            if(target!=null){
+                app.getGui().onChat(target.talk());
+            }
+            else{
+                app.getGui().onChat("*No target*");
+            }
             return;
         }
     }

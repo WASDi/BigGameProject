@@ -88,7 +88,7 @@ public class NpcManager {
         }
         
         //TODO Some class like QuestFactory or a more organized way to initialize quests
-        DeliveryQuest dq2 = new DeliveryQuest(sandy, sandberg, "Void Salts", null);
+        DeliveryQuest dq2 = new DeliveryQuest(sandy, sandberg, "Sword", null);
         DeliveryQuest dq1 = new DeliveryQuest(sandberg, mcSand, "Staff", dq2);
         dq1.onStart();
         
