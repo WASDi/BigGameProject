@@ -13,6 +13,7 @@ import mygame.Game;
 import mygame.gui.InGameScreenController;
 import mygame.gui.LoadingScreenController;
 import mygame.gui.MainMenuScreenController;
+import mygame.npc.Npc;
 
 /**
  * Handles the GUI. ScreenControllers speak to this class which then contacts Game.
@@ -24,6 +25,7 @@ public class GuiAppState extends AbstractAppState implements ActionListener{
     private Game app;
     private NiftyJmeDisplay niftyDisplay;
     private LoadingScreenController loading;
+    private InGameScreenController ingame;
 
     @Override
     public void initialize(AppStateManager stateManager, Application app) {
@@ -35,9 +37,12 @@ public class GuiAppState extends AbstractAppState implements ActionListener{
                                                           app.getGuiViewPort());
         Nifty nifty = niftyDisplay.getNifty();
         loading = new LoadingScreenController();
+        ingame = new InGameScreenController();
+        
         nifty.registerScreenController(new MainMenuScreenController(this));
         nifty.registerScreenController(loading);
-        nifty.registerScreenController(new InGameScreenController());
+        nifty.registerScreenController(ingame);
+        
         nifty.addXml("Interface/mainmenu.xml");
         nifty.addXml("Interface/cinematic.xml");
         nifty.addXml("Interface/loadingscreen.xml");
@@ -107,6 +112,10 @@ public class GuiAppState extends AbstractAppState implements ActionListener{
 
     public void exit() {
         app.stop();
+    }
+
+    public void onTargetChange(Npc target) {
+        ingame.onTargetChange(target);
     }
     
 }

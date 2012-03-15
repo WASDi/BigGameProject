@@ -58,7 +58,7 @@ public class PhysicNpc extends CharacterControl implements Npc{
     }
     
     public String getName() {
-        return "NAME_NOT_IMPLEMENTED";
+        return node.getName();
     }
 
     public void addQuest(Quest quest) {

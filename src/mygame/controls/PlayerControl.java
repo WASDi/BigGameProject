@@ -145,6 +145,7 @@ public class PlayerControl extends CharacterControl implements ActionListener{
             if(newTarget!=target){
                 target = newTarget;
                 target.onTargeted(targetArrow);
+                app.getGui().onTargetChange(target);
             }
         }
         

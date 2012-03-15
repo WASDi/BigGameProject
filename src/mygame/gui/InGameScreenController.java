@@ -5,6 +5,7 @@ import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import mygame.npc.Npc;
 
 /**
  *
@@ -24,6 +25,10 @@ public class InGameScreenController implements ScreenController{
     }
 
     public void onEndScreen() {
+    }
+
+    public void onTargetChange(Npc target) {
+        target_name.setText(target.getName());
     }
     
 }

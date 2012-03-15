@@ -128,7 +128,7 @@ public class InGameAppState extends AbstractAppState{
         stateNode.attachChild(playerNode);
         bulletAppState.setEnabled(true);
         app.getGui().showIngameHud();
-        bulletAppState.getPhysicsSpace().enableDebug(app.getAssetManager());
+//        bulletAppState.getPhysicsSpace().enableDebug(app.getAssetManager());
     }
     
 }
