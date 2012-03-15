@@ -3,7 +3,7 @@
     <useStyles filename="nifty-default-styles.xml" />
     <useControls filename="nifty-default-controls.xml" />
 
-    <screen id="mainmenu" controller="mygame.gui.MainMenuGuiController">
+    <screen id="mainmenu" controller="mygame.gui.MainMenuScreenController">
         <layer childLayout="center">
             <panel width="120px" height="100%" align="left" valign="top" childLayout="vertical" backgroundColor="#55a5" padding="10">
                 <control id="continueButton" name="button" label="Continue">

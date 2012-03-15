@@ -10,11 +10,11 @@ import de.lessvoid.nifty.screen.ScreenController;
  * 
  * @author wasd
  */
-public class MainMenuGuiController implements ScreenController{
+public class MainMenuScreenController implements ScreenController{
     
     private GuiAppState gui;
     
-    public MainMenuGuiController(GuiAppState gui) {
+    public MainMenuScreenController(GuiAppState gui) {
         this.gui=gui;
     }
     

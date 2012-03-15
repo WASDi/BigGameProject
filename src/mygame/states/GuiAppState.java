@@ -10,8 +10,9 @@ import com.jme3.input.controls.KeyTrigger;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import de.lessvoid.nifty.Nifty;
 import mygame.Game;
+import mygame.gui.InGameScreenController;
 import mygame.gui.LoadingScreenController;
-import mygame.gui.MainMenuGuiController;
+import mygame.gui.MainMenuScreenController;
 
 /**
  * Handles the GUI. ScreenControllers speak to this class which then contacts Game.
@@ -34,8 +35,9 @@ public class GuiAppState extends AbstractAppState implements ActionListener{
                                                           app.getGuiViewPort());
         Nifty nifty = niftyDisplay.getNifty();
         loading = new LoadingScreenController();
-        nifty.registerScreenController(new MainMenuGuiController(this));
+        nifty.registerScreenController(new MainMenuScreenController(this));
         nifty.registerScreenController(loading);
+        nifty.registerScreenController(new InGameScreenController());
         nifty.addXml("Interface/mainmenu.xml");
         nifty.addXml("Interface/cinematic.xml");
         nifty.addXml("Interface/loadingscreen.xml");

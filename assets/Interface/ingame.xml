@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <nifty xmlns="http://nifty-gui.sourceforge.net/nifty-1.3.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd http://nifty-gui.sourceforge.net/nifty-1.3.xsd">
-    <screen id="ingame">
+    <screen id="ingame" controller="mygame.gui.InGameScreenController">
         <layer childLayout="center">
             <panel width="100%" height="100%" align="center" valign="top" childLayout="vertical">
                 
@@ -8,7 +8,7 @@
                 
                 <panel height="120px" width="*" backgroundColor="#0000" childLayout="horizontal">
                     
-                    <panel height="*" width="120px" backgroundColor="#770F" childLayout="vertical">
+                    <panel height="*" width="140px" backgroundColor="#770F" childLayout="vertical">
                         <!-- START info about target !-->
                         <panel height="22px" width="*" backgroundColor="#AA0F" childLayout="vertical">
                             <control name="label" text="Target info" />
@@ -16,12 +16,12 @@
                         
                         <panel height="30px" width="*" backgroundColor="#0000" childLayout="horizontal">
                         
-                            <panel height="*" width="50%" backgroundColor="#0000" childLayout="vertical">
+                            <panel height="*" width="40%" backgroundColor="#0000" childLayout="vertical">
                                 <control name="label" text="Name:" />
                             </panel>
 
-                            <panel height="*" width="50%" backgroundColor="#0000" childLayout="vertical">
-                                <control name="label" text="Meep" />
+                            <panel height="*" width="60%" backgroundColor="#0000" childLayout="vertical">
+                                <control name="label" id="target_name" text="---------------" />
                             </panel>
 
                         </panel>
