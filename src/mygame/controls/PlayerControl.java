@@ -89,10 +89,10 @@ public class PlayerControl extends CharacterControl implements ActionListener{
         }
         if(isPressed && name.equals("EE")){
             if(target!=null){
-                app.getGui().onChat(target.talk());
+                app.getGui().onChat(target.getName(), target.talk());
             }
             else{
-                app.getGui().onChat("*No target*");
+                app.getGui().onChat("*No target*", null);
             }
             return;
         }

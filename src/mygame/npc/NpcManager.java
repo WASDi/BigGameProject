@@ -23,7 +23,7 @@ public class NpcManager {
         this.loader = loader;
     }
     
-    private Npc createSandGuy(float x, float y, float z, float xlook, float zlook, String name){
+    private StaticNpc createSandGuy(float x, float y, float z, float xlook, float zlook, String name){
         Spatial model = loader.getSandGuyModel();
         model.setLocalTranslation(0, -2.1f, 0); //centers the model
         Node node = new Node("SandGuy_"+name);
@@ -77,9 +77,12 @@ public class NpcManager {
      * @return List of Npc to be added to the game
      */
     public List<Npc> loadNpcs(){
-        Npc sandberg = createSandGuy(245.6f, -0.4f, 388.2f, -0.00041f, -0.00194f, "Sandberg");
-        Npc sandy = createSandGuy(232.7f, 0.5f, 381.6f, 0.00014f, -0.00029f, "Sandy");
-        Npc mcSand = createSandGuy(226.8f, 0.6f, 368.0f, 0.00174f, -0.00096f, "McSand");
+        StaticNpc sandberg = createSandGuy(245.6f, -0.4f, 388.2f, -0.00041f, -0.00194f, "Sandberg");
+        StaticNpc sandy = createSandGuy(232.7f, 0.5f, 381.6f, 0.00014f, -0.00029f, "Sandy");
+        StaticNpc mcSand = createSandGuy(226.8f, 0.6f, 368.0f, 0.00174f, -0.00096f, "McSand");
+        
+        StaticNpc sandersson = createSandGuy(311.7f, -0.8f, 245.0f, 0.96285f, -0.27004f, "Sandersson");
+        sandersson.setSay("Welcome to our island! Your spaceship must have crashed.");
         
         for(int z=0;z<3;z++){
             for (int x=0; x<2; x++) {

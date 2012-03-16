@@ -30,16 +30,16 @@
                     
                     
                     
-                    <panel height="*" width="*" backgroundColor="#333F" childLayout="center">
+                    <panel height="*" width="*" backgroundColor="#333F" childLayout="vertical">
                         <!-- START chatarea !-->
                         <control name="label" id="chat_area" text="-chat-" width="100%" height="100%"
-                            textHAlign="center" textVAlign="center" align="center" wrap="true" />
+                            textHAlign="center" textVAlign="center" align="center" />
                         <!-- END chatarea !-->
                     </panel>
                     
                     
                     
-                    <panel height="*" width="120px" backgroundColor="#770F" childLayout="vertical">
+                    <panel height="*" width="140px" backgroundColor="#770F" childLayout="vertical">
                         
                         <!-- select attacks !-->
                     

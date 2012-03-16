@@ -30,8 +30,11 @@ public class InGameScreenController implements ScreenController{
         targetName.setText(target.getName());
     }
     
-    public void onChat(String message){
-        chatArea.setText(message);
+    public void onChat(String npcName, String message){
+        if(message!=null)
+            chatArea.setText(npcName+"\n"+message);
+        else    
+            chatArea.setText(npcName); //should say "no target"
     }
     
 }

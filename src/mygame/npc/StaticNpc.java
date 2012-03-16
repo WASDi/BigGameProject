@@ -19,6 +19,7 @@ public class StaticNpc extends AbstractControl implements Npc{
     
     private Node node;
     private String name;
+    private String say;
     private Spatial questMarker;
     /**
      * Used to decide if questMarker should be displayed.
@@ -50,7 +51,10 @@ public class StaticNpc extends AbstractControl implements Npc{
                 }
             }
         }
-        return "My name is "+name;
+        if(say!=null)
+            return say;
+        else
+            return "My name is "+name+". I have nothing to say.";
     }
 
     @Override
@@ -116,6 +120,10 @@ public class StaticNpc extends AbstractControl implements Npc{
             //hide questMarker
             questMarker.setCullHint(Spatial.CullHint.Always);
         }
+    }
+
+    public void setSay(String say) {
+        this.say=say;
     }
     
 }

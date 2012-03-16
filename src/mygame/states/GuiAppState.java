@@ -118,8 +118,8 @@ public class GuiAppState extends AbstractAppState implements ActionListener{
         ingame.onTargetChange(target);
     }
     
-    public void onChat(String message){
-        ingame.onChat(message);
+    public void onChat(String npcName, String message){
+        ingame.onChat(npcName, message);
     }
     
 }
