@@ -28,6 +28,7 @@ public class PlayerControl extends CharacterControl implements ActionListener{
     private Game app;
     private boolean w,a,s,d;
     private Vector3f walkDir = new Vector3f();
+    private Vector3f lookDir = new Vector3f();
     private CombatCamera combatCam;
     private boolean keysEnabled = true;
     private Npc target;
@@ -86,7 +87,7 @@ public class PlayerControl extends CharacterControl implements ActionListener{
 //                    getPhysicsLocation().x, getPhysicsLocation().y, getPhysicsLocation().z,
 //                    getViewDirection().x, getViewDirection().z);
 //            System.out.println(getViewDirection());
-            meleeAttack();
+            meleeAttack(); //TODO do the attack on mouseclick instead
             return;
         }
         if(isPressed && name.equals("EE")){
@@ -171,6 +172,8 @@ public class PlayerControl extends CharacterControl implements ActionListener{
         setWalkDirection(walkDir);
         if(walkDir.length()!=0)
             setViewDirection(walkDir);
+        if(w || a || s || d)
+            lookDir.set(walkDir); //update where the player is looking
         super.update(tpf);
     }
     
@@ -186,8 +189,12 @@ public class PlayerControl extends CharacterControl implements ActionListener{
      * Hits the enemies in front of the player.
      */
     private void meleeAttack(){
-        Vector3f pos = new Vector3f(getPhysicsLocation());
-        //TODO move pos shortly infront of the player
+        Vector3f pos = new Vector3f(lookDir).normalizeLocal();
+        pos.multLocal(3f);
+        System.out.println(pos);
+        pos.addLocal(getPhysicsLocation());
+        //pos is now moved 3 lenghts in front of the player
+        
         Iterator<Npc> it = npcManager.getNpcIterator();
         while(it.hasNext()){
             Npc enemy = it.next();
