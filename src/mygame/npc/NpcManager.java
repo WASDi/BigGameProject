@@ -4,6 +4,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import mygame.ResourceLoader;
 import mygame.quest.DeliveryQuest;
@@ -72,6 +73,10 @@ public class NpcManager {
         return closest;
     }
     
+    public Iterator<Npc> getNpcIterator(){
+        return npcList.iterator();
+    }
+    
     /**
      * Initializes every Npc in the game and links quest between them if they have any.
      * @return List of Npc to be added to the game
@@ -82,7 +87,8 @@ public class NpcManager {
         StaticNpc mcSand = createSandGuy(226.8f, 0.6f, 368.0f, 0.00174f, -0.00096f, "McSand");
         
         StaticNpc sandersson = createSandGuy(311.7f, -0.8f, 245.0f, 0.96285f, -0.27004f, "Sandersson");
-        sandersson.setSay("Welcome to our island! Your spaceship must have crashed.");
+        sandersson.setSay("Welcome to our island! Your spaceship must have crashed.\n"
+                + "Go and talk to my friends over there.");
         
         for(int z=0;z<3;z++){
             for (int x=0; x<2; x++) {

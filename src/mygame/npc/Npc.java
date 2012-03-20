@@ -56,4 +56,10 @@ public interface Npc {
      */
     public void questMarkerUpdate(boolean add);
     
+    /**
+     * Called by Player when he does an attack on the Npc
+     * @param dmg How much health the Npc lost
+     */
+    public void onAttack(int dmg);
+    
 }

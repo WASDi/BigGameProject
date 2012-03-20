@@ -127,5 +127,10 @@ public class PhysicNpc extends CharacterControl implements Npc{
         walkDir.zero();
         setWalkDirection(walkDir);
     }
+
+    public void onAttack(int dmg) {
+        //TODO lose health
+        jump();
+    }
     
 }

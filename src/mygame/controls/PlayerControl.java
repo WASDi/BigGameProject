@@ -13,6 +13,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
+import java.util.Iterator;
 import mygame.Game;
 import mygame.camera.CombatCamera;
 import mygame.npc.Npc;
@@ -81,10 +82,11 @@ public class PlayerControl extends CharacterControl implements ActionListener{
             return;
         }
         if(isPressed && name.equals("debug")){
-            System.out.printf("addSandGuy(%.1ff, %.1ff, %.1ff, %.5ff, %.5ff);\n",
-                    getPhysicsLocation().x, getPhysicsLocation().y, getPhysicsLocation().z,
-                    getViewDirection().x, getViewDirection().z);
+//            System.out.printf("addSandGuy(%.1ff, %.1ff, %.1ff, %.5ff, %.5ff);\n",
+//                    getPhysicsLocation().x, getPhysicsLocation().y, getPhysicsLocation().z,
+//                    getViewDirection().x, getViewDirection().z);
 //            System.out.println(getViewDirection());
+            meleeAttack();
             return;
         }
         if(isPressed && name.equals("EE")){
@@ -178,6 +180,22 @@ public class PlayerControl extends CharacterControl implements ActionListener{
         a=false;
         s=false;
         d=false;
+    }
+    
+    /**
+     * Hits the enemies in front of the player.
+     */
+    private void meleeAttack(){
+        Vector3f pos = new Vector3f(getPhysicsLocation());
+        //TODO move pos shortly infront of the player
+        Iterator<Npc> it = npcManager.getNpcIterator();
+        while(it.hasNext()){
+            Npc enemy = it.next();
+            if(pos.distance(enemy.getPosition())<5f){
+                enemy.onAttack(5);
+            }
+        }
+        //TODO do hit animation.
     }
     
 }

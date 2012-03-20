@@ -54,7 +54,7 @@ public class StaticNpc extends AbstractControl implements Npc{
         if(say!=null)
             return say;
         else
-            return "My name is "+name+". I have nothing to say.";
+            return "I have nothing to say.";
     }
 
     @Override
@@ -124,6 +124,10 @@ public class StaticNpc extends AbstractControl implements Npc{
 
     public void setSay(String say) {
         this.say=say;
+    }
+
+    public void onAttack(int dmg) {
+        //do nothing, StaticNpc can't be hit for now.
     }
     
 }
