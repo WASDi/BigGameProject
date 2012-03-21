@@ -59,7 +59,8 @@ public interface Npc {
     /**
      * Called by Player when he does an attack on the Npc
      * @param dmg How much health the Npc lost
+     * @param direction Which direction the hit came from to calculate knockback
      */
-    public void onAttack(int dmg);
+    public void onAttack(int dmg, Vector3f direction);
     
 }

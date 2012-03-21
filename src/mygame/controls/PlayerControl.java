@@ -207,7 +207,8 @@ public class PlayerControl extends CharacterControl implements ActionListener{
         while(it.hasNext()){
             Npc enemy = it.next();
             if(pos.distance(enemy.getPosition())<5f){
-                enemy.onAttack(5);
+                Vector3f dir = enemy.getPosition().subtract(pos).normalizeLocal();
+                enemy.onAttack(5, dir);
             }
         }
         //TODO do hit animation.

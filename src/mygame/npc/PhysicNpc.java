@@ -24,6 +24,10 @@ public class PhysicNpc extends CharacterControl implements Npc{
     private long nextWalk;
     private int maxHp;
     private int hp;
+    private boolean enraged;
+    
+    private Vector3f knockback = null;
+    private float knockTime = 0f;
 
     public PhysicNpc(float sizex, float sizey, Node node, int maxHp) {
         super(new CapsuleCollisionShape(sizex, sizey), .1f);
@@ -85,7 +89,25 @@ public class PhysicNpc extends CharacterControl implements Npc{
         //The default behaviour is that they should walk toward a nearby point and stop for a while
         //Then pick a new random point while making sure not to walk too far away from the start location
         
-        if(walkTo!=null){
+        if(enraged){
+            if(knockback!=null){
+                knockTime+=tpf;
+                if(knockTime>1){
+                    knockback = null;
+                    knockTime = 0f;
+                }
+                else{
+                    float percent = 1-knockTime;
+                    percent*=.3f;
+                    setWalkDirection(knockback.mult(percent));
+                }
+            }
+            else{
+                //walk towards player
+                //TODO IMPORTANT set walkTo to player positioon
+            }
+        }
+        else if(walkTo!=null){
             //walk towards walkTo
             walkDir.set(walkTo.x-getPhysicsLocation().x, 0,
                     walkTo.y-getPhysicsLocation().z).normalizeLocal().multLocal(.1f);
@@ -134,13 +156,15 @@ public class PhysicNpc extends CharacterControl implements Npc{
         setWalkDirection(walkDir);
     }
 
-    public void onAttack(int dmg) {
+    public void onAttack(int dmg, Vector3f direction) {
         //TODO lose health
         attackPlayer();
         jump();
+        knockback = direction;
     }
 
     private void attackPlayer() {
+        enraged = true;
         //TODO move towards player and do animations and stuff.
         //TODO possibly call nearby enemies to also attack.
     }

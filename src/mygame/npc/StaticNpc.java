@@ -126,7 +126,7 @@ public class StaticNpc extends AbstractControl implements Npc{
         this.say=say;
     }
 
-    public void onAttack(int dmg) {
+    public void onAttack(int dmg, Vector3f direction) {
         //do nothing, StaticNpc can't be hit for now.
     }
     
