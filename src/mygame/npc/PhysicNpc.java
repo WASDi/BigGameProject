@@ -3,10 +3,10 @@ package mygame.npc;
 import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.control.CharacterControl;
 import com.jme3.math.FastMath;
-import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import mygame.controls.PlayerControl;
 import mygame.quest.Quest;
 
 /**
@@ -18,7 +18,7 @@ public class PhysicNpc extends CharacterControl implements Npc{
     private Node node;
     private Vector3f arrowTranslation;
     private float spawnx, spawnz; //the x and y coordinate where the Npc is spawned
-    private Vector2f walkTo;
+    private Vector3f walkTo;
     private Vector3f walkDir = new Vector3f();
     private final float maxWalkDistance = 20f;
     private long nextWalk;
@@ -28,6 +28,7 @@ public class PhysicNpc extends CharacterControl implements Npc{
     
     private Vector3f knockback = null;
     private float knockTime = 0f;
+    private PlayerControl attacker;
 
     public PhysicNpc(float sizex, float sizey, Node node, int maxHp) {
         super(new CapsuleCollisionShape(sizex, sizey), .1f);
@@ -38,9 +39,16 @@ public class PhysicNpc extends CharacterControl implements Npc{
     }
 
     public String talk() {
-        //Enemies get angry when you talk to them
-        attackPlayer();
-        return "Die!";
+        if(attacker != null){
+            //You have attacked this enemy before and he gets angry when you talk to him
+            enrage(attacker, false);
+            return "Die!";
+        }
+        else{
+            //Enemy doesn't know about you
+            return "Hmm?";
+        }
+        
     }
 
     public Vector3f getPosition() {
@@ -89,33 +97,37 @@ public class PhysicNpc extends CharacterControl implements Npc{
         //The default behaviour is that they should walk toward a nearby point and stop for a while
         //Then pick a new random point while making sure not to walk too far away from the start location
         
-        if(enraged){
+        if(enraged && attacker!=null){
             if(knockback!=null){
-                knockTime+=tpf;
+                knockTime+=tpf*1.5f;
                 if(knockTime>1){
                     knockback = null;
-                    knockTime = 0f;
                 }
                 else{
                     float percent = 1-knockTime;
-                    percent*=.3f;
+                    percent*=.4f;
                     setWalkDirection(knockback.mult(percent));
                 }
             }
             else{
                 //walk towards player
-                //TODO IMPORTANT set walkTo to player positioon
+                walkTo = attacker.getPhysicsLocation();
             }
+            //TODO stop being enraged if moving too far from spawn
+            //TODO possibly call nearby enemies to join the attack against the player
         }
-        else if(walkTo!=null){
+        
+        if(walkTo!=null){
             //walk towards walkTo
             walkDir.set(walkTo.x-getPhysicsLocation().x, 0,
-                    walkTo.y-getPhysicsLocation().z).normalizeLocal().multLocal(.1f);
+                    walkTo.z-getPhysicsLocation().z).normalizeLocal().multLocal(.1f);
             setWalkDirection(walkDir);
-            setViewDirection(walkDir);
+            if(knockback==null)
+                setViewDirection(walkDir);
             
-            if(FastMath.abs(getPhysicsLocation().x-walkTo.x)<1f && FastMath.abs(getPhysicsLocation().z-walkTo.y)<1f){
-                //finished walking
+            if(!enraged && FastMath.abs(getPhysicsLocation().x-walkTo.x)<1f &&
+                    FastMath.abs(getPhysicsLocation().z-walkTo.z)<1f){
+                //finished walking, ignores y-axis
                 prepareNextWalk();
             }
         }
@@ -126,11 +138,11 @@ public class PhysicNpc extends CharacterControl implements Npc{
         super.update(tpf);
     }
     
-    private Vector2f getPointNearSpawn(){
-        Vector2f point = new Vector2f(FastMath.rand.nextFloat(), FastMath.rand.nextFloat());
+    private Vector3f getPointNearSpawn(){
+        Vector3f point = new Vector3f(FastMath.rand.nextFloat(), 0, FastMath.rand.nextFloat());
         point.normalizeLocal();
-        point.set(spawnx+point.x*maxWalkDistance*FastMath.rand.nextFloat(),
-                  spawnz+point.y*maxWalkDistance*FastMath.rand.nextFloat());
+        point.set(spawnx+point.x*maxWalkDistance*FastMath.rand.nextFloat(), 0,
+                  spawnz+point.z*maxWalkDistance*FastMath.rand.nextFloat());
         return point;
     }
     
@@ -139,11 +151,10 @@ public class PhysicNpc extends CharacterControl implements Npc{
      * at least 'maxWalkDistance/2' from where the player currently is
      * @return A Vector2f with the x,z coordinates
      */
-    private Vector2f getWalkPoint(){
-        Vector2f pos = new Vector2f(getPhysicsLocation().x, getPhysicsLocation().z);
+    private Vector3f getWalkPoint(){
         while(true){
-            Vector2f point = getPointNearSpawn();
-            if(point.distance(pos)>maxWalkDistance/2)
+            Vector3f point = getPointNearSpawn();
+            if(getPhysicsLocation().distance(point)>maxWalkDistance/2)
                 return point;
         }
     }
@@ -156,17 +167,29 @@ public class PhysicNpc extends CharacterControl implements Npc{
         setWalkDirection(walkDir);
     }
 
-    public void onAttack(int dmg, Vector3f direction) {
-        //TODO lose health
-        attackPlayer();
-        jump();
+    public void onAttack(int dmg, Vector3f direction, PlayerControl player) {
+        hp-=dmg;
+        if(hp<=0){
+            //TODO die
+        }
         knockback = direction;
+        knockTime = 0f;
+        enrage(player, true);
+        jump();
     }
-
-    private void attackPlayer() {
+    
+    /**
+     * Makes the enemy angry
+     * @param player The attacker
+     * @param hadKnockback If the player got knockbacked it will cancel current movement
+     */
+    private void enrage(PlayerControl player, boolean hadKnockback){
+        attacker = player;
         enraged = true;
-        //TODO move towards player and do animations and stuff.
-        //TODO possibly call nearby enemies to also attack.
+        if(hadKnockback){
+            //walkTo gets calculated later in the loop
+            walkTo = null; 
+        }
     }
     
 }

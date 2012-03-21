@@ -3,6 +3,7 @@ package mygame.npc;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import mygame.controls.PlayerControl;
 import mygame.quest.Quest;
 
 /**
@@ -60,7 +61,8 @@ public interface Npc {
      * Called by Player when he does an attack on the Npc
      * @param dmg How much health the Npc lost
      * @param direction Which direction the hit came from to calculate knockback
+     * @param player The player which did the attack
      */
-    public void onAttack(int dmg, Vector3f direction);
+    public void onAttack(int dmg, Vector3f direction, PlayerControl player);
     
 }

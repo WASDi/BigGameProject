@@ -9,6 +9,7 @@ import com.jme3.scene.control.AbstractControl;
 import com.jme3.scene.control.Control;
 import java.util.ArrayList;
 import java.util.List;
+import mygame.controls.PlayerControl;
 import mygame.quest.Quest;
 
 /**
@@ -126,7 +127,7 @@ public class StaticNpc extends AbstractControl implements Npc{
         this.say=say;
     }
 
-    public void onAttack(int dmg, Vector3f direction) {
+    public void onAttack(int dmg, Vector3f direction, PlayerControl player) {
         //do nothing, StaticNpc can't be hit for now.
     }
     
