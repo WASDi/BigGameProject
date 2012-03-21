@@ -22,15 +22,20 @@ public class PhysicNpc extends CharacterControl implements Npc{
     private Vector3f walkDir = new Vector3f();
     private final float maxWalkDistance = 20f;
     private long nextWalk;
+    private int maxHp;
+    private int hp;
 
-    public PhysicNpc(float sizex, float sizey, Node node) {
+    public PhysicNpc(float sizex, float sizey, Node node, int maxHp) {
         super(new CapsuleCollisionShape(sizex, sizey), .1f);
         this.node = node;
         arrowTranslation = new Vector3f(0, sizey+1f, 0);
+        this.maxHp = maxHp;
+        this.hp = maxHp;
     }
 
     public String talk() {
-        //TODO attack player
+        //Enemies get angry when you talk to them
+        attackPlayer();
         return "Die!";
     }
 
@@ -130,8 +135,14 @@ public class PhysicNpc extends CharacterControl implements Npc{
     }
 
     public void onAttack(int dmg) {
-        //TODO lose health and attack player
+        //TODO lose health
+        attackPlayer();
         jump();
+    }
+
+    private void attackPlayer() {
+        //TODO move towards player and do animations and stuff.
+        //TODO possibly call nearby enemies to also attack.
     }
     
 }

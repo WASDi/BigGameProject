@@ -42,7 +42,7 @@ public class NpcManager {
         Node node = new Node("Enemy");
         node.attachChild(model);
         
-        PhysicNpc control = new PhysicNpc(1, 2, node);
+        PhysicNpc control = new PhysicNpc(1, 2, node, 100);
         npcList.add(control);
         node.addControl(control);
         control.setPosition(x,y,z);

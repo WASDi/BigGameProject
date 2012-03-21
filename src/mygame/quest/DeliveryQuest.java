@@ -20,9 +20,6 @@ public class DeliveryQuest extends Quest{
         
         from.addQuest(this);
         to.addQuest(this);
-        
-        if(stage==1)
-            from.questMarkerUpdate(true);
     }
 
     public String onTalk(Npc npc) {
