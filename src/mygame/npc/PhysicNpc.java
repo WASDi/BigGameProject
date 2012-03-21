@@ -30,7 +30,8 @@ public class PhysicNpc extends CharacterControl implements Npc{
     }
 
     public String talk() {
-        return "I am "+node.getName();
+        //TODO attack player
+        return "Die!";
     }
 
     public Vector3f getPosition() {
@@ -129,7 +130,7 @@ public class PhysicNpc extends CharacterControl implements Npc{
     }
 
     public void onAttack(int dmg) {
-        //TODO lose health
+        //TODO lose health and attack player
         jump();
     }
     

@@ -27,7 +27,13 @@ public class InGameScreenController implements ScreenController{
     }
 
     public void onTargetChange(Npc target) {
-        targetName.setText(target.getName());
+        if (target == null) {
+            targetName.setText("-");
+        }
+        else {
+            targetName.setText(target.getName());
+        }
+        
     }
     
     public void onChat(String npcName, String message){

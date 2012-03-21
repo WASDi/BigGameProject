@@ -4,8 +4,10 @@ import com.jme3.bullet.collision.shapes.CapsuleCollisionShape;
 import com.jme3.bullet.control.CharacterControl;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
+import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -63,8 +65,10 @@ public class PlayerControl extends CharacterControl implements ActionListener{
         inputManager.addMapping("tab", new KeyTrigger(KeyInput.KEY_TAB));
         inputManager.addMapping("jump", new KeyTrigger(KeyInput.KEY_SPACE));
         inputManager.addMapping("debug", new KeyTrigger(KeyInput.KEY_T));
+        inputManager.addMapping("LEFT", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
         
-        inputManager.addListener(this, "w", "a", "s", "d", "jump", "tab", "EE", "debug");
+        inputManager.addListener(this, "w", "a", "s", "d", "jump", "tab", "EE", "debug",
+                "LEFT");
     }
 
     public void onAction(String name, boolean isPressed, float tpf) {
@@ -87,8 +91,10 @@ public class PlayerControl extends CharacterControl implements ActionListener{
 //                    getPhysicsLocation().x, getPhysicsLocation().y, getPhysicsLocation().z,
 //                    getViewDirection().x, getViewDirection().z);
 //            System.out.println(getViewDirection());
-            meleeAttack(); //TODO do the attack on mouseclick instead
             return;
+        }
+        if(isPressed && combatCam.isCombatMode() && name.equals("LEFT")){
+            meleeAttack();
         }
         if(isPressed && name.equals("EE")){
             if(target!=null){
@@ -148,7 +154,10 @@ public class PlayerControl extends CharacterControl implements ActionListener{
             Npc newTarget = npcManager.getCloseNpc(getPhysicsLocation());
             if(newTarget!=target){
                 target = newTarget;
-                target.onTargeted(targetArrow);
+                if(target != null)
+                    target.onTargeted(targetArrow);
+                else
+                    targetArrow.getParent().detachChild(targetArrow);
                 app.getGui().onTargetChange(target);
             }
         }
@@ -191,7 +200,6 @@ public class PlayerControl extends CharacterControl implements ActionListener{
     private void meleeAttack(){
         Vector3f pos = new Vector3f(lookDir).normalizeLocal();
         pos.multLocal(3f);
-        System.out.println(pos);
         pos.addLocal(getPhysicsLocation());
         //pos is now moved 3 lenghts in front of the player
         

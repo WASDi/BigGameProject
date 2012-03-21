@@ -70,6 +70,9 @@ public class NpcManager {
                 bestDistance=distance;
             }
         }
+        if(bestDistance>10f){
+            return null;
+        }
         return closest;
     }
     
@@ -91,9 +94,7 @@ public class NpcManager {
                 + "Go and talk to my friends over there.");
         
         for(int z=0;z<3;z++){
-            for (int x=0; x<2; x++) {
-                createEnemy(255f+x*10, 0f, 260f+z*10);
-            }
+            createEnemy(255+z*10, 0f, 260+z*10);
         }
         
         //TODO Some class like QuestFactory or a more organized way to initialize quests
