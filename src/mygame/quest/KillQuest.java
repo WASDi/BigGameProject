@@ -17,13 +17,14 @@ public class KillQuest extends Quest {
     private int kills = 0;
     private int killsNeeded;
 
-    public KillQuest(Quest followup, Npc startNpc, String enemyName, int killsNeeded) {
+    public KillQuest(Npc startNpc, String enemyName, int killsNeeded, Quest followup) {
         super(followup);
         this.startNpc = startNpc;
         this.enemyName = enemyName;
         this.killsNeeded = killsNeeded;
-
-        startNpc.addQuest(this);
+        
+        if(startNpc != null)
+            startNpc.addQuest(this);
     }
 
     @Override
@@ -45,7 +46,11 @@ public class KillQuest extends Quest {
 
     @Override
     public void onStart() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if(stage!=0)
+            throw new Error("Quest already started");
+        stage=1;
+        startNpc.questMarkerUpdate(true);
+        //TODO put questmarker on enemies?
     }
 
     /**
@@ -57,6 +62,19 @@ public class KillQuest extends Quest {
             //can finish quest
             stage = 50;
             startNpc.questMarkerUpdate(true);
+        }
+    }
+
+    public void onNpcKill(String name) {
+        if(stage != 2){
+            return;
+        }
+        if(name.equals(enemyName)){
+            kills++;
+            if(kills == killsNeeded){
+                //Quest complete, go talk to startNpc
+                stage = 50;
+            }
         }
     }
 }

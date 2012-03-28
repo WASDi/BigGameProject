@@ -130,5 +130,13 @@ public class StaticNpc extends AbstractControl implements Npc{
     public void onAttack(int dmg, Vector3f direction, PlayerControl player) {
         //do nothing, StaticNpc can't be hit for now.
     }
+
+    public int getHp() {
+        return 1;
+    }
+
+    public int getMaxHp() {
+        return 1;
+    }
     
 }

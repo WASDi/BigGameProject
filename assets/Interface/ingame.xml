@@ -18,10 +18,12 @@
                         
                             <panel height="*" width="40%" backgroundColor="#0000" childLayout="vertical">
                                 <control name="label" text="Name:" />
+                                <control name="label" text="Health:" />
                             </panel>
 
                             <panel height="*" width="60%" backgroundColor="#662F" childLayout="vertical">
                                 <control name="label" id="target_name" text="-" width="100%" />
+                                <control name="label" id="target_hp" text="-" width="100%" />
                             </panel>
 
                         </panel>

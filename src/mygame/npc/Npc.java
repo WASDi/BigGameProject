@@ -65,4 +65,7 @@ public interface Npc {
      */
     public void onAttack(int dmg, Vector3f direction, PlayerControl player);
     
+    public int getHp();
+    public int getMaxHp();
+    
 }

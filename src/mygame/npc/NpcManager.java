@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 import mygame.ResourceLoader;
 import mygame.quest.DeliveryQuest;
+import mygame.quest.KillQuest;
+import mygame.quest.QuestManager;
 
 /**
  * This class creates a list with every Npc that will
@@ -18,6 +20,7 @@ import mygame.quest.DeliveryQuest;
 public class NpcManager {
     
     private ResourceLoader loader;
+    private QuestManager questManager = new QuestManager();
     private List<Npc> npcList = new ArrayList<Npc>();
 
     public NpcManager(ResourceLoader loader) {
@@ -70,7 +73,7 @@ public class NpcManager {
                 bestDistance=distance;
             }
         }
-        if(bestDistance>10f){
+        if(bestDistance>15f){
             return null;
         }
         return closest;
@@ -97,12 +100,20 @@ public class NpcManager {
             createEnemy(255+z*10, 0f, 260+z*10);
         }
         
-        //TODO Some class like QuestFactory or a more organized way to initialize quests
-        DeliveryQuest dq2 = new DeliveryQuest(sandy, sandberg, "Sword", null);
-        DeliveryQuest dq1 = new DeliveryQuest(sandberg, mcSand, "Staff", dq2);
+        DeliveryQuest dq2 = questManager.createDeliveryQuest(sandy, sandberg, "Sword", null);
+        DeliveryQuest dq1 = questManager.createDeliveryQuest(sandberg, mcSand, "Staff", dq2);
         dq1.onStart();
         
+        KillQuest kq = questManager.createKillQuest(sandy, "Enemy", 5, null);
+        kq.onStart();
+        
         return npcList;
+    }
+    
+    public void onNpcKill(Npc npc){
+        questManager.onNpcKill(npc);
+        npcList.remove(npc);
+        //TODO do something with npc. Or maybe let it do stuff in its own method
     }
     
 }

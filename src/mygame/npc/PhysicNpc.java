@@ -168,9 +168,20 @@ public class PhysicNpc extends CharacterControl implements Npc{
     }
 
     public void onAttack(int dmg, Vector3f direction, PlayerControl player) {
+        if(hp<=0){
+            //already dead
+            return;
+        }
         hp-=dmg;
         if(hp<=0){
-            //TODO die
+            player.onEmemyDeath(this);
+            //die
+            //TODO some way for enemies to respawn
+            //maybe not remove them from npcList and add to
+            //rootNode and physics after a while
+            getPhysicsSpace().remove(this);
+            node.removeFromParent();
+            return;
         }
         knockback = direction;
         knockTime = 0f;
@@ -190,6 +201,14 @@ public class PhysicNpc extends CharacterControl implements Npc{
             //walkTo gets calculated later in the loop
             walkTo = null; 
         }
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public int getMaxHp() {
+        return maxHp;
     }
     
 }

@@ -15,7 +15,9 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Box;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import mygame.Game;
 import mygame.camera.CombatCamera;
 import mygame.npc.Npc;
@@ -198,20 +200,41 @@ public class PlayerControl extends CharacterControl implements ActionListener{
      * Hits the enemies in front of the player.
      */
     private void meleeAttack(){
+        //TODO limit how often you can attack
         Vector3f pos = new Vector3f(lookDir).normalizeLocal();
         pos.multLocal(3f);
         pos.addLocal(getPhysicsLocation());
         //pos is now moved 3 lenghts in front of the player
         
         Iterator<Npc> it = npcManager.getNpcIterator();
+        //Use an attackList to avoid ConcurrentModificationException
+        List<Npc> attackList = new ArrayList<Npc>();
+        
+        boolean updateTargetInfo = false;
         while(it.hasNext()){
             Npc enemy = it.next();
             if(pos.distance(enemy.getPosition())<5f){
-                Vector3f dir = enemy.getPosition().subtract(pos).normalizeLocal();
-                enemy.onAttack(5, dir, this);
+                attackList.add(enemy);
             }
         }
+        
+        for(Npc enemy : attackList){
+            Vector3f dir = enemy.getPosition().subtract(pos).normalizeLocal();
+            enemy.onAttack(10, dir, this);
+            if(enemy == target){
+                updateTargetInfo = true;
+            }
+        }
+        
+        if(updateTargetInfo){
+            app.getGui().onTargetChange(target);
+        }
         //TODO do hit animation.
+    }
+
+    public void onEmemyDeath(Npc enemy) {
+        npcManager.onNpcKill(enemy);
+        app.getGui().onTargetChange(null);
     }
     
 }
