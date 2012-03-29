@@ -29,8 +29,6 @@ public class StaticNpc extends AbstractControl implements Npc{
      * instead it will reduce the number from 2 to 1.
      */
     private int numQuests=0;
-    
-    //TODO somehow indicate in the game if the Npc has a quest avalible
     private List<Quest> quests;
 
     public StaticNpc(Node node, String name, Spatial questMarker) {

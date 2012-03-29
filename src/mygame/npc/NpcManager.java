@@ -40,9 +40,9 @@ public class NpcManager {
         control.lookAt(xlook, zlook);
         return control;
     }
-    private Npc createEnemy(float x, float y, float z){
+    private Npc createCrab(float x, float y, float z){
         Spatial model = loader.getEnemyModel();
-        Node node = new Node("Enemy");
+        Node node = new Node("Crab");
         node.attachChild(model);
         
         PhysicNpc control = new PhysicNpc(1, 2, node, 100);
@@ -97,14 +97,14 @@ public class NpcManager {
                 + "Go and talk to my friends over there.");
         
         for(int z=0;z<3;z++){
-            createEnemy(255+z*10, 0f, 260+z*10);
+            createCrab(255+z*10, 0f, 260+z*10);
         }
         
         DeliveryQuest dq2 = questManager.createDeliveryQuest(sandy, sandberg, "Sword", null);
         DeliveryQuest dq1 = questManager.createDeliveryQuest(sandberg, mcSand, "Staff", dq2);
         dq1.onStart();
         
-        KillQuest kq = questManager.createKillQuest(sandy, "Enemy", 5, null);
+        KillQuest kq = questManager.createKillQuest(sandy, "Crab", 5, null);
         kq.onStart();
         
         return npcList;

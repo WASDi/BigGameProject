@@ -118,7 +118,6 @@ public class IntroCinematicAppState extends AbstractAppState{
         path.addWayPoint(new Vector3f(320, 250, 240));
         path.addWayPoint(new Vector3f(320, -1, 240));
         path.setCurveTension(.1f);
-        path.enableDebugShape(app.getAssetManager(), stateNode);
         
         path.addListener(new MotionPathListener() {
 
@@ -133,7 +132,6 @@ public class IntroCinematicAppState extends AbstractAppState{
             }
         });
         
-        //TODO use a node that contains player and the ship
         MotionTrack track = new MotionTrack(shipNode, path, 18f);
         track.setSpeed(1f);
         
@@ -175,7 +173,6 @@ public class IntroCinematicAppState extends AbstractAppState{
         MotionPath path = new MotionPath();
         path.addWayPoint(new Vector3f(420, 530, 320));
         path.addWayPoint(new Vector3f(270, 380, 320));
-        path.enableDebugShape(app.getAssetManager(), stateNode);
 
         MotionTrack track = new MotionTrack(rock, path, 10);
         return track;

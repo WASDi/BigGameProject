@@ -32,8 +32,8 @@ public abstract class Quest {
     public abstract String onTalk(Npc npc);
     
     /**
-     * Check if the quest is active or not. An NPC can only handle one active quest at the time
-     * so make sure as few as possible are active simultaneously. (TODO change that design?)
+     * Check if the quest is active or not. An NPC can only handle one active quest
+     * at the time so make sure as few as possible are active simultaneously.
      * @return true if the Quest is active
      */
     public boolean isActive(){

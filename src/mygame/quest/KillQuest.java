@@ -23,8 +23,7 @@ public class KillQuest extends Quest {
         this.enemyName = enemyName;
         this.killsNeeded = killsNeeded;
         
-        if(startNpc != null)
-            startNpc.addQuest(this);
+        startNpc.addQuest(this);
     }
 
     @Override
