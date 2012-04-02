@@ -1,5 +1,7 @@
 package mygame.npc;
 
+import com.jme3.math.FastMath;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -41,11 +43,13 @@ public class NpcManager {
         return control;
     }
     private Npc createCrab(float x, float y, float z){
-        Spatial model = loader.getEnemyModel();
+        Spatial model = loader.getCrabModel();
+        model.setLocalRotation(new Quaternion().fromAngles(0, -FastMath.HALF_PI, 0));
+        model.setLocalTranslation(0, -4.1f, 0); //centers the model
         Node node = new Node("Crab");
         node.attachChild(model);
         
-        PhysicNpc control = new PhysicNpc(1, 2, node, 100);
+        PhysicNpc control = new PhysicNpc(2, .5f, node, 100);
         npcList.add(control);
         node.addControl(control);
         control.setPosition(x,y,z);

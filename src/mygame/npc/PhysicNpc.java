@@ -33,7 +33,7 @@ public class PhysicNpc extends CharacterControl implements Npc{
     public PhysicNpc(float sizex, float sizey, Node node, int maxHp) {
         super(new CapsuleCollisionShape(sizex, sizey), .1f);
         this.node = node;
-        arrowTranslation = new Vector3f(0, sizey+1f, 0);
+        arrowTranslation = new Vector3f(0, sizey, 0);
         this.maxHp = maxHp;
         this.hp = maxHp;
     }

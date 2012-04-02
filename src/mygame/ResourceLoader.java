@@ -51,6 +51,7 @@ public class ResourceLoader {
     
     private Spatial playerModel;
     private Spatial sandGuyModel;
+    private Spatial crabModel;
     private Spatial shipModel;
 
     /**
@@ -121,15 +122,12 @@ public class ResourceLoader {
         return sandGuyModel.clone(); //use clone since there will be many sand people.
     }
     
-    public Spatial getEnemyModel(){
-        //TODO REMOVE. This is a placeholder
-        Box b = new Box(1, 2, 1);
-        Spatial enemy = new Geometry("Enemy", b);
-        Material mat = new Material(assetManager,
-          "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", ColorRGBA.Red);
-        enemy.setMaterial(mat);
-        return enemy;
+    public Spatial getCrabModel(){
+        if(crabModel==null){
+            crabModel = assetManager.loadModel("Models/Characters/Crab.j3o");
+            crabModel.setLocalScale(.01f); //It's a big model
+        }
+        return crabModel.clone(); //use clone since there will be many crabs.
     }
     
     public Spatial getShipModel(){
