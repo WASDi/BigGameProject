@@ -35,5 +35,11 @@ public class QuestManager {
             }
         }
     }
+
+    public StoryQuest createStoryQuest(Npc npc, Quest followup, String... sentences) {
+        StoryQuest sq = new StoryQuest(npc, followup, sentences);
+        questList.add(sq);
+        return sq;
+    }
     
 }

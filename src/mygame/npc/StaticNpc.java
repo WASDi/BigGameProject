@@ -53,7 +53,7 @@ public class StaticNpc extends AbstractControl implements Npc{
         if(say!=null)
             return say;
         else
-            return "I have nothing to say.";
+            return "My name is "+name+". I live on this island.";
     }
 
     @Override

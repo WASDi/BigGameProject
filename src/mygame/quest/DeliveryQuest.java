@@ -11,6 +11,8 @@ public class DeliveryQuest extends Quest{
     private Npc from;
     private Npc to;
     private String itemName;
+    private String predefinedFromSay;
+    private String predefinedSayTo;
 
     public DeliveryQuest(Npc from, Npc to, String itemName, Quest followup) {
         super(followup);
@@ -28,20 +30,25 @@ public class DeliveryQuest extends Quest{
                 stage=2;
                 from.questMarkerUpdate(false);
                 to.questMarkerUpdate(true);
-                return String.format("Please deliver this %s to %s.", itemName, to.getName());
+                if(predefinedFromSay!=null)
+                    return predefinedFromSay;
+                return String.format("Could you please deliver this %s to %s?.", itemName, to.getName());
             }
             else if(npc==to){
-                return String.format("Could you please visit %s and get the %s to me?", from.getName(), itemName);
+                // return String.format("Could you please visit %s and get the %s to me?", from.getName(), itemName);
+                return null;
             }
         }
         else if(stage==2){
             if(npc==from){
-                return String.format("Have you delivered my %s to %s yet?", itemName, to.getName());
+                return String.format("Have you delivered the %s to %s yet?", itemName, to.getName());
             }
             else if(npc==to){
                 onFinish();
                 to.questMarkerUpdate(false);
-                return String.format("Thank you! I will have great use for this %s.", itemName);
+                if(predefinedSayTo!=null)
+                    return predefinedSayTo;
+                return "Thank you!";
             }
         }
         return null;
@@ -53,6 +60,14 @@ public class DeliveryQuest extends Quest{
             throw new Error("Quest already started");
         stage=1;
         from.questMarkerUpdate(true);
+    }
+
+    public void setExtraSayFrom(String extraSayFrom) {
+        this.predefinedFromSay = extraSayFrom;
+    }
+
+    public void setExtraSayTo(String extraSayTo) {
+        this.predefinedSayTo = extraSayTo;
     }
     
 }
