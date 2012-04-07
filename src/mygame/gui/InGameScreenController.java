@@ -30,6 +30,10 @@ public class InGameScreenController implements ScreenController{
     }
 
     public void onTargetChange(Npc target) {
+        if(targetName == null){
+            //not initialized
+            return;
+        }
         if (target == null) {
             targetName.setText("-");
             targetHp.setText("-");

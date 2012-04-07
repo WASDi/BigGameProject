@@ -64,12 +64,12 @@ public class PlayerControl extends CharacterControl implements ActionListener{
         inputManager.addMapping("s", new KeyTrigger(KeyInput.KEY_S));
         inputManager.addMapping("d", new KeyTrigger(KeyInput.KEY_D));
         inputManager.addMapping("EE", new KeyTrigger(KeyInput.KEY_E));
-        inputManager.addMapping("tab", new KeyTrigger(KeyInput.KEY_TAB));
+        inputManager.addMapping("esc", new KeyTrigger(KeyInput.KEY_ESCAPE));
         inputManager.addMapping("jump", new KeyTrigger(KeyInput.KEY_SPACE));
         inputManager.addMapping("debug", new KeyTrigger(KeyInput.KEY_T));
         inputManager.addMapping("LEFT", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
         
-        inputManager.addListener(this, "w", "a", "s", "d", "jump", "tab", "EE", "debug",
+        inputManager.addListener(this, "w", "a", "s", "d", "jump", "esc", "EE", "debug",
                 "LEFT");
     }
 
@@ -84,19 +84,21 @@ public class PlayerControl extends CharacterControl implements ActionListener{
             jump();
             return;
         }
-        if(isPressed && name.equals("tab")){
-            combatCam.setCombatMode(!combatCam.isCombatMode());
+        if(isPressed && name.equals("esc")){
+            combatCam.setCombatMode(false);
             return;
         }
         if(isPressed && name.equals("debug")){
             System.out.printf("createSandGuy(%.1ff, %.1ff, %.1ff, %.5ff, %.5ff, \"\");\n",
                     getPhysicsLocation().x, getPhysicsLocation().y, getPhysicsLocation().z,
                     getViewDirection().x, getViewDirection().z);
-//            System.out.println(getViewDirection());
             return;
         }
-        if(isPressed && combatCam.isCombatMode() && name.equals("LEFT")){
-            meleeAttack();
+        if(isPressed && name.equals("LEFT")){
+            if(combatCam.isCombatMode())
+                meleeAttack();
+            else
+                combatCam.setCombatMode(true);
         }
         if(isPressed && name.equals("EE")){
             if(target!=null){
@@ -160,8 +162,8 @@ public class PlayerControl extends CharacterControl implements ActionListener{
                     target.onTargeted(targetArrow);
                 else
                     targetArrow.getParent().detachChild(targetArrow);
-                app.getGui().onTargetChange(target);
             }
+            app.getGui().onTargetChange(newTarget);
         }
         
         Vector3f camDir = app.getCamera().getDirection().clone();
