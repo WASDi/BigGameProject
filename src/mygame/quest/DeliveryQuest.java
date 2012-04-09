@@ -11,8 +11,8 @@ public class DeliveryQuest extends Quest{
     private Npc from;
     private Npc to;
     private String itemName;
-    private String predefinedFromSay;
-    private String predefinedSayTo;
+    private String predefinedStartSay;
+    private String predefinedEndSay;
 
     public DeliveryQuest(Npc from, Npc to, String itemName, Quest followup) {
         super(followup);
@@ -30,8 +30,8 @@ public class DeliveryQuest extends Quest{
                 stage=2;
                 from.questMarkerUpdate(false);
                 to.questMarkerUpdate(true);
-                if(predefinedFromSay!=null)
-                    return predefinedFromSay;
+                if(predefinedStartSay!=null)
+                    return predefinedStartSay;
                 return String.format("Could you please deliver this %s to %s?.", itemName, to.getName());
             }
             else if(npc==to){
@@ -46,8 +46,8 @@ public class DeliveryQuest extends Quest{
             else if(npc==to){
                 onFinish();
                 to.questMarkerUpdate(false);
-                if(predefinedSayTo!=null)
-                    return predefinedSayTo;
+                if(predefinedEndSay!=null)
+                    return predefinedEndSay;
                 return "Thank you!";
             }
         }
@@ -62,12 +62,12 @@ public class DeliveryQuest extends Quest{
         from.questMarkerUpdate(true);
     }
 
-    public void setExtraSayFrom(String extraSayFrom) {
-        this.predefinedFromSay = extraSayFrom;
+    public void setPredefinedEndSay(String predefinedEndSay) {
+        this.predefinedStartSay = predefinedEndSay;
     }
 
-    public void setExtraSayTo(String extraSayTo) {
-        this.predefinedSayTo = extraSayTo;
+    public void setPredefinedStartSay(String predefinedStartSay) {
+        this.predefinedStartSay = predefinedStartSay;
     }
     
 }

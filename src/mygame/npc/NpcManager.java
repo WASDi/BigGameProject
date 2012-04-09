@@ -113,13 +113,18 @@ public class NpcManager {
         }
         
         KillQuest kq = questManager.createKillQuest(mcSand, "Crab", 3, null);
+        kq.setPredefinedStartSay("Can you kill 3 crabs and collect their meat for me?");
+        kq.setPredefinedEndSay("Thank you! I now have enough crab meat to complete the machine.");
         
         StoryQuest talkAboutFish = questManager.createStoryQuest(mcSand, null,
+                //implicit thank you
                 "With this extra fish, I can almost complete my fish-machine.",
                 "I have been working on it for a long time.",
-                "There is still work to do though.");
+                "There is still work to do though...",
+                "I need some crab meat to complete the machine.");
         
         DeliveryQuest fishToSandberg = questManager.createDeliveryQuest(sandberg, mcSand, "fish", talkAboutFish);
+                //implicit "please deliver this fish
         
         StoryQuest fishStory = questManager.createStoryQuest(sandberg, fishToSandberg,
                 "Hello! You must be new here",

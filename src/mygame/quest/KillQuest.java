@@ -16,6 +16,8 @@ public class KillQuest extends Quest {
     private Npc startNpc;
     private int kills = 0;
     private int killsNeeded;
+    private String predefinedStartSay;
+    private String predefinedEndSay;
 
     public KillQuest(Npc startNpc, String enemyName, int killsNeeded, Quest followup) {
         super(followup);
@@ -31,13 +33,19 @@ public class KillQuest extends Quest {
         if (npc == startNpc) {
             if (stage == 1) {
                 stage = 2; //start quest
-                return String.format("Please kill %s %ss for me.", killsNeeded, enemyName);
+                if(predefinedStartSay != null)
+                    return predefinedStartSay;
+                else
+                    return String.format("Please kill %s %ss for me.", killsNeeded, enemyName);
             } else if (stage == 2) {
                 return String.format("You need to kill %s more %ss.", (killsNeeded - kills), enemyName);
             } else if (stage == 50) {
                 onFinish();
                 startNpc.questMarkerUpdate(false);
-                return String.format("Thank you for killing all these %ss!", enemyName);
+                if(predefinedEndSay != null)
+                    return predefinedEndSay;
+                else
+                    return String.format("Thank you for killing all these %ss!", enemyName);
             }
         }
         return null;
@@ -76,4 +84,13 @@ public class KillQuest extends Quest {
             }
         }
     }
+
+    public void setPredefinedEndSay(String predefinedEndSay) {
+        this.predefinedEndSay = predefinedEndSay;
+    }
+
+    public void setPredefinedStartSay(String predefinedStartSay) {
+        this.predefinedStartSay = predefinedStartSay;
+    }
+    
 }
