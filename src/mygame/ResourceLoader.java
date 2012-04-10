@@ -111,6 +111,7 @@ public class ResourceLoader {
     
     public void resetPlayerTranslations(){
         playerModel.setLocalTranslation(0, -2f, -1.6f); //centers the player model
+        playerModel.setLocalRotation(new Quaternion().fromAngles(0, FastMath.HALF_PI, 0));
         playerModel.setLocalScale(.5f); //fixes the scale
     }
     

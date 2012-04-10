@@ -58,8 +58,7 @@ public class InGameAppState extends AbstractAppState{
     private void initPlayerControl(){
         PlayerControl playerControl = new PlayerControl(app, playerNode, npcManager);
         Spatial player = loader.getPlayerModel();
-        player.setLocalRotation(new Quaternion().fromAngles(0, FastMath.HALF_PI, 0)); //fix the rotation
-        player.setLocalTranslation(0, -1.95f, -1.6f); //centers the player model
+        loader.resetPlayerTranslations();
         playerNode.attachChild(player);
         playerNode.addControl(playerControl);
         bulletAppState.getPhysicsSpace().add(playerControl);
