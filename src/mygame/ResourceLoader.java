@@ -52,6 +52,7 @@ public class ResourceLoader {
     private Spatial playerModel;
     private Spatial sandGuyModel;
     private Spatial crabModel;
+    private Spatial evilCatModel;
     private Spatial shipModel;
 
     /**
@@ -131,6 +132,16 @@ public class ResourceLoader {
         return crabModel.clone(); //use clone since there will be many crabs.
     }
     
+    public Spatial getEvilCatModel(){
+        if(evilCatModel==null){
+            evilCatModel = assetManager.loadModel("Models/Characters/Skogsfiende.j3o");
+        }
+        Spatial model = evilCatModel.clone();
+        model.setLocalTranslation(0, -3.3f, -1.1f); //centers the model
+        model.setLocalScale(.01f); //It's a big model
+        return model;
+    }
+    
     public Spatial getShipModel(){
         if(shipModel==null){
             initShipModel();
@@ -184,6 +195,7 @@ public class ResourceLoader {
     public void initShipModel(){
         shipModel = assetManager.loadModel("Models/Skepp/Skepp.j3o");
         shipModel.setLocalRotation(new Quaternion().fromAngles(0, 0, FastMath.HALF_PI));
+        shipModel.setLocalScale(1.5f);
     }
     
     private void initPlayer(){

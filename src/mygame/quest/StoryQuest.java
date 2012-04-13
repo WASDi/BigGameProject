@@ -12,7 +12,7 @@ public class StoryQuest extends Quest{
     private Npc npc;
     private String[] sentences;
 
-    public StoryQuest(Npc npc, Quest followup, String... sentences) {
+    protected StoryQuest(Npc npc, Quest followup, String... sentences) {
         super(followup);
         this.npc = npc;
         this.sentences = sentences;

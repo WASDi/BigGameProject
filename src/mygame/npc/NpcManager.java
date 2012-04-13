@@ -43,6 +43,7 @@ public class NpcManager {
         control.lookAt(xlook, zlook);
         return control;
     }
+    
     private Npc createCrab(float x, float y, float z){
         Spatial model = loader.getCrabModel();
         model.setLocalRotation(new Quaternion().fromAngles(0, -FastMath.HALF_PI, 0));
@@ -50,7 +51,19 @@ public class NpcManager {
         Node node = new Node("Crab");
         node.attachChild(model);
         
-        PhysicNpc control = new PhysicNpc(2, .5f, node, 100);
+        PhysicNpc control = new PhysicNpc(2, .5f, node, 50);
+        npcList.add(control);
+        node.addControl(control);
+        control.setPosition(x,y,z);
+        return control;
+    }
+    
+    private Npc createEvilCat(float x, float y, float z){
+        Spatial model = loader.getEvilCatModel();
+        Node node = new Node("Evil Cat");
+        node.attachChild(model);
+        
+        PhysicNpc control = new PhysicNpc(2, 3, node, 100);
         npcList.add(control);
         node.addControl(control);
         control.setPosition(x,y,z);
@@ -104,36 +117,46 @@ public class NpcManager {
         StaticNpc mcSand = createSandGuy(201.9f, 3.6f, 258.6f, 0.47794f, -0.57799f, "McSand");
         
         StaticNpc sandersson = createSandGuy(311.7f, -0.8f, 245.0f, 0.96285f, -0.27004f, "Sandersson");
-//        sandersson.setSay("Welcome to our island! Your spaceship must have crashed.\n"
-//                + "Go and talk to Sandberg friends over there. He got some stuff for you to do.\n"
-//                + "People with yellow spheres over their head have important stuff to say.");
         
-        for(int z=0;z<3;z++){
-            createCrab(255+z*10, 0f, 260+z*10);
-        }
+        createEnemies();
         
-        KillQuest kq = questManager.createKillQuest(mcSand, "Crab", 3, null);
-        kq.setPredefinedStartSay("Can you kill 3 crabs and collect their meat for me?");
-        kq.setPredefinedEndSay("Thank you! I now have enough crab meat to complete the machine.");
+        StoryQuest talkWithSanderella = questManager.createStoryQuest(sanderella, null,
+                "I see you've brought fish and crab meat with you.",
+                "We can combine these two items with my magical spell to create...",
+                "This magical wand!");
         
-        StoryQuest talkAboutFish = questManager.createStoryQuest(mcSand, null,
-                //implicit thank you
-                "With this extra fish, I can almost complete my fish-machine.",
-                "I have been working on it for a long time.",
-                "There is still work to do though...",
-                "I need some crab meat to complete the machine.");
+        DeliveryQuest stuffToSanderella = questManager.createDeliveryQuest(mcSand, sanderella, null, talkWithSanderella);
+        stuffToSanderella.setPredefinedStartSay("Bring the items to Sanderella."
+                + "She knows what to do next.");
+        stuffToSanderella.setPredefinedEndSay("Welcome! I am Sanderella.");
         
-        DeliveryQuest fishToSandberg = questManager.createDeliveryQuest(sandberg, mcSand, "fish", talkAboutFish);
-                //implicit "please deliver this fish
+        StoryQuest sq = questManager.createStoryQuest(mcSand, stuffToSanderella,
+                "But we need more than just crab meat and fish to complete your ship.");
         
-        StoryQuest fishStory = questManager.createStoryQuest(sandberg, fishToSandberg,
-                "Hello! You must be new here",
-                "My friend McSand is making a fish-machine. But he is out of fish...");
+        KillQuest kq = questManager.createKillQuest(mcSand, "Crab", 5, sq);
+        kq.setPredefinedStartSay("Please kill 5 crabs and collect their meat."
+                + "You can find them over there to my right.");
+        kq.setPredefinedEndSay("Thank you! I now have enough crab meat.");
+        
+        StoryQuest talkAboutFish = questManager.createStoryQuest(mcSand, kq,
+                "But we need more than just fish to complete your spaceship...",
+                "We need crab meat as well!",
+                "To kill crabs, leftclick to hit when you are close so them.");
+        
+        DeliveryQuest fishToMcSand = questManager.createDeliveryQuest(sandberg, mcSand, "fish", talkAboutFish);
+                //implicit "please deliver this fish"
+                fishToMcSand.setPredefinedEndSay("Hello! Thanks for the fish. It will be needed when fixing your spaceship.");
+        
+        StoryQuest fishStory = questManager.createStoryQuest(sandberg, fishToMcSand,
+                "Hello! You must be new here.",
+                "My friend McSand can help you to rebuild your spaceship.",
+                "But to do so, he needs fish. I have some fish for him.");
         
         StoryQuest intro = questManager.createStoryQuest(sandersson, fishStory,
                 "Welcome to our island! Your spaceship must have crashed.",
+                "We have the technology to repair the spaceship for you.",
                 "People with yellow spheres over their head have important stuff to say.",
-                "Go and talk to Sandberg over there. I think he has some work for you.");
+                "Go and talk to Sandberg over there.");
         intro.onStart();
         
         return npcList;
@@ -143,6 +166,16 @@ public class NpcManager {
         questManager.onNpcKill(npc);
         npcList.remove(npc);
         //TODO do something with npc. Or maybe let it do stuff in its own method
+    }
+
+    private void createEnemies() {
+        createCrab(315, -3, 367);
+        createCrab(282, -2, 357);
+        createCrab(297, -2, 378);
+        createCrab(271, -1, 392);
+        createCrab(235, 0, 395);
+        createCrab(234, 0, 372);
+        createCrab(268, -1, 375);
     }
     
 }

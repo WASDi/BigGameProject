@@ -64,7 +64,7 @@ public class IntroCinematicAppState extends AbstractAppState{
         
         rock.setLocalScale(2f);
         ship.setLocalTranslation(2, -2, 0);
-        player.setLocalTranslation(0, 3, 0);
+        player.setLocalTranslation(0, 5, 0);
         player.setLocalRotation(new Quaternion().fromAngles(0, 0, FastMath.HALF_PI));
         
         shipNode = new Node("Ship and Player");

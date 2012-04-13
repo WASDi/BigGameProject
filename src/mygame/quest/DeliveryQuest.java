@@ -14,7 +14,7 @@ public class DeliveryQuest extends Quest{
     private String predefinedStartSay;
     private String predefinedEndSay;
 
-    public DeliveryQuest(Npc from, Npc to, String itemName, Quest followup) {
+    protected DeliveryQuest(Npc from, Npc to, String itemName, Quest followup) {
         super(followup);
         this.from = from;
         this.to = to;
