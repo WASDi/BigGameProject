@@ -120,10 +120,13 @@ public class NpcManager {
         
         createEnemies();
         
-        StoryQuest talkWithSanderella = questManager.createStoryQuest(sanderella, null,
+        KillQuest killEvilCats = questManager.createKillQuest(sanderella, "Evil Cat", 3, null);
+        
+        StoryQuest talkWithSanderella = questManager.createStoryQuest(sanderella, killEvilCats,
                 "I see you've brought fish and crab meat with you.",
                 "We can combine these two items with my magical spell to create...",
-                "This magical wand!");
+                "This magical wand!",
+                "The wand can be used to collect souls from Evil Cats.");
         
         DeliveryQuest stuffToSanderella = questManager.createDeliveryQuest(mcSand, sanderella, null, talkWithSanderella);
         stuffToSanderella.setPredefinedStartSay("Bring the items to Sanderella."
@@ -133,7 +136,7 @@ public class NpcManager {
         StoryQuest sq = questManager.createStoryQuest(mcSand, stuffToSanderella,
                 "But we need more than just crab meat and fish to complete your ship.");
         
-        KillQuest kq = questManager.createKillQuest(mcSand, "Crab", 5, sq);
+        KillQuest kq = questManager.createKillQuest(mcSand, "Crab", 3, sq);
         kq.setPredefinedStartSay("Please kill 5 crabs and collect their meat."
                 + "You can find them over there to my right.");
         kq.setPredefinedEndSay("Thank you! I now have enough crab meat.");
@@ -164,18 +167,17 @@ public class NpcManager {
     
     public void onNpcKill(Npc npc){
         questManager.onNpcKill(npc);
-        npcList.remove(npc);
-        //TODO do something with npc. Or maybe let it do stuff in its own method
     }
 
     private void createEnemies() {
         createCrab(315, -3, 367);
         createCrab(282, -2, 357);
-        createCrab(297, -2, 378);
         createCrab(271, -1, 392);
-        createCrab(235, 0, 395);
-        createCrab(234, 0, 372);
-        createCrab(268, -1, 375);
+        
+        createEvilCat(-109, 8, 391);
+        createEvilCat(-91, 15, 352);
+        createEvilCat(-270, 26, 251);
+        
     }
     
 }

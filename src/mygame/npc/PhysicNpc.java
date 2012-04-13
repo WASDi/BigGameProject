@@ -6,6 +6,7 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.Spatial.CullHint;
 import mygame.controls.PlayerControl;
 import mygame.quest.Quest;
 
@@ -17,7 +18,7 @@ public class PhysicNpc extends CharacterControl implements Npc{
     
     private Node node;
     private Vector3f arrowTranslation;
-    private float spawnx, spawnz; //the x and y coordinate where the Npc is spawned
+    private Vector3f spawn = new Vector3f();
     private Vector3f walkTo;
     private Vector3f walkDir = new Vector3f();
     private final float maxWalkDistance = 20f;
@@ -39,9 +40,7 @@ public class PhysicNpc extends CharacterControl implements Npc{
     }
 
     public String talk() {
-        if(attacker != null){
-            //You have attacked this enemy before and he gets angry when you talk to him
-            enrage(attacker, false);
+        if(enraged){
             return "Die!";
         }
         else{
@@ -61,9 +60,8 @@ public class PhysicNpc extends CharacterControl implements Npc{
     }
 
     public void setPosition(float x, float y, float z) {
-        spawnx=x;
-        spawnz=z;
-        setPhysicsLocation(new Vector3f(x, y, z));
+        spawn.set(x, y, z);
+        setPhysicsLocation(spawn);
         prepareNextWalk();
     }
 
@@ -96,6 +94,17 @@ public class PhysicNpc extends CharacterControl implements Npc{
         //
         //The default behaviour is that they should walk toward a nearby point and stop for a while
         //Then pick a new random point while making sure not to walk too far away from the start location
+        
+        if(hp<=0){
+            //dead. check time for respawn
+            if(System.currentTimeMillis() > nextWalk){
+                //the nextWalk variable is also used to determine respawn time
+                setPhysicsLocation(spawn);
+                node.setCullHint(CullHint.Dynamic);
+                hp=maxHp;
+            }
+            return;
+        }
         
         if(enraged && attacker!=null){
             if(knockback!=null){
@@ -141,8 +150,8 @@ public class PhysicNpc extends CharacterControl implements Npc{
     private Vector3f getPointNearSpawn(){
         Vector3f point = new Vector3f(FastMath.rand.nextFloat(), 0, FastMath.rand.nextFloat());
         point.normalizeLocal();
-        point.set(spawnx+point.x*maxWalkDistance*FastMath.rand.nextFloat(), 0,
-                  spawnz+point.z*maxWalkDistance*FastMath.rand.nextFloat());
+        point.set(spawn.x+point.x*maxWalkDistance*FastMath.rand.nextFloat(), 0,
+                  spawn.z+point.z*maxWalkDistance*FastMath.rand.nextFloat());
         return point;
     }
     
@@ -175,12 +184,12 @@ public class PhysicNpc extends CharacterControl implements Npc{
         hp-=dmg;
         if(hp<=0){
             player.onEmemyDeath(this);
-            //die
-            //TODO some way for enemies to respawn
-            //maybe not remove them from npcList and add to
-            //rootNode and physics after a while
-            getPhysicsSpace().remove(this);
-            node.removeFromParent();
+            node.setCullHint(CullHint.Always);
+            enraged = false;
+            walkTo = null;
+            // 10 seconds respawn time
+            nextWalk = System.currentTimeMillis()+10000;
+            knockback = null;
             return;
         }
         knockback = direction;

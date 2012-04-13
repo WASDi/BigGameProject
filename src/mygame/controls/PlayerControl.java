@@ -92,7 +92,7 @@ public class PlayerControl extends CharacterControl implements ActionListener{
 //            System.out.printf("createSandGuy(%.1ff, %.1ff, %.1ff, %.5ff, %.5ff, \"\");\n",
 //                    getPhysicsLocation().x, getPhysicsLocation().y, getPhysicsLocation().z,
 //                    getViewDirection().x, getViewDirection().z);
-            System.out.printf("createCrab(%.0f, %.0f, %.0f);\n",
+            System.out.printf("createEvilCat(%.0f, %.0f, %.0f);\n",
                     getPhysicsLocation().x, getPhysicsLocation().y, getPhysicsLocation().z);
             return;
         }

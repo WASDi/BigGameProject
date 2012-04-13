@@ -36,7 +36,7 @@ public class KillQuest extends Quest {
                 if(predefinedStartSay != null)
                     return predefinedStartSay;
                 else
-                    return String.format("Please kill %s %ss for me.", killsNeeded, enemyName);
+                    return String.format("Please kill %s %ss.", killsNeeded, enemyName);
             } else if (stage == 2) {
                 return String.format("You need to kill %s more %ss.", (killsNeeded - kills), enemyName);
             } else if (stage == 50) {
