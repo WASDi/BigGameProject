@@ -80,6 +80,9 @@ public class NpcManager {
         float bestDistance = -1f;
         for(Npc npc : npcList){
             
+            if(npc.getHp()<=0)
+                continue;
+            
             float distance = npc.getPosition().distance(position);
             if(bestDistance==-1f){
                 closest = npc;

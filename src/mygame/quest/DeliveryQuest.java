@@ -63,7 +63,7 @@ public class DeliveryQuest extends Quest{
     }
 
     public void setPredefinedEndSay(String predefinedEndSay) {
-        this.predefinedStartSay = predefinedEndSay;
+        this.predefinedEndSay = predefinedEndSay;
     }
 
     public void setPredefinedStartSay(String predefinedStartSay) {

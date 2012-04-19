@@ -183,7 +183,7 @@ public class PlayerControl extends CharacterControl implements ActionListener{
             walkDir.addLocal(camDir.negateLocal());
         if(d)
             walkDir.addLocal(camLeft.negateLocal());
-        walkDir.multLocal(.5f); //TODO set to .2f for normal speed
+        walkDir.multLocal(.4f);
         setWalkDirection(walkDir);
         if(walkDir.length()!=0)
             setViewDirection(walkDir);
